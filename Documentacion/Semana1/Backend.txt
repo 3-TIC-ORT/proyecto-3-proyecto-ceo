@@ -1,0 +1,38 @@
+Tarea: 
+- Ver que tipos de funciones y como hacerlas(filtros, botones, crear publicación)
+- Como realizar las tablas para obtener datos
+----------------------------------------------------------------------------------------------------
+Login
+Se toca un botón que salta a una nueva ventana en donde pide los datos para iniciar sesión o registrarse en caso de que no tengas cuenta, donde pide los datos necesarios para luego tener cuenta propia
+
+Botón de inicio
+Al hacer click en este botón se enviará al usuario automáticamente a la página principal
+
+Botón de resúmenes
+Al hacer click en este botón se enviará al usuario automáticamente a la página de resúmenes
+
+Botón de foros
+Al hacer click en este botón se enviará al usuario automáticamente a la página de foros
+
+Botón de intercambios
+Al hacer click en este botón se enviará al usuario automáticamente a la página de intercambios
+
+Botón de objetos perdidos
+Al hacer click en este botón se enviará al usuario automáticamente a la página de objetos perdidos
+--------------------------------------------------------------------------------------------------
+FotoBoton de rersumenes
+Una foto que al ser clickearla te envia a la pagina de resumenes
+
+FotoBoton de intercambios
+Una foto que al ser clickearla te envia a la pagina de interbios
+
+FotoBoton de objetos perdidos
+Una foto que al ser clickearla te envia a la pagina de objetos perdidos
+
+FotoBoton de foros
+Una foto que al ser clickearla te envia a la pagina de foros
+---------------------------------------------------------------------------------------------------
+Pregunta
+Al tocarla te mostrara un articulo  en el cual mostrara una foto, un texto explicativo un input donde podras poner un comentario en el cual otras personas podran ver y comentar y apareceran en el sector de respuestas
+
+
