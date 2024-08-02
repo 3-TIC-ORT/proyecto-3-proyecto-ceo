@@ -1,0 +1,2 @@
+-Crear todos los divs, botones, imágenes y textos que necesite 
+nuestra página.
