@@ -42,7 +42,7 @@ Input(comentarios)
 input donde podras poner un comentario en el cual otras personas podran ver y comentar, y apareceran en el sector de comentarios posteriormente
 
 Buscar
-Al tocar este boton, se mostrara un filtro en donde se podra buscar las de que materia y/o el nombre de los foros
+Al tocar este boton, se mostrara un filtro en donde se podra buscar el nombre de los foros
 -----------------------------------------------------------------------------------------------------------------
 Publicar(principal)
 Al tocarlo te envia a una pagina en la que podras modificar las opciones
@@ -59,7 +59,34 @@ Se modificara el archivo exclusivo para imagenes y luego se  mostrara al tocar l
 Publicar(envio)
 confirmara el envio de los datos puestos en los inputs
 ------------------------------------------------Resumenes---------------------------------------------------------
+Temas
+al tocarlos se abrira un articulo en elcual podras ver las caracteristicas
 
+Buscar
+Al tocar este boton, se mostrara un filtro en donde se podra buscar que materia y/o los nombres a traves de un input en donde se buscan el nombre de los temas
+------------------------------------------------------------------------------------------------------------------
+Publicar
+Al tocarlo te envia a una pagina en la que podras modificar las opciones
+
+insertar archivos
+al tocarlos se abrira las carpetas para enviar los archivos de texto
+
+publicar(enviar)
+Enviara todos los datos de los inputs a la base de datos, los filtros seleccionados y se mostraran en el sector de resumenes
+
+------------------------------------------------------------------------------------------------------------------
+Descargar archivos
+Los archivos subidos a la base de datos podran ser descargados y utilizados por los usuarios
+
+Likes
+al tocarlos se guardan la cantidad de usuarios lo tocaron
+
+Dislikes
+al tocarlos se guardan la cantidad de usuarios lo tocaron
+
+Flecha de vuelta
+Sirve para volver al inicio de la pagina luego de haber tocado las preguntas, el buscador y/o publicar 
+-----------------------------------------------------------------------------------------------------------------
 
 
 
