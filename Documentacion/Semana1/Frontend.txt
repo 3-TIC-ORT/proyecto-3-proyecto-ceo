@@ -1,4 +1,8 @@
 -Crear todos los divs, botones, imágenes y textos que necesite 
 nuestra página.
+<<<<<<< HEAD
 
-2/8 hice el html de la pagina de inicio y la pagina principal de resumenes.
+2/8 hice el html de la pagina de inicio y la pagina principal de resumenes.2/8 hice el html de la pagina de inicio y la pagina principal de resumenes.
+=======
+2/8 hice el html de la pagina de inicio y la pagina principal de los resumenes
+>>>>>>> af8a69bc19f0edf47cb23406525dcac4fd1c1450
