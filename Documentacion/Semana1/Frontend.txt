@@ -2,7 +2,6 @@
 nuestra página.
 <<<<<<< HEAD
 
-2/8 hice el html de la pagina de inicio y la pagina principal de resumenes.2/8 hice el html de la pagina de inicio y la pagina principal de resumenes.
 2/8 hice el html de la pagina de inicio y la pagina principal de resumenes.
 =======
 2/8 hice el html de la pagina de inicio y la pagina principal de los resumenes
