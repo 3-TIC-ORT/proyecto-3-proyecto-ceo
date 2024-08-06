@@ -1,5 +1,6 @@
 Tarea: Buscar links de referencia para armar el diseño (Mejor si son lo mas
-diferente posible)
+diferente posible), luego probar paletas de colores y armar el modelo general de
+la pagina
 
 links:
 https://brainly.lat/
