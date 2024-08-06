@@ -42,19 +42,10 @@ Input(comentarios)
 input donde podras poner un comentario en el cual otras personas podran ver y comentar, y apareceran en el sector de comentarios posteriormente
 
 Buscar
-Al tocar este boton, se mostrara un filtro en donde se podra buscar el nombre de los foros
+Al tocar este boton, se mostrara un filtro en donde se podra buscar el nombre de los foros entre la base de datos
 -----------------------------------------------------------------------------------------------------------------
 Publicar(principal)
-Al tocarlo te envia a una pagina en la que podras modificar las opciones
-
-Input(Pregunta)
-se pondra el nombre del foro y luego se va a poder ver en los paneles de publicaciones
-
-Input(texto explicativo)
-se modificara el texto y se obtendra para luego mostrarlo al tocar las preguntas
-
-Foto
-Se modificara el archivo exclusivo para imagenes y luego se  mostrara al tocar las preguntas
+Al tocarlo te envia a una pagina en la que podras modificar las opciones, en el input de texto principal se obtendra sus datos junto al texto explicativo y la foto para luego guardarla en la base de datos
 
 Publicar(envio)
 confirmara el envio de los datos puestos en los inputs
@@ -86,7 +77,37 @@ al tocarlos se guardan la cantidad de usuarios lo tocaron
 
 Flecha de vuelta
 Sirve para volver al inicio de la pagina luego de haber tocado las preguntas, el buscador y/o publicar 
------------------------------------------------------------------------------------------------------------------
+----------------------------------------------intercambio---------------------------------------------------------
+articulos
+al tocarlos te mostrara sus datos comoel titulo, informacion respuestas y comentarios
 
+comentario
+se podra poner textos que se guardaran en el articulo
 
+respuestas
+el usuario que publico el intercambio pueda responder a los comentarios y mostrarse al tocarse el articulo
+------------------------------------------------------------------------------------------------------------------
+Publicar
+te mostrara un sector donde puedas modificar opciones
+
+publicar(envio)
+obtendra todos los datos de los inputs y los guardara para hacerlo un articulo y luego pueda ser mostrado 
+-----------------------------------------------objetos perdidos---------------------------------------------------
+articulo
+al tocarlo se podra ver sus expecificaciones 
+------------------------------------------------------------------------------------------------------------------
+publicar
+se mostrara un pestaña donde se se podramodificar sus inputs
+
+publicar(envio)
+se obtiene los datos de los inputs y se guardan para luego poder ser  mostrados
+------------------------------------------------log in------------------------------------------------------------
+continuar
+obtendra los datos de los inputs para que el usuario pueda ingresar a su cuenta
+
+registrarse
+te enviara a una nueva pestaña
+
+registrarse (envio)
+tomara los datos de los inputs y los guardara para luego poder loggearse
 
