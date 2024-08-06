@@ -102,4 +102,12 @@ se mostrara un pestaña donde se se podramodificar sus inputs
 publicar(envio)
 se obtiene los datos de los inputs y se guardan para luego poder ser  mostrados
 ------------------------------------------------log in------------------------------------------------------------
+continuar
+obtendra los datos de los inputs para que el usuario pueda ingresar a su cuenta
+
+registrarse
+te enviara a una nueva pestaña
+
+registrarse (envio)
+tomara los datos de los inputs y los guardara para luego poder loggearse
 
