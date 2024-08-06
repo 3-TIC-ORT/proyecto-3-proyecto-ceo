@@ -14,3 +14,5 @@ sequilize.authenticate()
     }).catch(err => {
         console.error(err);
     })
+
+export { sequelize }
