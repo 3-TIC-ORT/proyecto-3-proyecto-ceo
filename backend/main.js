@@ -1,15 +1,8 @@
-/*cuandoexporta una variable tenes que importarla tambien 
+import { Express } from "express";
 
+const app = Express()
 
-    aarchivo pepe
-    defino pepe
-    export {pepe}
+app.post('/send_data', async (req, res) => {
+    
 
-
-    archivo main
-    import {pepe} from '/backend/DB/DBcontroller.js'
-    ahora puedo usar pepe
-
-
-    */
-   
+})
