@@ -1,0 +1,40 @@
+Tarea: Armar un cuestionario para obtener ideas y mejorar el diseño
+
+Preguntas:
+    1. ¿Alguna vez usaste una pagina de resumenes, algun foro, pagina de 
+    intercambio de libros o de objetos perdidos?
+
+Si uso una pagina de resumenes:
+    2. ¿Hay algun formato de preferencia  a la hora de descargar el resumen?
+    3. ¿Te parece util que otros usuarios puedan revisar el resumen y comprobar 
+    su veracidad?
+    
+Si uso una paagina de foro:
+    2. ¿Preferis que el foro este separado por materias o que este todo metido en 
+    una sola pagina?
+    4. ¿ademas de filtros de materias, que otros filtros agregarias?
+
+Si uso una pagina de intercambio de libros:
+    2. ¿Qué información consideras esencial en una publicación de intercambio 
+    de libros (estado del libro, precio, fotos, etc.)?
+    3. ¿Te gustaría tener un sistema de calificación para los usuarios que 
+    intercambian libros?
+
+Si uso una pagina de objetos perdidos:
+    2. ¿Qué información sería útil para ti en una publicación de objetos perdidos
+    (descripción, lugar donde se encontró, fotos, etc.)?
+    3. ¿Que funcion añadirias para asegurar que el que reclame un objeto perdido
+    sea el verdadero dueño?
+
+Preguntas generales:
+    4. ¿Qué otras funciones te gustaría ver en una página como esta?
+    5. ¿Tienes alguna sugerencia específica para mejorar la experiencia d
+    el usuario?
+    6. ¿Preferis un diseño con colores oscuros o claros?
+
+Info conseguida:
+- Pagina central consisa, que explique de que ees capaz la pagina y te invite a 
+usarla
+- Mucho reglamento pero permisivo (Foro)
+- Filtros que ademas se les pueda poner el tema
+- Diseño simple
