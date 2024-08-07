@@ -1,7 +1,8 @@
 import Sequelize from "sequelize";
-import { sequelize } from "../DB/DBcontroller";
+import { sequelize } from "../DB/DBcontroller.js";
 
-const user = sequelize.define('users', {
+console.log("Definiendo modelo usuario...")
+const User = sequelize.define('Users', {
     password: {
         type: Sequelize.STRING,
         allowNull: false
@@ -11,11 +12,13 @@ const user = sequelize.define('users', {
         allowNull: false
     },
     lastName: {
-        type: sequelize.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     },
     gmail:{
-        type: sequelize.STRING,
+        type: Sequelize.STRING,
         allowNull: false
     }
 })
+
+export { User }
