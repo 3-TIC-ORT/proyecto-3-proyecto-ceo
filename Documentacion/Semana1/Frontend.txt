@@ -2,3 +2,5 @@
 nuestra página.
 
 2/8 hice el html de la pagina de inicio y la pagina principal de resumenes.
+Durante los demás dias de esta semana coninue creando los html, botones, 
+imputs, imagenes, etc, que necesitaba cada parte del proyecto

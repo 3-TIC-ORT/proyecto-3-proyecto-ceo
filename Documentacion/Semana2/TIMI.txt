@@ -10,31 +10,34 @@ Si uso una pagina de resumenes:
     su veracidad?
     
 Si uso una paagina de foro:
-    2. ¿Preferis que el foro este separado por materias o que este todo metido en 
-    una sola pagina?
-    4. ¿ademas de filtros de materias, que otros filtros agregarias?
+    2. ¿Te parece util que dentro del foro haya filtros para encontrar preguntas
+    mas facil? 
+    3. ¿ademas de filtros de materias, te gustaria que haya filtros por temas en
+    especifico?
 
 Si uso una pagina de intercambio de libros:
     2. ¿Qué información consideras esencial en una publicación de intercambio 
     de libros (estado del libro, precio, fotos, etc.)?
-    3. ¿Te gustaría tener un sistema de calificación para los usuarios que 
-    intercambian libros?
+    3. ¿Te parece util un sistema de filtros para encontrar libros?
 
 Si uso una pagina de objetos perdidos:
     2. ¿Qué información sería útil para ti en una publicación de objetos perdidos
     (descripción, lugar donde se encontró, fotos, etc.)?
-    3. ¿Que funcion añadirias para asegurar que el que reclame un objeto perdido
-    sea el verdadero dueño?
+    3. ¿Te parece util que haya preguntas para demostrar que un objeto perdido
+    sea realmente tuyo?
 
 Preguntas generales:
-    4. ¿Qué otras funciones te gustaría ver en una página como esta?
-    5. ¿Tienes alguna sugerencia específica para mejorar la experiencia d
-    el usuario?
+    4. ¿Tienes alguna sugerencia específica para mejorar la experiencia 
+    del usuario?
+    5. ¿Hay alguna cosa de las paginas web que odies?
     6. ¿Preferis un diseño con colores oscuros o claros?
 
 Info conseguida:
-- Pagina central consisa, que explique de que ees capaz la pagina y te invite a 
+- Pagina central consisa, que explique de que es capaz la pagina y te invite a 
 usarla
 - Mucho reglamento pero permisivo (Foro)
-- Filtros que ademas se les pueda poner el tema
-- Diseño simple
+- Filtros que ademas se les pueda poner el tema, podria ser muy complicado de 
+todas formas
+- Diseño simple, simplicidad ante todo
+- Seria util que el mensaje en el foro tenga que ser aprobado antes de ser
+publicado
