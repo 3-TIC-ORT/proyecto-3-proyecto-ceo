@@ -10,6 +10,7 @@ app.post('/send_data', async (req, res) => {
     const userData = req.body;
 
     console.log("Recibiendo data...")
+
     let firstName = userData.firstName;
     let password = userData.password;
     let lastName = userData.lastName;
@@ -17,5 +18,4 @@ app.post('/send_data', async (req, res) => {
 
     const user = await User.create({firstName: firstName, lastName: lastName, password: password, gmail: gmail})
     
-
 })
