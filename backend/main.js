@@ -18,16 +18,10 @@ const app = Express()
 const PORT = 3000
 
 app.post('/send_data', async (req, res) => {
-<<<<<<< Updated upstream
-    const userData = req.body; 
-
-    console.log("Recibiendo data...")
-=======
 
     const userData = req.body;
 
     console.log("Recibiendo data...");
->>>>>>> Stashed changes
 
     let firstName = userData.firstName;
     let password = await encriptPassword(userData.password)
@@ -35,7 +29,6 @@ app.post('/send_data', async (req, res) => {
     let gmail = userData.gmail;
 
     const user = await User.create({firstName: firstName, lastName: lastName, password: password, gmail: gmail})
-<<<<<<< Updated upstream
     
 })
 
@@ -55,9 +48,6 @@ app.listen(PORT, () => {
     } catch (error) {
         
     }
-})
-=======
-
 })
 
 
@@ -82,5 +72,4 @@ async function verifyPassword(hash, password) {
     }
 }
 
->>>>>>> Stashed changes
 
