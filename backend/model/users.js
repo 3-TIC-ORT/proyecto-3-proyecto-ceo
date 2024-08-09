@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import Sequelize from "sequelize";
 import { sequelize } from "../DB/DBcontroller.js";
 
@@ -18,7 +19,9 @@ const User = sequelize.define('Users', {
     gmail:{
         type: Sequelize.STRING,
         allowNull: false
-    }
+    },
+}, {
+    timestamps: false
 })
 
 export { User }
