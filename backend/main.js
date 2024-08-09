@@ -2,6 +2,8 @@ import { config } from 'dotenv';
 config()
 
 import  Express  from "express";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // seguridad
 import argon2 from 'argon2'
@@ -24,12 +26,19 @@ import { objPerdidosRouter } from './routes/objPerdidosRoute.js';
 import chalk from "chalk";
 import { error } from "console";
 
+//paths
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const __parentDir = path.dirname(__dirname);
+
 const SECRET_KEY = process.env.SECRET_KEY
 
 const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
 const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
+
+const __fileName = 
 
 console.log("0-----------------------S-T-A-R-T-I-N-G-----------------------0")
 const app = Express()
@@ -177,5 +186,5 @@ async function authenticateToken(req, res, next) {
 }   
 
 
-
+export { app }
 export { authenticateToken };
