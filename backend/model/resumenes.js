@@ -32,6 +32,7 @@ const Resumen = sequelize.define('Resumen', {
         type: Sequelize.STRING,
         allowNull: false,
     }
+    
 }, {
     timestamps: false
 })

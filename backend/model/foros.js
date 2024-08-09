@@ -8,13 +8,13 @@ const redChalk = chalk.redBright;
 const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
 
-console.log(blueChalk("Definiendo Foros..."))
+console.log(blueChalk("Definiendo modelo foro..."))
 const Foro = sequelize.define('Foros', {
-    Pregunta: {
+    pregunta: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    Foto: {
+    foto: {
         type: Sequelize.BLOB,
         allowNull: false
     },
@@ -22,7 +22,7 @@ const Foro = sequelize.define('Foros', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    Comentarios: {
+    comentarios: {
         type: Sequelize.STRING,
         allowNull: false
     }
