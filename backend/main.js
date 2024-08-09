@@ -1,9 +1,13 @@
+import { config } from 'dotenv';
+config()
+
 import  Express  from "express";
 import  express  from "express";
 import { User } from "./model/users.js";
 import argon2 from 'argon2'
 import jsonwebtoken from 'jsonwebtoken'
-import dotenv from 'dotenv'
+// import 'dotenv/config'
+
 
 //colores
 import chalk from "chalk";
@@ -12,6 +16,9 @@ import { objetosPerdidos } from "./model/objetosPerdidos.js";
 import { Foro } from "./model/foros.js";
 import { Resumen } from "./model/resumenes.js";
 import { FeedbackModel } from "./model/feedback.js";
+import { error } from "console";
+
+const SECRET_KEY = process.env.SECRET_KEY
 
 const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
@@ -49,7 +56,7 @@ app.post('/send-feedback', async (req, res) => {
 })
 
 app.post('/send-resumen', async (req, res) => {
-    
+
     const resumenData = req.body
     console.log(yellowChalk('Recibiendo resumen data...'))
     
@@ -127,6 +134,36 @@ async function verifyPassword(hash, password) {
     }
 }
 
+async function authenticateToken(req, res, next) {
+    // sacamo el token del header
+    const authHeader = req.header['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]
 
+    console.log(blueChalk('Authenticating token...'))
+
+    if (token == null) {
+        console.log(redChalk('No token!'))
+        return error;
+    }
+
+    jsonwebtoken.verify(token, SECRET_KEY, (err, user) => {
+
+        console.log(yellowChalk('Authenticating token....'))
+        if (err) {
+            console.log(redChalk('Invalid token!'))
+            return res.sendStatus(403);
+        }
+
+        console.log(greenChalk('Authentication successful!!!!'))
+        req.user = user;
+        next();
+
+    })
+
+}   
+
+
+
+export { authenticateToken };
 export { greenChalk };
 export { yellowChalk };
