@@ -8,6 +8,8 @@ import dotenv from 'dotenv'
 //colores
 import chalk from "chalk";
 import exp from "constants";
+import { objetosPerdidos } from "./model/objetosPerdidos.js";
+import { Foro } from "./model/foros.js";
 import { Resumen } from "./model/resumenes.js";
 import { FeedbackModel } from "./model/feedback.js";
 
@@ -32,7 +34,6 @@ app.post('/send-register', async (req, res) => {
     let gmail = userData.gmail;
 
     const user = await User.create({firstName: firstName, lastName: lastName, password: password, gmail: gmail})
-    
 })
 
 app.post('/send-feedback', async (req, res) => {
@@ -45,7 +46,6 @@ app.post('/send-feedback', async (req, res) => {
     let opinion = feedackData.opinion
 
     const feedback = await FeedbackModel.create( {puntaje: score, sugerencia: suggestion, opinion: opinion} )
-
 })
 
 app.post('/send-resumen', async (req, res) => {
@@ -60,7 +60,30 @@ app.post('/send-resumen', async (req, res) => {
     let filtros = resumenData.filtros
 
     const resumen = await Resumen.create( { titulo: titulo, descripcion: descripcion, archivo: archivoPath, contenido: contenido, filtros: filtros })
+})
 
+app.post('/send-objetosPerdidos', async (req, res)=>{
+
+    const objetosPerdidosData = req.body
+    console.log(yellowChalk("Recibiendo objetosPerididos"))
+
+    let informacion = objetosPerdidosData.infromacion
+    let foto = objetosPerdidosData.foto
+
+    const objeto = await objetosPerdidos.create( {informacion: informacion, foto: foto} )
+})
+
+app.post('/send-foro', async (req, res)=>{
+
+    const foroData = req.body
+    console.log(yellowChalk("Recibiendo forma..."))
+
+    let pregunta = foroData.pregunta
+    let foto = foroData.foto
+    let textoExplicativo = foroData.textoExplicativo
+    let comentarios = foroData.comentarios
+
+    const foro = await Foro.create( {pregunta: pregunta, foto: foto, textoExplicativo: textoExplicativo, comentarios: comentarios} )
 })
 
 app.get("/users", async (req,res) => {

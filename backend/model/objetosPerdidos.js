@@ -9,12 +9,14 @@ const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
 
 const objetosPerdidos = sequelize.define('objetosPerdidos', {
-    Foto: {
+    foto: {
         type: Sequelize.BLOB,
         allowNull: false
     },
-    Informacion: {
+    informacion: {
         type: Sequelize.STRING,
         allowNull: false
     }
 })
+
+export { objetosPerdidos } 
