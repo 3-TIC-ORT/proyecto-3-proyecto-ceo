@@ -116,6 +116,7 @@ app.post('/send-foro', async (req, res)=>{
     const foro = await Foro.create( {pregunta: pregunta, foto: foto, textoExplicativo: textoExplicativo, comentarios: comentarios} )
 })
 
+//prueba
 app.get("/users", async (req,res) => {
     try {
         const users = await User.findAll();
