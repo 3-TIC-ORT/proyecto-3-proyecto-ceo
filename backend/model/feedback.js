@@ -10,6 +10,7 @@ const blueChalk = chalk.cyanBright;
 
 console.log(blueChalk("Definiendo modelo feedback..."));
 const FeedbackModel = sequelize.define('Feedback', {
+    
     puntaje: {
         type: Sequelize.NUMBER,
         allowNull: false,
@@ -22,6 +23,7 @@ const FeedbackModel = sequelize.define('Feedback', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+
 })
 
 export { FeedbackModel }

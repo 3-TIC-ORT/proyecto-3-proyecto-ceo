@@ -9,7 +9,9 @@ const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
 
 console.log(blueChalk("Definiendo modelo resumen..."));
+
 const Resumen = sequelize.define('Resumen', {
+
     archivo: {
         type: Sequelize.STRING,
         allowNull: true,
@@ -30,6 +32,9 @@ const Resumen = sequelize.define('Resumen', {
         type: Sequelize.STRING,
         allowNull: false,
     }
+}, {
+    timestamps: false
 })
+
 
 export { Resumen }

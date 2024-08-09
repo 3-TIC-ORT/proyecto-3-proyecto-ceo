@@ -8,6 +8,8 @@ import dotenv from 'dotenv'
 //colores
 import chalk from "chalk";
 import exp from "constants";
+import { Resumen } from "./model/resumenes.js";
+import { FeedbackModel } from "./model/feedback.js";
 
 const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
@@ -18,11 +20,11 @@ console.log("0-----------------------S-T-A-R-T-I-N-G-----------------------0")
 const app = Express()
 const PORT = 3000
 
-app.post('/send_data', async (req, res) => {
+app.post('/send-register', async (req, res) => {
 
     const userData = req.body;
 
-    console.log(yellowChalk("Recibiendo data..."));
+    console.log(yellowChalk("Recibiendo user data..."));
 
     let firstName = userData.firstName;
     let password = await encriptPassword(userData.password)
@@ -31,6 +33,34 @@ app.post('/send_data', async (req, res) => {
 
     const user = await User.create({firstName: firstName, lastName: lastName, password: password, gmail: gmail})
     
+})
+
+app.post('/send-feedback', async (req, res) => {
+
+    const feedackData = req.body
+    console.log(yellowChalk('Recibiendo feedback data...'))
+
+    let score = feedackData.puntaje
+    let suggestion = feedackData.sugerencia
+    let opinion = feedackData.opinion
+
+    const feedback = await FeedbackModel.create( {puntaje: score, sugerencia: suggestion, opinion: opinion} )
+
+})
+
+app.post('/send-resumen', async (req, res) => {
+    
+    const resumenData = req.body
+    console.log(yellowChalk('Recibiendo resumen data...'))
+    
+    let descripcion = resumenData.descripcion
+    let titulo = resumenData.titulo
+    let archivoPath = resumenData.archivoPath
+    let contenido = resumenData.contenido
+    let filtros = resumenData.filtros
+
+    const resumen = await Resumen.create( { titulo: titulo, descripcion: descripcion, archivo: archivoPath, contenido: contenido, filtros: filtros })
+
 })
 
 app.get("/users", async (req,res) => {
