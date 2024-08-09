@@ -1,7 +1,7 @@
 import express from 'express'
 import { Router } from 'express'
 
-const objPerdidosRouter = Router()
+const campusRouter = Router()
 
 
-export { objPerdidosRouter }
+export { campusRouter }
