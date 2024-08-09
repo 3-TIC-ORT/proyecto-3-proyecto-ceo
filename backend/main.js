@@ -2,6 +2,8 @@ import { config } from 'dotenv';
 config()
 
 import  Express  from "express";
+
+// seguridad
 import argon2 from 'argon2'
 import jsonwebtoken from 'jsonwebtoken'
 
@@ -11,11 +13,13 @@ import { Resumen } from "./model/resumenes.js";
 import { FeedbackModel } from "./model/feedback.js";
 import { User } from "./model/users.js";
 import { objetosPerdidos } from './model/objetosPerdidos.js';
+import { campusRouter } from './routes/campusRouter.js';
 
 //rutas
 import { resumenesRouter } from './routes/resumenesRoutes.js';
 import { forosRouter } from './routes/forosRoute.js';
-import { objRouter } from './routes/objPerdidosRoute.js';
+import { objPerdidosRouter } from './routes/objPerdidosRoute.js';
+
 //colores
 import chalk from "chalk";
 import { error } from "console";
@@ -31,6 +35,12 @@ console.log("0-----------------------S-T-A-R-T-I-N-G-----------------------0")
 const app = Express()
 const PORT = process.env.PORT
 
+//rutass
+app.use('/resumenes', resumenesRouter)
+app.use('/foros', forosRouter)
+app.use('/objetos-perdidos', objPerdidosRouter)
+app.use('/home', campusRouter)
+
 app.post('/send-register', async (req, res) => {
 
     const userData = req.body;
@@ -45,6 +55,8 @@ app.post('/send-register', async (req, res) => {
     const user = await User.create({firstName: firstName, lastName: lastName, password: password, gmail: gmail})
 })
 
+
+// endpoitns
 app.post('/send-feedback', async (req, res) => {
 
     const feedackData = req.body
@@ -114,7 +126,7 @@ app.listen(PORT, () => {
     }
 })
 
-
+// functiones
 async function encriptPassword(password) {
     try {
         let hash = argon2.hash(password, 5)
@@ -168,5 +180,3 @@ async function authenticateToken(req, res, next) {
 
 
 export { authenticateToken };
-export { greenChalk };
-export { yellowChalk };
