@@ -1,9 +1,14 @@
 import chalk from 'chalk';
 import Sequelize from 'sequelize'
 
-console.log("Declarando DB")
+const greenChalk = chalk.greenBright;
+const redChalk = chalk.redBright;
+const yellowChalk = chalk.yellowBright;
+const blueChalk = chalk.cyanBright;
 
-const sequelize = new Sequelize ('campus_alumnos_db', 'root', 'root',{
+console.log(blueChalk("Corriendo DB"));
+
+const sequelize = new Sequelize ('campus_alumnos_db', 'root', 'rootroot',{
     host: "127.0.0.1",
     dialect: "mysql",
     port: 3306
@@ -11,7 +16,7 @@ const sequelize = new Sequelize ('campus_alumnos_db', 'root', 'root',{
 
 sequelize.authenticate()
     .then(()=> {
-        console.log("Conexion exitosa!");
+        console.log(greenChalk("Conexion exitosa!"));
 
     }).catch(err => {
         console.error(err, "Conexion fallida");

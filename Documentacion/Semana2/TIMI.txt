@@ -2,10 +2,11 @@ Tarea: Armar un cuestionario para obtener ideas y mejorar el diseño
 
 Preguntas:
     1. ¿Alguna vez usaste una pagina de resumenes, algun foro, pagina de 
-    intercambio de libros o de objetos perdidos?
+    intercambio de libros o de objetos perdidos? (Responde las siguientes preguntas
+    dependiendo de la respuesta)
 
 Si uso una pagina de resumenes:
-    2. ¿Hay algun formato de preferencia  a la hora de descargar el resumen?
+    2. ¿Hay algun formato de preferencia  a la hora de descargar un resumen?
     3. ¿Te parece util que otros usuarios puedan revisar el resumen y comprobar 
     su veracidad?
     
@@ -13,7 +14,7 @@ Si uso una paagina de foro:
     2. ¿Te parece util que dentro del foro haya filtros para encontrar preguntas
     mas facil? 
     3. ¿ademas de filtros de materias, te gustaria que haya filtros por temas en
-    especifico?
+    especifico o de otros tipos?
 
 Si uso una pagina de intercambio de libros:
     2. ¿Qué información consideras esencial en una publicación de intercambio 
@@ -29,8 +30,8 @@ Si uso una pagina de objetos perdidos:
 Preguntas generales:
     4. ¿Tienes alguna sugerencia específica para mejorar la experiencia 
     del usuario?
-    5. ¿Hay alguna cosa de las paginas web que odies?
-    6. ¿Preferis un diseño con colores oscuros o claros?
+    5. ¿Hay alguna funcion de las paginas web que no te guste?
+
 
 Info conseguida:
 - Pagina central consisa, que explique de que es capaz la pagina y te invite a 
@@ -39,5 +40,5 @@ usarla
 - Filtros que ademas se les pueda poner el tema, podria ser muy complicado de 
 todas formas
 - Diseño simple, simplicidad ante todo
-- Seria util que el mensaje en el foro tenga que ser aprobado antes de ser
-publicado
+
+Tarea 2: Armar la paleta de colores final (Mas info en el figma)

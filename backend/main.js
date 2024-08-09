@@ -7,13 +7,14 @@ import dotenv from 'dotenv'
 
 //colores
 import chalk from "chalk";
+import exp from "constants";
 
 const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
 const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
 
-console.log("--------------------------------------------------------------------------------------------")
+console.log("0-----------------------S-T-A-R-T-I-N-G-----------------------0")
 const app = Express()
 const PORT = 3000
 
@@ -21,7 +22,7 @@ app.post('/send_data', async (req, res) => {
 
     const userData = req.body;
 
-    console.log("Recibiendo data...");
+    console.log(yellowChalk("Recibiendo data..."));
 
     let firstName = userData.firstName;
     let password = await encriptPassword(userData.password)
@@ -44,7 +45,7 @@ app.get("/users", async (req,res) => {
 
 app.listen(PORT, () => {
     try {
-        console.log("conextion escsufecuk", PORT)
+        console.log(yellowChalk("connection successful!!!!!!!", PORT))
     } catch (error) {
         
     }
@@ -54,6 +55,7 @@ app.listen(PORT, () => {
 async function encriptPassword(password) {
     try {
         let hash = argon2.hash(password, 5)
+        console.log('encripted-password')
         return hash;
     } catch (error) {
         console.error(err, "ERROR =(")
@@ -73,3 +75,5 @@ async function verifyPassword(hash, password) {
 }
 
 
+export { greenChalk };
+export { yellowChalk };
