@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
-import { sequelize } from "../DB/DBcontroller";
+import { sequelize } from "../DB/DBcontroller.js";
 import chalk from "chalk";
-import { type } from "os";
+
 
 const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
@@ -17,6 +17,8 @@ const objetosPerdidos = sequelize.define('objetosPerdidos', {
         type: Sequelize.STRING,
         allowNull: false
     }
+}, {
+    timestamps: false
 })
 
 export { objetosPerdidos } 

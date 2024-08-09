@@ -2,20 +2,22 @@ import { config } from 'dotenv';
 config()
 
 import  Express  from "express";
-import  express  from "express";
-import { User } from "./model/users.js";
 import argon2 from 'argon2'
 import jsonwebtoken from 'jsonwebtoken'
-// import 'dotenv/config'
 
-
-//colores
-import chalk from "chalk";
-import exp from "constants";
-import { objetosPerdidos } from "./model/objetosPerdidos.js";
-import { Foro } from "./model/foros.js";
+// modelos
+import { Foro } from './model/foros.js';
 import { Resumen } from "./model/resumenes.js";
 import { FeedbackModel } from "./model/feedback.js";
+import { User } from "./model/users.js";
+import { objetosPerdidos } from './model/objetosPerdidos.js';
+
+//rutas
+import { resumenesRouter } from './routes/resumenesRoutes.js';
+import { forosRouter } from './routes/forosRoute.js';
+import { objRouter } from './routes/objPerdidosRoute.js';
+//colores
+import chalk from "chalk";
 import { error } from "console";
 
 const SECRET_KEY = process.env.SECRET_KEY
@@ -27,7 +29,7 @@ const blueChalk = chalk.cyanBright;
 
 console.log("0-----------------------S-T-A-R-T-I-N-G-----------------------0")
 const app = Express()
-const PORT = 3000
+const PORT = process.env.PORT
 
 app.post('/send-register', async (req, res) => {
 
@@ -74,7 +76,7 @@ app.post('/send-objetosPerdidos', async (req, res)=>{
     const objetosPerdidosData = req.body
     console.log(yellowChalk("Recibiendo objetosPerididos"))
 
-    let informacion = objetosPerdidosData.infromacion
+    let informacion = objetosPerdidosData.informacion
     let foto = objetosPerdidosData.foto
 
     const objeto = await objetosPerdidos.create( {informacion: informacion, foto: foto} )
@@ -105,9 +107,9 @@ app.get("/users", async (req,res) => {
 
 app.listen(PORT, () => {
     try {
-        console.log(yellowChalk("connection successful!!!!!!!", PORT))
+        console.log(yellowChalk("Connection Successful!!!!!!!", PORT))
     } catch (error) {
-        
+        console.log("Could not connect :((((", err, "ON PORT:", PORT)
     }
 })
 
