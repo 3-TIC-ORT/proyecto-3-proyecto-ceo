@@ -1,0 +1,5 @@
+- Hacer para que la base de datos guarde las cosas y obtenerlas
+Listo
+
+- buscar extension o programa para que no dependa tanto del fecth
+En proceso
