@@ -13,7 +13,7 @@ const __rootDir = path.dirname(__parentDir);
 
 campusRouter.get('/', (req, res) => {
     
-    app.use(express.static(path.join(__rootDir, 'frontend')));
+    app.use(express.static(path.join(__rootDir, 'frontend/LogIn')));
     res.sendFile(path.join(__rootDir, 'frontend/LogIn/LogIn.html'))
 })
 

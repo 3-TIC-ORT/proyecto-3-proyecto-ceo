@@ -1,25 +1,40 @@
-import { METHODS } from "http";
-
-let inputLogin = document.getElementById("inputInserte").value;
-let inputApellido = document.getElementById("inputApellido").value;
-let inputGmail = document.getElementById("inputGmail).value");
-let inputContraseña = document.getElementById("inputContraseña").value;
 
 let boton = document.getElementById("BContinuar") 
 
 boton.addEventListener("click", sendData)
 
-async function sendData() {
-    let response = fetch('/send-register', {
+console.log("hola")
+async function sendData(event) {
+    event.preventDefault();
+
+    let inputLogin = document.getElementById("InputInserte").value;
+    let inputApellido = document.getElementById("InputApellido").value;
+    let inputGmail = document.getElementById("InputGmail").value;
+    let inputContraseña = document.getElementById("InputContraseña").value;
+
+    console.log("Sending user data....")
+
+    console.log(inputLogin)
+    console.log(inputGmail)
+    console.log(inputContraseña)
+    console.log(inputApellido)
+
+
+    let response = await fetch('/send-register', {
+
         method: 'POST',
         headers: {
-            'Content type': 'application/json'
+            'Content-Type': 'application/json'
         },
-        body: {
-            firstName:inputLogin,
-            password:inputContraseña,
+
+        body: JSON.stringify({
+            firstName: inputLogin,
+            password: inputContraseña,
             lastName:inputApellido,
-            gmail: inputGmail,
-        }
+            gmail: inputGmail
+        })
     })
+
+    
+    let data = await response.json()
 }
