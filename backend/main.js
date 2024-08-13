@@ -1,6 +1,8 @@
 import { config } from 'dotenv';
 config()
 
+import cors from 'cors'
+import express from 'express'
 import  Express  from "express";
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -8,6 +10,7 @@ import { fileURLToPath } from 'url';
 // seguridad
 import argon2 from 'argon2'
 import jsonwebtoken from 'jsonwebtoken'
+import { endpoints } from './endpoints.js';
 
 // modelos
 import { Foro } from './model/foros.js';
@@ -16,6 +19,11 @@ import { FeedbackModel } from "./model/feedback.js";
 import { User } from "./model/users.js";
 import { objetosPerdidos } from './model/objetosPerdidos.js';
 import { campusRouter } from './routes/campusRouter.js';
+
+// importante
+const app = Express()
+app.use(express.json())
+app.use(cors())
 
 //rutas
 import { resumenesRouter } from './routes/resumenesRoutes.js';
@@ -38,10 +46,9 @@ const redChalk = chalk.redBright;
 const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
 
-const __fileName = 
+
 
 console.log("0-----------------------S-T-A-R-T-I-N-G-----------------------0")
-const app = Express()
 const PORT = process.env.PORT
 
 //rutass
@@ -50,73 +57,10 @@ app.use('/foros', forosRouter)
 app.use('/objetos-perdidos', objPerdidosRouter)
 app.use('/home', campusRouter)
 
-app.post('/send-register', async (req, res) => {
-
-    const userData = req.body;
-
-    console.log(yellowChalk("Recibiendo user data..."));
-
-    let firstName = userData.firstName;
-    let password = await encriptPassword(userData.password)
-    let lastName = userData.lastName;
-    let gmail = userData.gmail;
-
-    const user = await User.create({firstName: firstName, lastName: lastName, password: password, gmail: gmail})
-})
-
-
-// endpoitns
-app.post('/send-feedback', async (req, res) => {
-
-    const feedackData = req.body
-    console.log(yellowChalk('Recibiendo feedback data...'))
-
-    let score = feedackData.puntaje
-    let suggestion = feedackData.sugerencia
-    let opinion = feedackData.opinion
-
-    const feedback = await FeedbackModel.create( {puntaje: score, sugerencia: suggestion, opinion: opinion} )
-})
-
-app.post('/send-resumen', async (req, res) => {
-
-    const resumenData = req.body
-    console.log(yellowChalk('Recibiendo resumen data...'))
-    
-    let descripcion = resumenData.descripcion
-    let titulo = resumenData.titulo
-    let archivoPath = resumenData.archivoPath
-    let contenido = resumenData.contenido
-    let filtros = resumenData.filtros
-
-    const resumen = await Resumen.create( { titulo: titulo, descripcion: descripcion, archivo: archivoPath, contenido: contenido, filtros: filtros })
-})
-
-app.post('/send-objetosPerdidos', async (req, res)=>{
-
-    const objetosPerdidosData = req.body
-    console.log(yellowChalk("Recibiendo objetosPerididos"))
-
-    let informacion = objetosPerdidosData.informacion
-    let foto = objetosPerdidosData.foto
-
-    const objeto = await objetosPerdidos.create( {informacion: informacion, foto: foto} )
-})
-
-app.post('/send-foro', async (req, res)=>{
-
-    const foroData = req.body
-    console.log(yellowChalk("Recibiendo forma..."))
-
-    let pregunta = foroData.pregunta
-    let foto = foroData.foto
-    let textoExplicativo = foroData.textoExplicativo
-    let comentarios = foroData.comentarios
-
-    const foro = await Foro.create( {pregunta: pregunta, foto: foto, textoExplicativo: textoExplicativo, comentarios: comentarios} )
-})
-
 //prueba
+
+endpoints(app)
+
 app.get("/users", async (req,res) => {
     try {
         const users = await User.findAll();
