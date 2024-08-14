@@ -15,7 +15,7 @@ campusRouter.get('/', (req, res) => {
     
     app.use(express.static(path.join(__rootDir, 'frontend/LogIn')));
     res.sendFile(path.join(__rootDir, 'frontend/LogIn/LogIn.html'))
-})
 
+})
 export { campusRouter }
 
