@@ -3,6 +3,13 @@ import { Router } from 'express'
 
 const resumenesRouter = Router()
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const __parentDir = path.dirname(__dirname);
+const __rootDir = path.dirname(__parentDir);
 
-
+objPerdidosRouter.get('/objetosPerdidos', (req, res)=>{
+    app.use(express.static(path.join(__rootDir, 'frontend/ResumenesPrincipal')));
+    res.sendFile(path.join(__rootDir, 'frontend/ResumenesPrincipal/ResumenesPrincipal.html'));
+})
 export { resumenesRouter }
