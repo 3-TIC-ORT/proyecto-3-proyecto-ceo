@@ -15,4 +15,8 @@ resumenesRouter.get('/', (req, res)=>{
     app.use(express.static(path.join(__rootDir, 'frontend/ResumenesPrincipal')));
     res.sendFile(path.join(__rootDir, 'frontend/ResumenesPrincipal/ResumenesPrincipal.html'));
 })
+resumenesRouter.get('/upload', (req, res)=>{
+    app.use(express.static(path.join(__rootDir, 'frontend/ResumenesUpload')));
+    res.sendFile(path.join(__rootDir, 'frontend/ResumenesUpload/ResumenesUpload.html'));
+})
 export { resumenesRouter }
