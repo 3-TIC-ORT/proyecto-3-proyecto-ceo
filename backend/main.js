@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url';
 // seguridad
 import argon2 from 'argon2'
 import jsonwebtoken from 'jsonwebtoken'
-import { endpoints } from './endpoints.js';
+
 
 // modelos
 import { Foro } from './model/foros.js';
@@ -56,10 +56,6 @@ app.use('/resumenes', resumenesRouter)
 app.use('/foros', forosRouter)
 app.use('/objetos-perdidos', objPerdidosRouter)
 app.use('/home', campusRouter)
-
-//prueba
-
-endpoints(app)
 
 app.get("/users", async (req,res) => {
     try {
