@@ -15,5 +15,10 @@ objPerdidosRouter.get('/', (req, res)=>{
     app.use(express.static(path.join(__rootDir, 'frontend/ObjetosPerdidos')));
     res.sendFile(path.join(__rootDir, 'frontend/ObjetosPerdidos/ObjetosPerdidos.html'));
 })
+objPerdidosRouter.get("/upload", (req, res) => {
+
+    app.use(express.static(path.join(__rootDir, 'frontend/ObjetosPerdidosUpload')));
+    res.sendFile(path.join(__rootDir, 'frontend/ObjetosPerdidosUpload/ObjetosPerdidosUpload.html'))
+})
 
 export { objPerdidosRouter }
