@@ -1,5 +1,8 @@
 import express from 'express'
 import { Router } from 'express'
+import { fileURLToPath } from 'url';
+import path from 'path';
+import { app } from '../main.js';
 
 const objPerdidosRouter = Router();
 
