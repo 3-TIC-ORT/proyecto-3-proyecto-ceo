@@ -3,6 +3,8 @@ import { Router } from 'express'
 import { app } from '../main.js'
 import { fileURLToPath } from 'url'
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { app } from '../main.js';
 
 const forosRouter = Router()
 
@@ -12,7 +14,7 @@ const __parentDir = path.dirname(__dirname);
 const __rootDir = path.dirname(__parentDir);
 
 forosRouter.get("/", (req, res) => {
-
+    
     app.use(express.static(path.join(__rootDir, 'frontend/Foro')));
     res.sendFile(path.join(__rootDir, 'frontend/Foro/Foro.html'))
 })
