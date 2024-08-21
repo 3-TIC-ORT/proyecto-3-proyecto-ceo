@@ -20,6 +20,8 @@ import { User } from "./model/users.js";
 import { objetosPerdidos } from './model/objetosPerdidos.js';
 import { campusRouter } from './routes/campusRouter.js';
 
+//endpoints
+import { endpoints } from './endpoints.js';
 // importante
 const app = Express()
 app.use(express.json())
@@ -46,10 +48,10 @@ const redChalk = chalk.redBright;
 const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
 
-
-
 console.log("0-----------------------S-T-A-R-T-I-N-G-----------------------0")
 const PORT = process.env.PORT
+
+endpoints(app)
 
 //rutass
 app.use('/resumenes', resumenesRouter)

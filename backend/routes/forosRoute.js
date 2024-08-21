@@ -3,8 +3,7 @@ import { Router } from 'express'
 import { app } from '../main.js'
 import { fileURLToPath } from 'url'
 import path from 'path';
-import { fileURLToPath } from 'url';
-import { app } from '../main.js';
+
 
 const forosRouter = Router()
 
