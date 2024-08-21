@@ -13,7 +13,7 @@ console.log(blueChalk("Definiendo modelo resumen..."));
 const Resumen = sequelize.define('Resumen', {
 
     archivo: {
-        type: Sequelize.STRING,
+        type: Sequelize.BLOB,
         allowNull: true,
     },
     contenido: {

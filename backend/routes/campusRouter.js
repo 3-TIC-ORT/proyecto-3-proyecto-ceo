@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 const __parentDir = path.dirname(__dirname);
 const __rootDir = path.dirname(__parentDir);
 
-campusRouter.get('/main-page', (req, res) => {
+campusRouter.get('/', (req, res) => {
     
     app.use(express.static(path.join(__rootDir, 'frontend/Pagina/Inicio')));
     res.sendFile(path.join(__rootDir, 'frontend/PaginaInicio/PaginaInicio.html'));
