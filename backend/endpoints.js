@@ -1,3 +1,11 @@
+import argon2 from 'argon2'
+import { User } from './model/users.js';
+import { Foro } from './model/foros.js';
+import { Resumen } from './model/resumenes.js';
+import { objetosPerdidos } from './model/objetosPerdidos.js';
+import { FeedbackModel } from './model/feedback.js';
+import { error } from 'console';
+
 // functiones
 async function encriptPassword(password) {
     try {
@@ -5,7 +13,7 @@ async function encriptPassword(password) {
         console.log('encripted-password')
         return hash;
     } catch (error) {
-        console.error(err, "ERROR =(")
+        console.error(error, "ERROR =(")
     }
 }
 
@@ -17,7 +25,7 @@ async function verifyPassword(hash, password) {
             return false
         }
     } catch (error) {
-        console.err(err, "ERROR, no hizo la verificacion")
+        console.err(error, "ERROR, no hizo la verificacion")
     }
 }
 
@@ -46,7 +54,6 @@ async function authenticateToken(req, res, next) {
         next();
 
     })
-
 }   
 
 // endpoitns
@@ -58,7 +65,7 @@ export async function endpoints(app) {
             console.log("Recibiendo user data...");
 
             let firstName = userData.firstName;
-            let password = await encriptPassword(userData.password);
+            let password = await encriptPassword("pepe");
             let lastName = userData.lastName;
             let gmail = userData.gmail;
         
