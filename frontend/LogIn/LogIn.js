@@ -11,10 +11,6 @@ async function loginData(event) {
     
     event.preventDefault();
 
-    let userName = document.getElementById('loginName').value
-    let userLastName = document.getElementById('loginLastName').value
-    let userPassword = document.getElementById('password').value
-
     console.log('Fetching login-data')
 
     try {
@@ -52,17 +48,18 @@ async function loginData(event) {
 async function redirectRoute() {
     const token = localStorage.getItem('token')
     console.log('mANDANDO token');
-    console.log(token)
 
     let response = await fetch('/resumenes', {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Authorization': `Bearer ${token}`
         }
     })
 
     if (response.ok) {
+        console.log('token:', token)
         console.log('Hurraa, se mando token (login)')
+
     }
 
 };

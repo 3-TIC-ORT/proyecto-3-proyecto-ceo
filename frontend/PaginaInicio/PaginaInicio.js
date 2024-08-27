@@ -1,7 +1,5 @@
 
-let boton = document.getElementById("BContinuar") 
 
-boton.addEventListener("click", sendData)
 
 console.log("hola")
 async function sendData(event) {
