@@ -3,3 +3,5 @@
 -holding  routes
 -daynamics html
 -drop down archivos
+
+verificar funcionamiento y registrar el funcionamiento
