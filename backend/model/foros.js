@@ -2,6 +2,7 @@ import Sequelize from "sequelize";
 import { sequelize } from "../DB/DBcontroller.js";
 import chalk from "chalk";
 import { type } from "os";
+import { timeStamp } from "console";
 
 const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
@@ -16,7 +17,7 @@ const Foro = sequelize.define('Foros', {
     },
     foto: {
         type: Sequelize.BLOB,
-        allowNull: false
+        allowNull: true
     },
     textoExplicativo: {
         type: Sequelize.STRING,
@@ -24,8 +25,11 @@ const Foro = sequelize.define('Foros', {
     },
     comentarios: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     }
+},{
+    timestamp: false,
+    tableName: 'Foros'
 })
 
 export { Foro }
