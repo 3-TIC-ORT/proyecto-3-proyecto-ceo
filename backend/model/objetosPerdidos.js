@@ -18,7 +18,8 @@ const objetosPerdidos = sequelize.define('objetosPerdidos', {
         allowNull: false
     }
 }, {
-    timestamps: false
+    timestamps: false,
+    tableName: 'Objetosperdidos'
 })
 
 export { objetosPerdidos } 

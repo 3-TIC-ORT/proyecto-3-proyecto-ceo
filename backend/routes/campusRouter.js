@@ -12,21 +12,19 @@ const __parentDir = path.dirname(__dirname);
 const __rootDir = path.dirname(__parentDir);
 
 campusRouter.get('/', (req, res) => {
+
     console.log(path.join(__rootDir, 'frontend/PaginaInicio/PaginaInicio.html'))
     res.sendFile(path.join(__rootDir, 'frontend/PaginaInicio/PaginaInicio.html'));
 })
 
 campusRouter.get('/register', (req, res) => {
-    
     res.sendFile(path.join(__rootDir, 'frontend/Registrarse/Registrarse.html'));
 })
 
 campusRouter.get('/login', (req, res) => {
-    
     res.sendFile(path.join(__rootDir, 'frontend/LogIn/LogIn.html'));
 })
 campusRouter.get('/calificanos', (req, res) => {
-    
     res.sendFile(path.join(__rootDir, 'frontend/Calificanos/Calificanos.html'));
 })
 
