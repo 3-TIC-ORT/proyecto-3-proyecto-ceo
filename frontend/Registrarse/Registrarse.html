@@ -5,20 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus</title>
-    <link rel="stylesheet" href="Registrarse.css">
+    <link rel="stylesheet" href="../Registrarse/Registrarse.css">
+
 </head>
 <body>
-    <div class="DivBAtrasRegistrarse">
-        <button class="BAtrasRegistrarse" id="BAtrasRegistrarse"></button>
-    </div>
+    <a href="../LogIn/LogIn.html">Volver</a>
     <div class="RegistrarseCompleto">
-        <input type="text" id="InputGmail" class="InputGmail" placeholder="Gmail">
-        <input type="text" id="InputNU" class="InputNU" placeholder="Nombre de usuario">
-        <input type="text" id="InputContraRegistro" class="InputContraRegistro" placeholder="Contraseña">
+        <input type="text" id="inputGmail" class="InputGmail" placeholder="Gmail" value="example@gmail.com">
+        <input type="text" id="inputUser" class="InputNU" placeholder="Nombre de usuario" value="Ouchurus">
+        <input type="text" id="inputLastName" class="InputNU" placeholder="Apellido">
+        <input type="password" id="inputPassword" class="InputContraRegistro" placeholder="Contraseña" value="contraseña">
     </div>
     <div class="DivBRegistrarse">
-        <button class="BRegistrarse" id="BRegistrarse">Registrarse</button>
+        <button class="BRegistrarse" id="register">Registrarse</button>
     </div>
-    <script src="Registrarse.js"></script>
+
+    <script src="../Registrarse/api-register.js"></script>
 </body>
 </html>

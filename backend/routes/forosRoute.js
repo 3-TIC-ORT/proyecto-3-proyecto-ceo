@@ -14,25 +14,21 @@ const __rootDir = path.dirname(__parentDir);
 
 forosRouter.get("/", (req, res) => {
     
-    app.use(express.static(path.join(__rootDir, 'frontend/Foro')));
-    res.sendFile(path.join(__rootDir, 'frontend/Foro/Foro.html'))
+    res.sendFile(path.join(__rootDir, 'frontend/Foro/'))
 })
 
 forosRouter.get("/search", (req, res) => {
 
-    app.use(express.static(path.join(__rootDir, 'frontend/ForoBusqueda')));
-    res.sendFile(path.join(__rootDir, 'frontend/ForoBusqueda/ForoBusqueda.html'))
+    res.sendFile(path.join(__rootDir, 'frontend/ForoBusqueda/'))
 })
 
 forosRouter.get("/upload", (req, res) => {
 
-    app.use(express.static(path.join(__rootDir, 'frontend/ForoUpload')));
     res.sendFile(path.join(__rootDir, 'frontend/ForoUpload/ForoUpload.html'))
 })
 
 forosRouter.get("/open", (req, res) => {
 
-    app.use(express.static(path.join(__rootDir, 'frontend/ForoVisualizacion')));
     res.sendFile(path.join(__rootDir, 'frontend/ForoVisualizacion/ForoVisualizacion.html'))
 })
 

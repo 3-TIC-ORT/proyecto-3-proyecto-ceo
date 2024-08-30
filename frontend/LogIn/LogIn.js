@@ -1,40 +1,65 @@
+let loginButton = document.getElementById('loginSubmit')
+let goToResumenes = document.getElementById('irAResumenes')
+let goToRegister = document.getElementById('goToRegister')
 
-let boton = document.getElementById("BContinuar") 
+goToResumenes.addEventListener('click', redirectRoute)
+loginButton.addEventListener('click', loginData)
 
-boton.addEventListener("click", sendData)
+console.log('Running API-login')
 
-console.log("hola")
-async function sendData(event) {
+async function loginData(event) {
+    
     event.preventDefault();
 
-    let inputLogin = document.getElementById("InputInserte").value;
-    let inputApellido = document.getElementById("InputApellido").value;
-    let inputGmail = document.getElementById("InputGmail").value;
-    let inputContraseña = document.getElementById("InputContraseña").value;
+    console.log('Fetching login-data')
 
-    console.log("Sending user data....")
+    try {
 
-    console.log(inputLogin)
-    console.log(inputGmail)
-    console.log(inputContraseña)
-    console.log(inputApellido)
+        let response = await fetch('/log-in', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
 
-
-    let response = await fetch('/send-register', {
-
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-
-        body: JSON.stringify({
-            firstName: inputLogin,
-            password: inputContraseña,
-            lastName:inputApellido,
-            gmail: inputGmail
+            body: JSON.stringify({
+                name: userName,
+                lastName: userLastName,
+                password: userPassword
+            })
         })
+
+        console.log('response:', response)
+        console.log("when you greet it with open arms!")
+        
+
+        if (!response.ok) {
+            throw new Error('Error!!! :(')
+        }
+
+        let data = await response.json()
+
+        localStorage.setItem('token', data.token)
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function redirectRoute() {
+    const token = localStorage.getItem('token')
+    console.log('mANDANDO token');
+
+    let response = await fetch('/resumenes', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     })
 
-    
-    let data = await response.json()
-}
+    if (response.ok) {
+        console.log('token:', token)
+        console.log('Hurraa, se mando token (login)')
+
+    }
+
+};
