@@ -4,7 +4,7 @@ import { Foro } from './model/foros.js';
 import { Resumen } from './model/resumenes.js';
 import { objetosPerdidos } from './model/objetosPerdidos.js';
 import { FeedbackModel } from './model/feedback.js';
-import { error } from 'console';
+import { Console, error } from 'console';
 
 // functiones
 async function encriptPassword(password) {
@@ -58,7 +58,6 @@ async function authenticateToken(req, res, next) {
 
 // endpoitns
 export async function endpoints(app) {
-    
     app.post('/send-register', async (req, res) => {
         try {
             const userData = req.body;
@@ -114,6 +113,7 @@ export async function endpoints(app) {
     });
 
     app.post('/send-objetosPerdidos', async (req, res) => {
+        console.log("hola");
         try {
             const objetosPerdidosData = req.body;
             console.log("Recibiendo objetosPerdidos data...");

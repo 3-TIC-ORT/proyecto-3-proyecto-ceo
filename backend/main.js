@@ -20,10 +20,6 @@ import { User } from "./model/users.js";
 import { objetosPerdidos } from './model/objetosPerdidos.js';
 import { campusRouter } from './routes/campusRouter.js';
 
-//endpoints
-import { endpoints } from './endpoints.js';
-
-
 //paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
