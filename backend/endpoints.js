@@ -4,7 +4,8 @@ import { Foro } from './model/foros.js';
 import { Resumen } from './model/resumenes.js';
 import { objetosPerdidos } from './model/objetosPerdidos.js';
 import { FeedbackModel } from './model/feedback.js';
-import { error } from 'console';
+import { Intercambio } from './model/intercambio.js';
+import { Console, error } from 'console';
 
 // functiones
 async function encriptPassword(password) {
@@ -58,7 +59,6 @@ async function authenticateToken(req, res, next) {
 
 // endpoitns
 export async function endpoints(app) {
-    
     app.post('/send-register', async (req, res) => {
         try {
             const userData = req.body;
@@ -72,6 +72,24 @@ export async function endpoints(app) {
             const user = await User.create({firstName: firstName, lastName: lastName, password: password, gmail: gmail});
             res.status(200).json({ message: 'Usuario creado exitosamente'});
         } catch (error) {
+            console.error("Error al crear el usuario:", error);
+            res.status(500).json({ message: 'Error al crear el usuario', error });
+        }
+    });
+
+    app.post('/send-intercambio', async (req, res) => {
+        try{
+            const intercambioData = req.body
+            console.log("Recibiendo intecambio data");
+
+            let informacion = intercambioData.informacion;
+            let titulo = intercambioData.titulo;
+            let respuestas = intercambioData.respuestas;
+            let foto = intercambioData.foto
+
+            const intecambio = await Intercambio.create({informacion: informacion, titulo: titulo, respuestas: respuestas, foto:foto});
+            res.status(200).json({ message: 'Intercambio creado exitosamente'});
+        } catch(error) {
             console.error("Error al crear el usuario:", error);
             res.status(500).json({ message: 'Error al crear el usuario', error });
         }
