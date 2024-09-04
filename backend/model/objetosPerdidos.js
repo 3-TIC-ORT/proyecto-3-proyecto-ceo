@@ -10,7 +10,7 @@ const blueChalk = chalk.cyanBright;
 
 const objetosPerdidos = sequelize.define('objetosPerdidos', {
     foto: {
-        type: Sequelize.BLOB,
+        type: Sequelize.BLOB('medium'),
         allowNull: true
     },
     informacion: {

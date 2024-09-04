@@ -11,7 +11,7 @@ const blueChalk = chalk.cyanBright;
 console.log(blueChalk("Definiendo modelo resumen..."));
 const Resumen = sequelize.define('Resumen', {
     archivo: {
-        type: Sequelize.BLOB,
+        type: Sequelize.BLOB('long'),
         allowNull: true,
     },
     contenido: {

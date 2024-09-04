@@ -26,7 +26,7 @@ const Intercambio = sequelize.define('Intercambio',{
         allowNull: true,
     },
     foto:{
-        type: Sequelize.STRING,
+        type: Sequelize.BLOB('medium'),
         allowNull: true,
     }
 },{

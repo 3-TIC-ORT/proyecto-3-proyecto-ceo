@@ -124,6 +124,9 @@ export async function endpoints(app) {
             console.log("Receiving feedback data...");
 
             let puntaje = feedbackData.puntaje;
+            if (puntaje  < 1 || puntaje > 5){
+                res.status(500).json({ message: 'Puntaje must be between 1 and 5'})
+            }
             let sugerencia = feedbackData.sugerencia;
             let opinion = feedbackData.opinion;
         
