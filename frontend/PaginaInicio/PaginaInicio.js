@@ -18,7 +18,7 @@ async function sendData(event) {
     console.log(inputApellido)
 
 
-    let response = await fetch('/send-register', {
+    let response = await fetch('http://localhost:3000/registers', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

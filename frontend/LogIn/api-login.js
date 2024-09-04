@@ -3,9 +3,10 @@ let goToResumenes = document.getElementById('irAResumenes')
 let goToRegister = document.getElementById('goToRegister')
 
 goToResumenes.addEventListener('click', redirectRoute)
-loginButton.addEventListener('click', loginData)
+loginButton.addEventListener('click', loginData);
 
-console.log('Running API-login')
+console.log('Running API-login');
+console.log('Puto el que lee')
 
 async function loginData(event) {
     
@@ -14,17 +15,22 @@ async function loginData(event) {
     console.log('Fetching login-data')
 
     try {
+        let userName = document.getElementById('nombre')
+        let userLastName = document.getElementById('apellido')
+        let userPassword = document.getElementById('password')
+        let userGmail = document.getElementById('gmail')
 
-        let response = await fetch('/log-in', {
+        console.log('Trying fetch..')
+        let response = await fetch('http://localhost:3000/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-
             body: JSON.stringify({
                 name: userName,
                 lastName: userLastName,
-                password: userPassword
+                password: userPassword,
+                gmail: gmail
             })
         })
 
@@ -49,7 +55,7 @@ async function redirectRoute() {
     const token = localStorage.getItem('token')
     console.log('mANDANDO token');
 
-    let response = await fetch('/resumenes', {
+    let response = await fetch('http://localhost:3000/resumenes', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`

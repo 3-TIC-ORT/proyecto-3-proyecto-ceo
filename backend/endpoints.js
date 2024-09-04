@@ -7,6 +7,14 @@ import { FeedbackModel } from './model/feedback.js';
 import { Intercambio } from './model/intercambio.js';
 import { Console, error } from 'console';
 
+
+import chalk from "chalk";
+
+const blueChalk = chalk.blue
+const greenChalk = chalk.greenBright;
+const redChalk = chalk.redBright;
+const yellowChalk = chalk.yellowBright;
+
 // functiones
 async function encriptPassword(password) {
     try {
@@ -59,7 +67,17 @@ async function authenticateToken(req, res, next) {
 
 // endpoitns
 export async function endpoints(app) {
-    app.post('/send-register', async (req, res) => {
+
+    app.post('/login', async (req, res) => {
+        const userData = req.body
+        console.log('Running login')
+        const user = await User.findOne({name: userData.firstName, gmail: userData.gmail})
+        console.log(user)
+        
+        res.send('pepe').status(200)
+    })
+
+    app.post('/registers', async (req, res) => {
         try {
             const userData = req.body;
             console.log("Recibiendo user data...");
@@ -69,7 +87,7 @@ export async function endpoints(app) {
             let lastName = userData.lastName;
             let gmail = userData.gmail;
         
-            const user = await User.create({firstName: firstName, lastName: lastName, password: password, gmail: gmail});
+            const user = await User.create({gmail: gmail});
             res.status(200).json({ message: 'Usuario creado exitosamente'});
         } catch (error) {
             console.error("Error al crear el usuario:", error);
@@ -77,7 +95,7 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-intercambio', async (req, res) => {
+    app.post('/intercambios', async (req, res) => {
         try{
             const intercambioData = req.body
             console.log("Recibiendo intecambio data");
@@ -95,7 +113,7 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-feedback', async (req, res) => {
+    app.post('/feedbacks', async (req, res) => {
         try {
             const feedbackData = req.body;
             console.log("Recibiendo feedback data...");
@@ -112,7 +130,7 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-resumen', async (req, res) => {
+    app.post('/resumen', async (req, res) => {
         try {
             const resumenData = req.body;
             console.log("Recibiendo resumen data...");
@@ -131,7 +149,7 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-objetosPerdidos', async (req, res) => {
+    app.post('/objetos-perdidos-handling', async (req, res) => {
         try {
             const objetosPerdidosData = req.body;
             console.log("Recibiendo objetosPerdidos data...");
