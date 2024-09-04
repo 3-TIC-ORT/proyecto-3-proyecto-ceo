@@ -6,6 +6,19 @@ import { objetosPerdidos } from './model/objetosPerdidos.js';
 import { FeedbackModel } from './model/feedback.js';
 import { Intercambio } from './model/intercambio.js';
 import { Console, error } from 'console';
+import multer from 'multer';
+import path from 'path';
+
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+});
 
 // functiones
 async function encriptPassword(password) {
@@ -77,7 +90,7 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-intercambio', async (req, res) => {
+    app.post('/send-intercambio', upload.single('foto'), async (req, res) => {
         try{
             const intercambioData = req.body
             console.log("Recibiendo intecambio data");
@@ -85,7 +98,7 @@ export async function endpoints(app) {
             let informacion = intercambioData.informacion;
             let titulo = intercambioData.titulo;
             let respuestas = intercambioData.respuestas;
-            let foto = intercambioData.foto
+            let foto = req.file ? req.file.filename : null;
 
             const intecambio = await Intercambio.create({informacion: informacion, titulo: titulo, respuestas: respuestas, foto:foto});
             res.status(200).json({ message: 'Intercambio creado exitosamente'});
@@ -112,14 +125,14 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-resumen', async (req, res) => {
+    app.post('/send-resumen', upload.single('archivo'), async (req, res) => {
         try {
             const resumenData = req.body;
             console.log("Recibiendo resumen data...");
 
             let descripcion = resumenData.descripcion;
             let titulo = resumenData.titulo;
-            let archivo = resumenData.archivo;
+            let archivo = req.file ? req.file.filename : null;
             let contenido = resumenData.contenido;
             let filtros = resumenData.filtros;
         
@@ -131,13 +144,13 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-objetosPerdidos', async (req, res) => {
+    app.post('/send-objetosPerdidos', upload.single('foto'), async (req, res) => {
         try {
             const objetosPerdidosData = req.body;
             console.log("Recibiendo objetosPerdidos data...");
 
             let informacion = objetosPerdidosData.informacion;
-            let foto = objetosPerdidosData.foto;
+            let foto = req.file ? req.file.filename : null;
         
             const objeto = await objetosPerdidos.create({informacion: informacion, foto: foto});
             res.status(201).json({ message: 'Objeto perdido registrado exitosamente'});
@@ -147,13 +160,13 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-foro', async (req, res) => {
+    app.post('/send-foro', upload.single('foto'), async (req, res) => {
         try {
             const foroData = req.body;
             console.log("Recibiendo foro data...");
 
             let pregunta = foroData.pregunta;
-            let foto = foroData.foto;
+            let foto = req.file ? req.file.filename : null;
             let textoExplicativo = foroData.textoExplicativo;
             let comentarios = foroData.comentarios;
         
