@@ -30,7 +30,7 @@ const Intercambio = sequelize.define('Intercambio',{
         allowNull: true,
     }
 },{
-    timestamp: false,
+    timestamps: true,
     tableName: 'Intercambio'
 })
 
