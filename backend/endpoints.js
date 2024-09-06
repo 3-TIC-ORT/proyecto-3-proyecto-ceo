@@ -91,7 +91,11 @@ export async function endpoints(app) {
             let password = await encriptPassword(userData.password);
             let lastName = userData.lastName;
             let gmail = userData.gmail;
-        
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(gmail)){
+                console.error('The email must be truth');
+            }
             const user = await User.create({ firstName: firstName, lastName: lastName, password: password, gmail: gmail });
             res.status(200).json({ message: 'User created successfully' });
         } catch (error) {
@@ -125,7 +129,7 @@ export async function endpoints(app) {
 
             let puntaje = feedbackData.puntaje;
             if (puntaje  < 1 || puntaje > 5){
-                res.status(500).json({ message: 'Puntaje must be between 1 and 5'})
+                console.error('Invalid puntaje. Must be between 1 and 5.')
             }
             let sugerencia = feedbackData.sugerencia;
             let opinion = feedbackData.opinion;

@@ -11,7 +11,7 @@ const redChalk = chalk.redBright;
 const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
 
-console.log(blueChalk("Definiendo modelo deintercambio"))
+console.log(blueChalk("Definiendo modelo de intercambio..."))
 const Intercambio = sequelize.define('Intercambio',{
     informacion:{
         type: Sequelize.STRING,
