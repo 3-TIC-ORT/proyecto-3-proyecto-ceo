@@ -1,7 +1,9 @@
 import argon2 from 'argon2';
 import jsonwebtoken from 'jsonwebtoken';
 import multer from 'multer';
-import path from 'path';
+import path, { dirname } from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 import { User } from './model/users.js';
 import { Foro } from './model/foros.js';
 import { Resumen } from './model/resumenes.js';
@@ -16,6 +18,9 @@ const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
 const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -58,6 +63,8 @@ async function verifyPassword(hash, password) {
     }
 }
 
+const SECRET_KEY = process.env.SECRET_KEY;
+
 async function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -94,7 +101,7 @@ export async function endpoints(app) {
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(gmail)){
-                console.error('The email must be truth');
+                console.error('Invalid email format');
             }
             const user = await User.create({ firstName: firstName, lastName: lastName, password: password, gmail: gmail });
             res.status(200).json({ message: 'User created successfully' });
@@ -110,8 +117,8 @@ export async function endpoints(app) {
             console.log("Receiving intercambio data");
 
             let informacion = intercambioData.informacion;
-            let titulo = intercambioData.titulo
-            let respuestas = intercambioData.respuestas
+            let titulo = intercambioData.titulo;
+            let respuestas = intercambioData.respuestas;
             let foto = req.file ? req.file.filename : null;
 
             const intercambio = await Intercambio.create({ informacion: informacion, titulo: titulo, respuestas: respuestas, foto: foto });
@@ -128,12 +135,12 @@ export async function endpoints(app) {
             console.log("Receiving feedback data...");
 
             let puntaje = feedbackData.puntaje;
-            if (puntaje  < 1 || puntaje > 5){
-                console.error('Invalid puntaje. Must be between 1 and 5.')
+            if (puntaje < 1 || puntaje > 5){
+                console.error('Invalid puntaje. Must be between 1 and 5.');
             }
             let sugerencia = feedbackData.sugerencia;
             let opinion = feedbackData.opinion;
-        
+
             const feedback = await FeedbackModel.create({ puntaje: puntaje, sugerencia: sugerencia, opinion: opinion });
             res.status(201).json({ message: 'Feedback sent successfully' });
         } catch (error) {
@@ -152,7 +159,7 @@ export async function endpoints(app) {
             let titulo = resumenData.titulo;
             let filtros = resumenData.filtros;
             let archivo = req.file ? req.file.filename : null;
-        
+
             const resumen = await Resumen.create({ titulo: titulo, descripcion: descripcion, archivo: archivo, contenido: contenido, filtros: filtros });
             res.status(201).json({ message: 'Resumen sent successfully' });
         } catch (error) {
@@ -168,7 +175,7 @@ export async function endpoints(app) {
 
             let informacion = objetosPerdidosData.informacion;
             let foto = req.file ? req.file.filename : null;
-        
+
             const objeto = await objetosPerdidos.create({ informacion: informacion, foto: foto });
             res.status(201).json({ message: 'Objeto perdido registered successfully' });
         } catch (error) {
@@ -186,12 +193,26 @@ export async function endpoints(app) {
             let textoExplicativo = foroData.textoExplicativo;
             let comentarios = foroData.comentarios;
             let foto = req.file ? req.file.filename : null;
-        
+
             const foro = await Foro.create({ pregunta: pregunta, foto: foto, textoExplicativo: textoExplicativo, comentarios: comentarios });
             res.status(201).json({ message: 'Foro created successfully' });
         } catch (error) {
             console.error("Error creating foro:", error);
             res.status(500).json({ message: 'Error creating foro', error });
+        }
+    });
+
+    app.get('/get-objetosPerdidos/:id', async (req, res) => {
+        try {
+            const objeto = await objetosPerdidos.findByPk(req.params.id);
+            if (!objeto) {
+                console.error('Objeto have not been found');
+            }
+            res.set('Content-Type', 'image/png', 'image/jpg');
+            res.send(objeto.foto);
+        } catch (error) {
+            console.error("Error retrieving objeto perdido:", error);
+            res.status(500).json({ message: 'Error retrieving objeto perdido', error });
         }
     });
 }
