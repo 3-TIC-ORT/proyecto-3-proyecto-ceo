@@ -23,7 +23,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-
 app.use(bodyParser.json());
 
 const storage = multer.diskStorage({
@@ -32,13 +31,14 @@ const storage = multer.diskStorage({
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath);
         }
-        cb(null, 'uploads/');
+        cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
     }
 });
+
 const upload = multer({ storage });
 
 async function encriptPassword(password) {
@@ -111,7 +111,7 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-intercambio', upload.single('foto'), async (req, res) => {
+    app.post('/send-intercambio', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
             const intercambioData = req.body;
             console.log("Receiving intercambio data");
@@ -119,7 +119,7 @@ export async function endpoints(app) {
             let informacion = intercambioData.informacion;
             let titulo = intercambioData.titulo;
             let respuestas = intercambioData.respuestas;
-            let foto = req.file ? req.file.filename : null;
+            let foto = req.files['foto'] ? req.files['foto'][0].path : null;
 
             const intercambio = await Intercambio.create({ informacion: informacion, titulo: titulo, respuestas: respuestas, foto: foto });
             res.status(200).json({ message: 'Intercambio created successfully' });
@@ -149,7 +149,7 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-resumen', upload.single('archivo'), async (req, res) => {
+    app.post('/send-resumen', upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
         try {
             const resumenData = req.body;
             console.log("Receiving resumen data...");
@@ -158,7 +158,7 @@ export async function endpoints(app) {
             let contenido = resumenData.contenido;
             let titulo = resumenData.titulo;
             let filtros = resumenData.filtros;
-            let archivo = req.file ? req.file.filename : null;
+            let archivo = req.files['archivo'] ? req.files['archivo'][0].path : null;
 
             const resumen = await Resumen.create({ titulo: titulo, descripcion: descripcion, archivo: archivo, contenido: contenido, filtros: filtros });
             res.status(201).json({ message: 'Resumen sent successfully' });
@@ -168,13 +168,13 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-objetosPerdidos', upload.single('foto'), async (req, res) => {
+    app.post('/send-objetosPerdidos', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
             const objetosPerdidosData = req.body;
             console.log("Receiving objetosPerdidos data...");
 
             let informacion = objetosPerdidosData.informacion;
-            let foto = req.file ? req.file.filename : null;
+            let foto = req.files['foto'] ? req.files['foto'][0].path : null;
 
             const objeto = await objetosPerdidos.create({ informacion: informacion, foto: foto });
             res.status(201).json({ message: 'Objeto perdido registered successfully' });
@@ -184,7 +184,7 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-foro', upload.single('foto'), async (req, res) => {
+    app.post('/send-intercambio', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
             const foroData = req.body;
             console.log("Receiving foro data...");
@@ -192,7 +192,7 @@ export async function endpoints(app) {
             let pregunta = foroData.pregunta;
             let textoExplicativo = foroData.textoExplicativo;
             let comentarios = foroData.comentarios;
-            let foto = req.file ? req.file.filename : null;
+            let foto = req.files['foto'] ? req.files['foto'][0].path : null;
 
             const foro = await Foro.create({ pregunta: pregunta, foto: foto, textoExplicativo: textoExplicativo, comentarios: comentarios });
             res.status(201).json({ message: 'Foro created successfully' });
@@ -202,19 +202,46 @@ export async function endpoints(app) {
         }
     });
 
-    app.get('/get-objetosPerdidos/:id', async (req, res) => {
+    app.get('/download/:model/:id/:fileType', async (req, res) => {
         try {
-            const objeto = await objetosPerdidos.findByPk(req.params.id);
-            if (!objeto) {
-                console.error('Objeto have not been found');
+            const { model, id, fileType } = req.params;
+    
+            let Model;
+            if (model === 'resumen') {
+                Model = Resumen;
+            } else if (model === 'foro') {
+                Model = Foro;
+            } else if (model === 'intercambio') {
+                Model = Intercambio;
+            } else if (model === 'objetosPerdidos') {
+                Model = objetosPerdidos;
+            } else {
+                return res.status(400).json({ message: 'Invalid model type' });
             }
-            res.set('Content-Type', 'image/png', 'image/jpg');
-            res.send(objeto.foto);
+    
+            const record = await Model.findByPk(id);
+            if (!record || !record[fileType]) {
+                return res.status(404).json({ message: `${fileType} not found` });
+            }
+    
+            const fileBuffer = record[fileType];
+            let contentType = 'application/octet-stream';
+    
+            if (fileType === 'foto') {
+                contentType = 'image/jpeg';
+            } else if (fileType === 'archivo') {
+                contentType = 'application/pdf';
+            }
+    
+            res.setHeader('Content-Type', contentType);
+            res.setHeader('Content-Disposition', `attachment; filename="${fileType}"`);
+            res.end(fileBuffer);
         } catch (error) {
-            console.error("Error retrieving objeto perdido:", error);
-            res.status(500).json({ message: 'Error retrieving objeto perdido', error });
+            console.error("Error downloading file:", error);
+            res.status(500).json({ message: 'Error downloading file', error });
         }
     });
+    
 }
 
 const PORT = process.env.PORT || 3001;
