@@ -64,7 +64,6 @@ console.log("0-----------------------S-T-A-R-T-I-N-G-----------------------0")
 const PORT = process.env.PORT
 endpoints(app)
 
-endpoints(app)
 
 //rutass
 app.use('/resumenes', authenticateToken, resumenesRouter)

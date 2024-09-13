@@ -9,6 +9,7 @@ import { Console, error } from 'console';
 
 
 import chalk from "chalk";
+import { where } from 'sequelize';
 
 const blueChalk = chalk.blue
 const greenChalk = chalk.greenBright;
@@ -34,7 +35,7 @@ async function verifyPassword(hash, password) {
             return false
         }
     } catch (error) {
-        console.err(error, "ERROR, no hizo la verificacion")
+        console.err(error, "ERROR, no paso la verificacion")
     }
 }
 
@@ -70,11 +71,27 @@ export async function endpoints(app) {
 
     app.post('/login', async (req, res) => {
         const userData = req.body
+        const password = userData.password
+        const name = userData.firstName
+        const gmail = userData.gmail
+
         console.log('Running login')
-        const user = await User.findOne({name: userData.firstName, gmail: userData.gmail})
-        console.log(user)
+        console.log(`Searching for ${name} with gmail: ${gmail}`)
+
+        const user = await User.findOne({
+            where: {
+              firstName: name,
+              gmail: gmail
+            }
+        });    
+
+        if (!user) {
+            console.log(error, '[LOGIN] User not found :((')
+        }
+
         
-        res.send('pepe').status(200)
+        console.log(user)
+        res.send('Found user!').status(200)
     })
 
     app.post('/registers', async (req, res) => {
@@ -87,7 +104,7 @@ export async function endpoints(app) {
             let lastName = userData.lastName;
             let gmail = userData.gmail;
         
-            const user = await User.create({gmail: gmail});
+            const user = await User.create({firstName: firstName, password: password, lastName: lastName, gmail: gmail});
             res.status(200).json({ message: 'Usuario creado exitosamente'});
         } catch (error) {
             console.error("Error al crear el usuario:", error);

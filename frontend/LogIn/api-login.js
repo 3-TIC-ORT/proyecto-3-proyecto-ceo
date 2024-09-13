@@ -15,10 +15,10 @@ async function loginData(event) {
     console.log('Fetching login-data')
 
     try {
-        let userName = document.getElementById('nombre')
-        let userLastName = document.getElementById('apellido')
-        let userPassword = document.getElementById('password')
-        let userGmail = document.getElementById('gmail')
+        let userName = document.getElementById('nombre').value
+        let userLastName = document.getElementById('apellido').value
+        let userPassword = document.getElementById('password').value
+        let userGmail = document.getElementById('gmail').value
 
         console.log('Trying fetch..')
         let response = await fetch('http://localhost:3000/login', {
@@ -27,10 +27,10 @@ async function loginData(event) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: userName,
+                firstName: userName,
                 lastName: userLastName,
                 password: userPassword,
-                gmail: gmail
+                gmail: userGmail
             })
         })
 
