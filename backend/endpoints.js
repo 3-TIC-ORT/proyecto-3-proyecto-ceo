@@ -89,7 +89,10 @@ export async function endpoints(app) {
             console.log(error, '[LOGIN] User not found :((')
         }
 
-        
+        if (verifyPassword(user.password, password)) {
+            console.log(greenChalk('User is now logged-in!!!!!!'))
+        }
+
         console.log(user)
         res.send('Found user!').status(200)
     })
