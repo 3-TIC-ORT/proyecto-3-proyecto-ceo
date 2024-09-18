@@ -34,7 +34,7 @@ import { endpoints } from './endpoints.js';
 const app = Express()
 app.use(express.json())
 app.use(cors())
-app.use(express.static(path.join(__rootDir, 'frontend')));
+app.use(express.static(path.join(__rootDir, 'frontend/')));
 
 
 app.use(function(req, res, next) {
@@ -42,7 +42,6 @@ app.use(function(req, res, next) {
     next();
 })
 
-app.use(express.static(path.join(__parentDir, 'frontend/')));
 //rutas
 import { resumenesRouter } from './routes/resumenesRoutes.js';
 import { forosRouter } from './routes/forosRoute.js';

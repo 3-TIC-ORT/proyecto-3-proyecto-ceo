@@ -9,7 +9,7 @@ import { Console, error } from 'console';
 
 
 import chalk from "chalk";
-import { where } from 'sequelize';
+import { json, where } from 'sequelize';
 
 const blueChalk = chalk.blue
 const greenChalk = chalk.greenBright;
@@ -24,6 +24,21 @@ async function encriptPassword(password) {
         return hash;
     } catch (error) {
         console.error(error, "ERROR =(")
+    }
+}
+
+async function createToken(req, res, next) {
+    try {
+        let payload = {
+            id: req.user.id,
+            firstName: req.user.firstName
+        }
+        
+        const token = await jsonwebtoken.sign(payload, SECRET_KEY, {expiresIn: '2h'});
+        return json({ token });
+
+    } catch (error) {
+        console.log(chalk('[server], COULD NOT CREATE TOKEN:', error))
     }
 }
 
@@ -44,7 +59,7 @@ async function authenticateToken(req, res, next) {
     const authHeader = req.header['authorization'];
     const token = authHeader && authHeader.split(' ')[1]
 
-    console.log(blueChalk('Authenticating token...'))
+    console.log(blueChalk('Checking token...'))
 
     if (token == null) {
         console.log(redChalk('No token!'))
@@ -52,13 +67,11 @@ async function authenticateToken(req, res, next) {
     }
 
     jsonwebtoken.verify(token, SECRET_KEY, (err, user) => {
-
         console.log(yellowChalk('Authenticating token....'))
         if (err) {
             console.log(redChalk('Invalid token!'))
             return res.sendStatus(403);
         }
-
         console.log(greenChalk('Authentication successful!!!!'))
         req.user = user;
         next();
@@ -85,11 +98,14 @@ export async function endpoints(app) {
             }
         });    
 
+        console.log(user)
+        
         if (!user) {
-            console.log(error, '[LOGIN] User not found :((')
+            console.log(error, '[LOGIN], User not found :((')
+            return;
         }
 
-        if (verifyPassword(user.password, password)) {
+        if (verifyPassword(userData.password, password)) {
             console.log(greenChalk('User is now logged-in!!!!!!'))
         }
 
@@ -108,7 +124,8 @@ export async function endpoints(app) {
             let gmail = userData.gmail;
         
             const user = await User.create({firstName: firstName, password: password, lastName: lastName, gmail: gmail});
-            res.status(200).json({ message: 'Usuario creado exitosamente'});
+            const token = createToken()
+            res.status(200).send({ token })
         } catch (error) {
             console.error("Error al crear el usuario:", error);
             res.status(500).json({ message: 'Error al crear el usuario', error });

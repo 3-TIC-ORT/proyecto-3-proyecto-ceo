@@ -11,10 +11,10 @@ console.log('Puto el que lee')
 async function loginData(event) {
     
     event.preventDefault();
-
     console.log('Fetching login-data')
 
     try {
+
         let userName = document.getElementById('nombre').value
         let userLastName = document.getElementById('apellido').value
         let userPassword = document.getElementById('password').value
@@ -39,7 +39,7 @@ async function loginData(event) {
         
 
         if (!response.ok) {
-            throw new Error('Error!!! :(')
+            throw new Error('[front], Error!!! :(')
         }
 
         let data = await response.json()
