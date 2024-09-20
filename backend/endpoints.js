@@ -160,6 +160,11 @@ export async function endpoints(app) {
             let filtros = resumenData.filtros;
             let archivo = req.files['archivo'] ? req.files['archivo'][0].path : null;
 
+            const filtrosPermitidos = ['fisica', 'matematica', 'edu judia', 'historia', 'tecnologia', 'ingles', 'geografia', 'quimica', 'lengua', 'fuentes', 'biologia', 'etica', 'economia', 'hebreo', 'ciencias sociales', 'ciencias naturales'];
+            if(!filtrosPermitidos.includes(filtros.toLowerCase())){
+                console.error('Filter must be a validated one');
+            }
+            
             const resumen = await Resumen.create({ titulo: titulo, descripcion: descripcion, archivo: archivo, contenido: contenido, filtros: filtros });
             res.status(201).json({ message: 'Resumen sent successfully' });
         } catch (error) {
@@ -184,7 +189,7 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-intercambio', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+    app.post('/send-foro', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
             const foroData = req.body;
             console.log("Receiving foro data...");
@@ -241,7 +246,6 @@ export async function endpoints(app) {
             res.status(500).json({ message: 'Error downloading file', error });
         }
     });
-    
 }
 
 const PORT = process.env.PORT || 3001;
