@@ -13,6 +13,10 @@ const FeedbackModel = sequelize.define('Feedback', {
     puntaje: {
         type: Sequelize.NUMBER,
         allowNull: false,
+        validate:{
+            min:1,
+            max:5
+        }
     },
     sugerencia: {
         type: Sequelize.STRING,

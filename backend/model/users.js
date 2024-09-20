@@ -24,7 +24,11 @@ const User = sequelize.define('Users', {
     },
     gmail:{
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true,
+        validate:{
+            isEmail: true
+        }
     },
 }, {
     timestamps: false,

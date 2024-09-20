@@ -10,7 +10,7 @@ const blueChalk = chalk.cyanBright;
 console.log(blueChalk("Definiendo modelo resumen..."));
 const Resumen = sequelize.define('Resumen', {
     archivo: {
-        type: Sequelize.BLOB,
+        type: Sequelize.BLOB('long'),
         allowNull: true,
     },
     contenido: {
@@ -28,6 +28,14 @@ const Resumen = sequelize.define('Resumen', {
     filtros: {
         type: Sequelize.STRING,
         allowNull: false,
+    },
+    like: {
+        type: Sequelize.NUMBER,
+        allowNull: true,
+    },
+    dislike:{
+        type: Sequelize.NUMBER,
+        allowNull: true,
     }
 }, {
     timestamps: false,
