@@ -6,10 +6,10 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { User } from './model/users.js';
 import { Foro } from './model/foros.js';
-import { Resumen } from './model/resumenes.js';
 import { objetosPerdidos } from './model/objetosPerdidos.js';
 import { FeedbackModel } from './model/feedback.js';
 import { Intercambio } from './model/intercambio.js';
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import chalk from 'chalk';
@@ -41,6 +41,23 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+import { Console, error } from 'console';
+import jsonwebtoken from 'jsonwebtoken'
+import { config } from 'dotenv';
+config()
+
+
+import chalk from "chalk";
+import { json, where } from 'sequelize';
+import { Op } from 'sequelize';
+
+const blueChalk = chalk.blue
+const greenChalk = chalk.greenBright;
+const redChalk = chalk.redBright;
+const yellowChalk = chalk.yellowBright;
+
+const SECRET_KEY = process.env.SECRET_KEY
+
 async function encriptPassword(password) {
     try {
         let hash = await argon2.hash(password, { type: argon2.argon2id, saltLength: 16 });
@@ -48,6 +65,26 @@ async function encriptPassword(password) {
         return hash;
     } catch (error) {
         console.error("Error encrypting password:", error);
+    }
+}
+
+async function createToken(user) {
+    try {
+
+        let payload = {
+            id: user.id,
+            firstName: user.firstName
+        }
+
+        const token = jsonwebtoken.sign(payload, SECRET_KEY, {expiresIn: '2h'});
+
+        console.log(`[token] TOKEN ID IS: '${user.id}' AND NAME: ${user.firstName}`)
+        
+        return token;
+
+    } catch (error) {
+        console.log(redChalk('[server], COULD NOT CREATE TOKEN:', error))
+        throw error
     }
 }
 
@@ -59,37 +96,83 @@ async function verifyPassword(hash, password) {
             return false;
         }
     } catch (error) {
-        console.error("Error verifying password:", error);
+
+        console.log(error, "[password] ERROR, no paso la verificacion")
     }
 }
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
 async function authenticateToken(req, res, next) {
+    // sacamo el token del header
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    const token = authHeader && authHeader.split(' ')[1]
 
-    console.log('Authenticating token...');
+    console.log(authHeader)
+    console.log(blueChalk('Checking token...'))
+    console.log('[server] TOKEN IS:', token)
 
     if (token == null) {
         console.log('No token!');
         return res.sendStatus(401);
     }
-
+    
     jsonwebtoken.verify(token, SECRET_KEY, (err, user) => {
+        console.log(yellowChalk('Authenticating token....'))
         if (err) {
             console.log('Invalid token!');
             return res.sendStatus(403);
         }
-
-        console.log('Authentication successful!');
+        console.log(greenChalk('Authentication successful!!!!'))
         req.user = user;
         next();
     });
 }
 
 export async function endpoints(app) {
-    app.post('/send-register', async (req, res) => {
+
+    app.post('/login', async (req, res) => {
+        const userData = req.body
+        const password = userData.password
+        const name = userData.firstName
+        const gmail = userData.gmail
+        console.log(blueChalk(`Searching for '${greenChalk(name)}' with gmail: ${greenChalk(gmail)}`))
+
+        const user = await User.findOne({
+            where: {
+                firstName: name,
+                gmail: gmail,
+            }
+        });    
+
+        console.log(yellowChalk('[login] USER FOUND:'))
+        console.log(user)
+
+        if (!user) {
+            console.log(error, '[login], User not found :((')
+            return;
+        }
+
+
+        const passwordMatch = verifyPassword(user.password, password)
+
+        if (!passwordMatch) {
+            console.log('Contraseña incorrecta')
+            res.status(403).send('Contraseña incorrecta')
+        }
+
+        try {
+            console.log(greenChalk('User is now logged-in!!!!!!'))
+            const token = await createToken(user)
+
+            res.status(200).send({ token })
+        } catch (error) {
+            console.log('[login] ERROR, Failed to create a token:', error)
+            throw error
+        }
+    })
+
+    app.post('/registers', async (req, res) => {
         try {
             const userData = req.body;
             console.log("Receiving user data...");
@@ -98,7 +181,6 @@ export async function endpoints(app) {
             let password = await encriptPassword(userData.password);
             let lastName = userData.lastName;
             let gmail = userData.gmail;
-
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(gmail)){
                 console.error('Invalid email format');
@@ -106,16 +188,22 @@ export async function endpoints(app) {
             }
             const user = await User.create({ firstName: firstName, lastName: lastName, password: password, gmail: gmail });
             res.status(200).json({ message: 'User created successfully' });
+        
+            const user = await User.create({firstName: firstName, password: password, lastName: lastName, gmail: gmail});
+            const token = createToken(user)
+            res.status(200).send({ token })
+        }
         } catch (error) {
             console.error("Error creating user:", error);
             res.status(500).json({ message: 'Error creating user', error });
         }
     });
 
+
     app.post('/send-intercambio', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
             const intercambioData = req.body;
-            console.log("Receiving intercambio data");
+            console.log("Receiving intercambio data
 
             let informacion = intercambioData.informacion;
             let titulo = intercambioData.titulo;
@@ -130,7 +218,7 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-feedback', async (req, res) => {
+    app.post('/feedbacks', async (req, res) => {
         try {
             const feedbackData = req.body;
             console.log("Receiving feedback data...");
@@ -152,6 +240,7 @@ export async function endpoints(app) {
     });
 
     app.post('/send-resumen', upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
+
         try {
             const resumenData = req.body;
             console.log("Receiving resumen data...");

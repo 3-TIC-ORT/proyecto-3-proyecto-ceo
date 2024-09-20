@@ -4,7 +4,7 @@
   "main": "PaginaInicio.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "devRun": "nodemon backend/main.js"
+    "dev": "nodemon backend/main.js"
   },
   "type": "module",
   "keywords": [],

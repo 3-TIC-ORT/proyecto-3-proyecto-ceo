@@ -13,7 +13,7 @@ async function sendData(event) {
 
     console.log("Sending user data....")
 
-    let response = await fetch('/send-register', {
+    let response = await fetch('http://localhost:3000/registers', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ async function redirectRoute() {
     const token = localStorage.getItem('token')
 
     console.log('sending the token')
-    let response = await fetch('/resumenes', {
+    let response = await fetch('http://localhost:3000/resumenes', {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + token
