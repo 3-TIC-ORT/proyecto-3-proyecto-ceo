@@ -102,6 +102,7 @@ export async function endpoints(app) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(gmail)){
                 console.error('Invalid email format');
+                return res.status(404).json({ message: 'Invalid email format'});
             }
             const user = await User.create({ firstName: firstName, lastName: lastName, password: password, gmail: gmail });
             res.status(200).json({ message: 'User created successfully' });
@@ -137,6 +138,7 @@ export async function endpoints(app) {
             let puntaje = feedbackData.puntaje;
             if (puntaje < 1 || puntaje > 5){
                 console.error('Invalid puntaje. Must be between 1 and 5.');
+                res.status(404).json({ message: 'Invalid puntaje' });
             }
             let sugerencia = feedbackData.sugerencia;
             let opinion = feedbackData.opinion;
@@ -163,6 +165,7 @@ export async function endpoints(app) {
             const filtrosPermitidos = ['fisica', 'matematica', 'edu judia', 'historia', 'tecnologia', 'ingles', 'geografia', 'quimica', 'lengua', 'fuentes', 'biologia', 'etica', 'economia', 'hebreo', 'ciencias sociales', 'ciencias naturales'];
             if(!filtrosPermitidos.includes(filtros.toLowerCase())){
                 console.error('Filter must be a validated one');
+                return res.status(404).json({ message: 'Invalid filter'});
             }
             
             const resumen = await Resumen.create({ titulo: titulo, descripcion: descripcion, archivo: archivo, contenido: contenido, filtros: filtros });
