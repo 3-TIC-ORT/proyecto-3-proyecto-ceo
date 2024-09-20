@@ -6,7 +6,6 @@ goToResumenes.addEventListener('click', redirectRoute)
 loginButton.addEventListener('click', loginData);
 
 console.log('Running API-login');
-console.log('Puto el que lee')
 
 async function loginData(event) {
     
@@ -47,13 +46,13 @@ async function loginData(event) {
         localStorage.setItem('token', data.token)
 
     } catch (error) {
-        console.log(error)
+        console.log('[client] ERROR:',error)
     }
 }
 
 async function redirectRoute() {
     const token = localStorage.getItem('token')
-    console.log('mANDANDO token');
+    console.log('Sending token...');
 
     let response = await fetch('http://localhost:3000/resumenes', {
         method: 'GET',
@@ -64,7 +63,7 @@ async function redirectRoute() {
 
     if (response.ok) {
         console.log('token:', token)
-        console.log('Hurraa, se mando token (login)')
+        console.log('[client] Hurraa, se mando token')
 
     }
 

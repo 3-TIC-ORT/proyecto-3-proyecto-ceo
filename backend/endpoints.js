@@ -1,20 +1,25 @@
 import argon2 from 'argon2'
 import { User } from './model/users.js';
 import { Foro } from './model/foros.js';
-import { Resumen } from './model/resumenes.js';
 import { objetosPerdidos } from './model/objetosPerdidos.js';
 import { FeedbackModel } from './model/feedback.js';
 import { Intercambio } from './model/intercambio.js';
 import { Console, error } from 'console';
+import jsonwebtoken from 'jsonwebtoken'
+import { config } from 'dotenv';
+config()
 
 
 import chalk from "chalk";
 import { json, where } from 'sequelize';
+import { Op } from 'sequelize';
 
 const blueChalk = chalk.blue
 const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
 const yellowChalk = chalk.yellowBright;
+
+const SECRET_KEY = process.env.SECRET_KEY
 
 // functiones
 async function encriptPassword(password) {
@@ -27,18 +32,23 @@ async function encriptPassword(password) {
     }
 }
 
-async function createToken(req, res, next) {
+async function createToken(user) {
     try {
+
         let payload = {
-            id: req.user.id,
-            firstName: req.user.firstName
+            id: user.id,
+            firstName: user.firstName
         }
+
+        const token = jsonwebtoken.sign(payload, SECRET_KEY, {expiresIn: '2h'});
+
+        console.log(`[token] TOKEN ID IS: '${user.id}' AND NAME: ${user.firstName}`)
         
-        const token = await jsonwebtoken.sign(payload, SECRET_KEY, {expiresIn: '2h'});
-        return json({ token });
+        return token;
 
     } catch (error) {
-        console.log(chalk('[server], COULD NOT CREATE TOKEN:', error))
+        console.log(redChalk('[server], COULD NOT CREATE TOKEN:', error))
+        throw error
     }
 }
 
@@ -50,22 +60,23 @@ async function verifyPassword(hash, password) {
             return false
         }
     } catch (error) {
-        console.err(error, "ERROR, no paso la verificacion")
+        console.log(error, "[password] ERROR, no paso la verificacion")
     }
 }
 
 async function authenticateToken(req, res, next) {
     // sacamo el token del header
-    const authHeader = req.header['authorization'];
+    const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1]
 
+    console.log(authHeader)
     console.log(blueChalk('Checking token...'))
-
+    console.log('[server] TOKEN IS:', token)
     if (token == null) {
         console.log(redChalk('No token!'))
         return error;
     }
-
+    
     jsonwebtoken.verify(token, SECRET_KEY, (err, user) => {
         console.log(yellowChalk('Authenticating token....'))
         if (err) {
@@ -87,30 +98,40 @@ export async function endpoints(app) {
         const password = userData.password
         const name = userData.firstName
         const gmail = userData.gmail
-
-        console.log('Running login')
-        console.log(`Searching for ${name} with gmail: ${gmail}`)
+        console.log(blueChalk(`Searching for '${greenChalk(name)}' with gmail: ${greenChalk(gmail)}`))
 
         const user = await User.findOne({
             where: {
-              firstName: name,
-              gmail: gmail
+                firstName: name,
+                gmail: gmail,
             }
         });    
 
+        console.log(yellowChalk('[login] USER FOUND:'))
         console.log(user)
-        
+
         if (!user) {
-            console.log(error, '[LOGIN], User not found :((')
+            console.log(error, '[login], User not found :((')
             return;
         }
 
-        if (verifyPassword(userData.password, password)) {
-            console.log(greenChalk('User is now logged-in!!!!!!'))
+
+        const passwordMatch = verifyPassword(user.password, password)
+
+        if (!passwordMatch) {
+            console.log('Contraseña incorrecta')
+            res.status(403).send('Contraseña incorrecta')
         }
 
-        console.log(user)
-        res.send('Found user!').status(200)
+        try {
+            console.log(greenChalk('User is now logged-in!!!!!!'))
+            const token = await createToken(user)
+
+            res.status(200).send({ token })
+        } catch (error) {
+            console.log('[login] ERROR, Failed to create a token:', error)
+            throw error
+        }
     })
 
     app.post('/registers', async (req, res) => {
@@ -119,12 +140,13 @@ export async function endpoints(app) {
             console.log("Recibiendo user data...");
 
             let firstName = userData.firstName;
-            let password = await encriptPassword("pepe");
+            let password = await encriptPassword(userData.password);
             let lastName = userData.lastName;
             let gmail = userData.gmail;
         
             const user = await User.create({firstName: firstName, password: password, lastName: lastName, gmail: gmail});
-            const token = createToken()
+            const token = createToken(user)
+
             res.status(200).send({ token })
         } catch (error) {
             console.error("Error al crear el usuario:", error);
