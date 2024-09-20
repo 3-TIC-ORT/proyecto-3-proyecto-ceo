@@ -1,0 +1,9 @@
+
+
+.dropArea {
+    width: 20vw;
+    height: 10vh;
+    border: black;
+    border-radius: 10px;
+    background-color: grey;
+}

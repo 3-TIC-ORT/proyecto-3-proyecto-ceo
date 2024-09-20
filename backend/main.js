@@ -20,21 +20,27 @@ import { User } from "./model/users.js";
 import { objetosPerdidos } from './model/objetosPerdidos.js';
 import { campusRouter } from './routes/campusRouter.js';
 
-//endpoints
-import { endpoints } from './endpoints.js';
-
 //paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const __parentDir = path.dirname(__dirname);
+
 const __rootDir = path.dirname(__parentDir);
 
 // importante
+import { authenticateToken } from './endpoints.js';
+import { endpoints } from './endpoints.js';
+
 const app = Express()
 app.use(express.json())
 app.use(cors())
-app.use(express.static(path.join(__rootDir, 'frontend')));
+app.use(express.static(path.join(__rootDir, 'frontend/')));
 
+
+app.use(function(req, res, next) {
+    console.log(chalk.grey('[server], NEW REQUEST:' + req.method + ' ' + req.url));
+    next();
+})
 
 //rutas
 import { resumenesRouter } from './routes/resumenesRoutes.js';
@@ -45,7 +51,6 @@ import { objPerdidosRouter } from './routes/objPerdidosRoute.js';
 import chalk from "chalk";
 import { error } from "console";
 
-
 const SECRET_KEY = process.env.SECRET_KEY
 
 const greenChalk = chalk.greenBright;
@@ -53,16 +58,18 @@ const redChalk = chalk.redBright;
 const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
 
+
 console.log("0-----------------------S-T-A-R-T-I-N-G-----------------------0")
 const PORT = process.env.PORT
-
 endpoints(app)
 
+
 //rutass
-app.use('/resumenes', resumenesRouter)
+app.use('/resumenes', authenticateToken, resumenesRouter)
 app.use('/foros', forosRouter)
 app.use('/objetos-perdidos', objPerdidosRouter)
 app.use('/home', campusRouter)
+
 
 app.get("/users", async (req,res) => {
     try {
