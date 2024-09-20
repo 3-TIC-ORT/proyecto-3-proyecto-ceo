@@ -160,6 +160,8 @@ export async function endpoints(app) {
             let contenido = resumenData.contenido;
             let titulo = resumenData.titulo;
             let filtros = resumenData.filtros;
+            let like = resumenData.like;
+            let dislike = resumenData.dislike;
             let archivo = req.files['archivo'] ? req.files['archivo'][0].path : null;
 
             const filtrosPermitidos = ['fisica', 'matematica', 'edu judia', 'historia', 'tecnologia', 'ingles', 'geografia', 'quimica', 'lengua', 'fuentes', 'biologia', 'etica', 'economia', 'hebreo', 'ciencias sociales', 'ciencias naturales'];
@@ -168,7 +170,7 @@ export async function endpoints(app) {
                 return res.status(404).json({ message: 'Invalid filter'});
             }
             
-            const resumen = await Resumen.create({ titulo: titulo, descripcion: descripcion, archivo: archivo, contenido: contenido, filtros: filtros });
+            const resumen = await Resumen.create({ titulo: titulo, descripcion: descripcion, archivo: archivo, contenido: contenido, filtros: filtros, like: like, dislike: dislike });
             res.status(201).json({ message: 'Resumen sent successfully' });
         } catch (error) {
             console.error("Error sending resumen:", error);

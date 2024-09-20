@@ -29,6 +29,14 @@ const Resumen = sequelize.define('Resumen', {
     filtros: {
         type: Sequelize.STRING,
         allowNull: false,
+    },
+    like: {
+        type: Sequelize.NUMBER,
+        allowNull: true,
+    },
+    dislike:{
+        type: Sequelize.NUMBER,
+        allowNull: true,
     }
 }, {
     timestamps: false,
