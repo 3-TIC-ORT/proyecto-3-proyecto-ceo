@@ -34,7 +34,7 @@ import { endpoints } from './endpoints.js';
 const app = Express()
 app.use(express.json())
 app.use(cors())
-app.use(express.static(path.join(__rootDir, 'frontend')));
+app.use(express.static(path.join(__rootDir, 'frontend/')));
 
 
 app.use(function(req, res, next) {
@@ -42,7 +42,6 @@ app.use(function(req, res, next) {
     next();
 })
 
-app.use(express.static(path.join(__parentDir, 'frontend/')));
 //rutas
 import { resumenesRouter } from './routes/resumenesRoutes.js';
 import { forosRouter } from './routes/forosRoute.js';
@@ -64,7 +63,6 @@ console.log("0-----------------------S-T-A-R-T-I-N-G-----------------------0")
 const PORT = process.env.PORT
 endpoints(app)
 
-endpoints(app)
 
 //rutass
 app.use('/resumenes', authenticateToken, resumenesRouter)

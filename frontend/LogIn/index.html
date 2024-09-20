@@ -14,23 +14,22 @@
     <div class="LogInCompleto">
 
         <div class="UC">
-            <form action="submit" id="loginSubmit">
-                <input id="InputInserte" class="InputInserte" type="text" placeholder="Inserte Nombre de usuario">
-                <input id="InputApellido" class="InputInserte" type="text" placeholder="Inserte Apellido">
-                <input id="InputGmail" class="InputInserte" type="text" placeholder="Inserte Gmail">
-                <input id="InputContraseña" class="InputContraseña" type="password" placeholder="Contraseña">
-
+            <form id="loginSubmit">
+                <input id="nombre" class="InputInserte" type="text" placeholder="Inserte Nombre de usuario" value="Ouchurus">
+                <input id="apellido" class="InputInserte" type="text" placeholder="Inserte Apellido" value="Pepe">
+                <input id="gmail" class="InputInserte" type="text" placeholder="Inserte Gmail" value="example1@gmail.com">
+                <input id="password" class="InputContraseña" type="password" placeholder="Contraseña" value="contraseña">
             </form>
 
         </div>
 
         <div class="RC">
-            <a href="/home/register">Registrese</a>
+            <a href="../Registrarse/Registrarse.html">Registrese</a>
             <button id="BContinuar" class="BContinuar">Continuar</button>
             <button id="irAResumenes" class="BContinuar">iraresumenes</button>
         </div>
     </div>
     <img class="Fondo" src="/frontend/TIMI/Fondos/FondoLoginC.png" alt="">
-    <script src="/LogIn/LogIn.js"></script>
+    <script src="api-login.js"></script>
 </body>
 </html>
