@@ -27,7 +27,7 @@ const Foro = sequelize.define('Foros', {
         allowNull: true
     }
 },{
-    timestamp: false,
+    timestamps: false,
     tableName: 'Foros'
 })
 

@@ -23,7 +23,7 @@ const FeedbackModel = sequelize.define('Feedback', {
         allowNull: false,
     },
 },{
-    timestamp: false,
+    timestamps: false,
     tableName: 'Feedback',
 })
 
