@@ -9,7 +9,7 @@ import { Foro } from './model/foros.js';
 import { objetosPerdidos } from './model/objetosPerdidos.js';
 import { FeedbackModel } from './model/feedback.js';
 import { Intercambio } from './model/intercambio.js';
-import { Resumen } from './model/resumen.js';
+import { Resumen } from './model/resumenes.js';
 
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -107,176 +107,176 @@ async function authenticateToken(req, res, next) {
     });
 }
 
-app.post('/login', async (req, res) => {
-    const { password, firstName, gmail } = req.body;
-    console.log(blueChalk(`Searching for '${greenChalk(firstName)}' with gmail: ${greenChalk(gmail)}`));
-
-    try {
-        const user = await User.findOne({
-            where: { firstName, gmail }
-        });    
-
-        if (!user) {
-            console.log(redChalk('[login] User not found :('));
-            return res.status(404).json({ message: 'User not found' });
+export async function endpoints(app) {
+    app.post('/login', async (req, res) => {
+        const { password, firstName, gmail } = req.body;
+        console.log(blueChalk(`Searching for '${greenChalk(firstName)}' with gmail: ${greenChalk(gmail)}`));
+    
+        try {
+            const user = await User.findOne({
+                where: { firstName, gmail }
+            });    
+    
+            if (!user) {
+                console.log(redChalk('[login] User not found :('));
+                return res.status(404).json({ message: 'User not found' });
+            }
+    
+            const passwordMatch = await verifyPassword(user.password, password);
+    
+            if (!passwordMatch) {
+                console.log(redChalk('Incorrect password'));
+                return res.status(403).send('Incorrect password');
+            }
+    
+            const token = await createToken(user);
+            console.log(greenChalk('User logged in successfully!'));
+            res.status(200).send({ token });
+        } catch (error) {
+            console.log(redChalk('[login] ERROR, Failed to log in:'), error);
+            res.status(500).json({ message: 'Internal server error', error });
         }
-
-        const passwordMatch = await verifyPassword(user.password, password);
-
-        if (!passwordMatch) {
-            console.log(redChalk('Incorrect password'));
-            return res.status(403).send('Incorrect password');
+    });
+    
+    app.post('/registers', async (req, res) => {
+        try {
+            const { firstName, password, lastName, gmail } = req.body;
+            console.log("Receiving user data...");
+    
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(gmail)) {
+                console.error('Invalid email format');
+                return res.status(400).json({ message: 'Invalid email format' });
+            }
+    
+            const encryptedPassword = await encryptPassword(password);
+            const user = await User.create({ firstName, lastName, password: encryptedPassword, gmail });
+    
+            const token = await createToken(user);
+            res.status(200).send({ token });
+        } catch (error) {
+            console.error(redChalk("Error creating user:"), error);
+            res.status(500).json({ message: 'Error creating user', error });
         }
-
-        const token = await createToken(user);
-        console.log(greenChalk('User logged in successfully!'));
-        res.status(200).send({ token });
-    } catch (error) {
-        console.log(redChalk('[login] ERROR, Failed to log in:'), error);
-        res.status(500).json({ message: 'Internal server error', error });
-    }
-});
-
-app.post('/registers', async (req, res) => {
-    try {
-        const { firstName, password, lastName, gmail } = req.body;
-        console.log("Receiving user data...");
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(gmail)) {
-            console.error('Invalid email format');
-            return res.status(400).json({ message: 'Invalid email format' });
+    });
+    
+    app.post('/send-intercambio', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+        try {
+            const { informacion, titulo, respuestas } = req.body;
+            console.log("Receiving intercambio data...");
+    
+            const foto = req.files['foto'] ? req.files['foto'][0].path : null;
+    
+            const intercambio = await Intercambio.create({ informacion, titulo, respuestas, foto });
+            res.status(200).json({ message: 'Intercambio created successfully' });
+        } catch (error) {
+            console.error(redChalk("Error creating intercambio:"), error);
+            res.status(500).json({ message: 'Error creating intercambio', error });
         }
-
-        const encryptedPassword = await encryptPassword(password);
-        const user = await User.create({ firstName, lastName, password: encryptedPassword, gmail });
-
-        const token = await createToken(user);
-        res.status(200).send({ token });
-    } catch (error) {
-        console.error(redChalk("Error creating user:"), error);
-        res.status(500).json({ message: 'Error creating user', error });
-    }
-});
-
-app.post('/send-intercambio', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
-    try {
-        const { informacion, titulo, respuestas } = req.body;
-        console.log("Receiving intercambio data...");
-
-        const foto = req.files['foto'] ? req.files['foto'][0].path : null;
-
-        const intercambio = await Intercambio.create({ informacion, titulo, respuestas, foto });
-        res.status(200).json({ message: 'Intercambio created successfully' });
-    } catch (error) {
-        console.error(redChalk("Error creating intercambio:"), error);
-        res.status(500).json({ message: 'Error creating intercambio', error });
-    }
-});
-
-app.post('/feedbacks', async (req, res) => {
-    try {
-        const { puntaje, sugerencia, opinion } = req.body;
-        console.log("Receiving feedback data...");
-
-        if (puntaje < 1 || puntaje > 5) {
-            console.error('Invalid puntaje. Must be between 1 and 5.');
-            return res.status(400).json({ message: 'Invalid puntaje' });
+    });
+    
+    app.post('/feedbacks', async (req, res) => {
+        try {
+            const { puntaje, sugerencia, opinion } = req.body;
+            console.log("Receiving feedback data...");
+    
+            if (puntaje < 1 || puntaje > 5) {
+                console.error('Invalid puntaje. Must be between 1 and 5.');
+                return res.status(400).json({ message: 'Invalid puntaje' });
+            }
+    
+            await FeedbackModel.create({ puntaje, sugerencia, opinion });
+            res.status(201).json({ message: 'Feedback sent successfully' });
+        } catch (error) {
+            console.error(redChalk("Error sending feedback:"), error);
+            res.status(500).json({ message: 'Error sending feedback', error });
         }
-
-        await FeedbackModel.create({ puntaje, sugerencia, opinion });
-        res.status(201).json({ message: 'Feedback sent successfully' });
-    } catch (error) {
-        console.error(redChalk("Error sending feedback:"), error);
-        res.status(500).json({ message: 'Error sending feedback', error });
-    }
-});
-
-app.post('/send-resumen', upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
-    try {
-        const { descripcion, contenido, titulo, filtros, like, dislike } = req.body;
-        console.log("Receiving resumen data...");
-
-        const archivo = req.files['archivo'] ? req.files['archivo'][0].path : null;
-
-        const filtrosPermitidos = [
-            'fisica', 'matematica', 'edu judia', 'historia', 'tecnologia', 'ingles', 
-            'geografia', 'quimica', 'lengua', 'fuentes', 'biologia', 'etica', 'economia', 
-            'hebreo', 'ciencias sociales', 'ciencias naturales'
-        ];
-        if (!filtrosPermitidos.includes(filtros.toLowerCase())) {
-            console.error('Filter must be a validated one');
-            return res.status(400).json({ message: 'Invalid filter' });
+    });
+    
+    app.post('/send-resumen', upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
+        try {
+            const { descripcion, contenido, titulo, filtros, like, dislike } = req.body;
+            console.log("Receiving resumen data...");
+    
+            const archivo = req.files['archivo'] ? req.files['archivo'][0].path : null;
+    
+            const filtrosPermitidos = [
+                'fisica', 'matematica', 'edu judia', 'historia', 'tecnologia', 'ingles', 
+                'geografia', 'quimica', 'lengua', 'fuentes', 'biologia', 'etica', 'economia', 
+                'hebreo', 'ciencias sociales', 'ciencias naturales'
+            ];
+            if (!filtrosPermitidos.includes(filtros.toLowerCase())) {
+                console.error('Filter must be a validated one');
+                return res.status(400).json({ message: 'Invalid filter' });
+            }
+    
+            await Resumen.create({ titulo, descripcion, archivo, contenido, filtros, like, dislike });
+            res.status(201).json({ message: 'Resumen sent successfully' });
+        } catch (error) {
+            console.error(redChalk("Error sending resumen:"), error);
+            res.status(500).json({ message: 'Error sending resumen', error });
         }
-
-        await Resumen.create({ titulo, descripcion, archivo, contenido, filtros, like, dislike });
-        res.status(201).json({ message: 'Resumen sent successfully' });
-    } catch (error) {
-        console.error(redChalk("Error sending resumen:"), error);
-        res.status(500).json({ message: 'Error sending resumen', error });
-    }
-});
-
-app.post('/send-objetosPerdidos', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
-    try {
-        const { informacion } = req.body;
-        console.log("Receiving objetosPerdidos data...");
-
-        const foto = req.files['foto'] ? req.files['foto'][0].path : null;
-
-        await objetosPerdidos.create({ informacion, foto });
-        res.status(201).json({ message: 'Objeto perdido registered successfully' });
-    } catch (error) {
-        console.error(redChalk("Error registering objeto perdido:"), error);
-        res.status(500).json({ message: 'Error registering objeto perdido', error });
-    }
-});
-
-app.post('/send-foro', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
-    try {
-        const { pregunta, textoExplicativo, comentarios } = req.body;
-        console.log("Receiving foro data...");
-
-        const foto = req.files['foto'] ? req.files['foto'][0].path : null;
-
-        await Foro.create({ pregunta, textoExplicativo, comentarios, foto });
-        res.status(201).json({ message: 'Foro created successfully' });
-    } catch (error) {
-        console.error(redChalk("Error creating foro:"), error);
-        res.status(500).json({ message: 'Error creating foro', error });
-    }
-});
-
-app.get('/download/:model/:id/:fileType', authenticateToken, async (req, res) => {
-    const { model, id, fileType } = req.params;
-
-    const models = {
-        resumen: Resumen,
-        foro: Foro,
-        intercambio: Intercambio,
-        objetosPerdidos: objetosPerdidos
-    };
-
-    if (!models[model]) {
-        return res.status(400).json({ message: 'Invalid model' });
-    }
-
-    try {
-        const modelInstance = await models[model].findOne({ where: { id } });
-        if (!modelInstance || !modelInstance[fileType]) {
-            return res.status(404).json({ message: 'File not found' });
+    });
+    
+    app.post('/send-objetosPerdidos', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+        try {
+            const { informacion } = req.body;
+            console.log("Receiving objetosPerdidos data...");
+    
+            const foto = req.files['foto'] ? req.files['foto'][0].path : null;
+    
+            await objetosPerdidos.create({ informacion, foto });
+            res.status(201).json({ message: 'Objeto perdido registered successfully' });
+        } catch (error) {
+            console.error(redChalk("Error registering objeto perdido:"), error);
+            res.status(500).json({ message: 'Error registering objeto perdido', error });
         }
+    });
+    
+    app.post('/send-foro', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+        try {
+            const { pregunta, textoExplicativo, comentarios } = req.body;
+            console.log("Receiving foro data...");
+    
+            const foto = req.files['foto'] ? req.files['foto'][0].path : null;
+    
+            await Foro.create({ pregunta, textoExplicativo, comentarios, foto });
+            res.status(201).json({ message: 'Foro created successfully' });
+        } catch (error) {
+            console.error(redChalk("Error creating foro:"), error);
+            res.status(500).json({ message: 'Error creating foro', error });
+        }
+    });
+    
+    app.get('/download/:model/:id/:fileType', authenticateToken, async (req, res) => {
+        const { model, id, fileType } = req.params;
+    
+        const models = {
+            resumen: Resumen,
+            foro: Foro,
+            intercambio: Intercambio,
+            objetosPerdidos: objetosPerdidos
+        };
+    
+        if (!models[model]) {
+            return res.status(400).json({ message: 'Invalid model' });
+        }
+    
+        try {
+            const modelInstance = await models[model].findOne({ where: { id } });
+            if (!modelInstance || !modelInstance[fileType]) {
+                return res.status(404).json({ message: 'File not found' });
+            }
+    
+            const filePath = modelInstance[fileType];
+            res.setHeader('Content-Type', 'application/octet-stream');
+            res.setHeader('Content-Disposition', `attachment; filename=${path.basename(filePath)}`);
+            res.download(filePath);
+        } catch (error) {
+            console.error(redChalk("Error downloading file:"), error);
+            res.status(500).json({ message: 'Error downloading file', error });
+        }
+    });
+}
 
-        const filePath = modelInstance[fileType];
-        res.setHeader('Content-Type', 'application/octet-stream');
-        res.setHeader('Content-Disposition', `attachment; filename=${path.basename(filePath)}`);
-        res.download(filePath);
-    } catch (error) {
-        console.error(redChalk("Error downloading file:"), error);
-        res.status(500).json({ message: 'Error downloading file', error });
-    }
-});
-
-app.listen(3000, () => {
-    console.log(yellowChalk('Server is running on port 3000'));
-});
+export { authenticateToken }
