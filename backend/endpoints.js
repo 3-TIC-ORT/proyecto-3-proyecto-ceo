@@ -1,14 +1,22 @@
-import argon2 from 'argon2'
+import argon2 from 'argon2';
+import jsonwebtoken from 'jsonwebtoken';
+import multer from 'multer';
+import path, { dirname } from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 import { User } from './model/users.js';
 import { Foro } from './model/foros.js';
 import { objetosPerdidos } from './model/objetosPerdidos.js';
 import { FeedbackModel } from './model/feedback.js';
 import { Intercambio } from './model/intercambio.js';
-import { Console, error } from 'console';
-import jsonwebtoken from 'jsonwebtoken'
-import { config } from 'dotenv';
-config()
+import { Resumen } from './model/resumenes.js';
 
+import express from 'express';
+import bodyParser from 'body-parser';
+import chalk from 'chalk';
+import { config } from 'dotenv';
+
+config();
 
 import chalk from "chalk";
 import { json, where } from 'sequelize';
@@ -19,230 +27,262 @@ const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
 const yellowChalk = chalk.yellowBright;
 
-const SECRET_KEY = process.env.SECRET_KEY
 
-// functiones
-async function encriptPassword(password) {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
+app.use(bodyParser.json());
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadPath = path.join(__dirname, 'uploads');
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath);
+        }
+        cb(null, uploadPath);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage });
+
+const SECRET_KEY = process.env.SECRET_KEY;
+
+async function encryptPassword(password) {
     try {
-        let hash = argon2.hash(password, 5)
-        console.log('encripted-password')
+        let hash = await argon2.hash(password, { type: argon2.argon2id, saltLength: 16 });
+        console.log(greenChalk('Password encrypted successfully'));
         return hash;
     } catch (error) {
-        console.error(error, "ERROR =(")
+        console.error(redChalk("Error encrypting password:"), error);
+        throw error;
     }
 }
 
 async function createToken(user) {
     try {
-
         let payload = {
             id: user.id,
             firstName: user.firstName
-        }
+        };
 
-        const token = jsonwebtoken.sign(payload, SECRET_KEY, {expiresIn: '2h'});
-
-        console.log(`[token] TOKEN ID IS: '${user.id}' AND NAME: ${user.firstName}`)
+        const token = jsonwebtoken.sign(payload, SECRET_KEY, { expiresIn: '2h' });
+        console.log(`[token] TOKEN ID IS: '${user.id}' AND NAME: ${user.firstName}`);
         
         return token;
-
     } catch (error) {
-        console.log(redChalk('[server], COULD NOT CREATE TOKEN:', error))
-        throw error
+        console.log(redChalk('[server] COULD NOT CREATE TOKEN:'), error);
+        throw error;
     }
 }
 
 async function verifyPassword(hash, password) {
     try {
-        if ( await argon2.verify(hash, password)) {
-            return true
-        } else {
-            return false
-        }
+        return await argon2.verify(hash, password);
     } catch (error) {
-        console.log(error, "[password] ERROR, no paso la verificacion")
+        console.log(redChalk("[password] ERROR, verification failed"), error);
+        throw error;
     }
 }
 
 async function authenticateToken(req, res, next) {
-    // sacamo el token del header
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]
+    const token = authHeader && authHeader.split(' ')[1];
 
-    console.log(authHeader)
-    console.log(blueChalk('Checking token...'))
-    console.log('[server] TOKEN IS:', token)
+    console.log(blueChalk('Checking token...'));
+    console.log('[server] TOKEN IS:', token);
 
-    if (token == null) {
-        console.log(redChalk('No token!'))
-        return error;
+    if (!token) {
+        console.log('No token!');
+        return res.sendStatus(401);
     }
     
     jsonwebtoken.verify(token, SECRET_KEY, (err, user) => {
-        console.log(yellowChalk('Authenticating token....'))
         if (err) {
-            console.log(redChalk('Invalid token!'))
+            console.log('Invalid token!');
             return res.sendStatus(403);
         }
-        console.log(greenChalk('Authentication successful!!!!'))
+        console.log(greenChalk('Authentication successful!'));
         req.user = user;
         next();
+    });
+}
 
-    })
-}   
-
-// endpoitns
 export async function endpoints(app) {
-
     app.post('/login', async (req, res) => {
-        const userData = req.body
-        const password = userData.password
-        const name = userData.firstName
-        const gmail = userData.gmail
-        console.log(blueChalk(`Searching for '${greenChalk(name)}' with gmail: ${greenChalk(gmail)}`))
-
-        const user = await User.findOne({
-            where: {
-                firstName: name,
-                gmail: gmail,
-            }
-        });    
-
-        console.log(yellowChalk('[login] USER FOUND:'))
-        console.log(user)
-
-        if (!user) {
-            console.log(error, '[login], User not found :((')
-            return;
-        }
-
-
-        const passwordMatch = verifyPassword(user.password, password)
-
-        if (!passwordMatch) {
-            console.log('Contraseña incorrecta')
-            res.status(403).send('Contraseña incorrecta')
-        }
-
+        const { password, firstName, gmail } = req.body;
+        console.log(blueChalk(`Searching for '${greenChalk(firstName)}' with gmail: ${greenChalk(gmail)}`));
+    
         try {
-            console.log(greenChalk('User is now logged-in!!!!!!'))
-            const token = await createToken(user)
-
-            res.status(200).send({ token })
+            const user = await User.findOne({
+                where: { firstName, gmail }
+            });    
+    
+            if (!user) {
+                console.log(redChalk('[login] User not found :('));
+                return res.status(404).json({ message: 'User not found' });
+            }
+    
+            const passwordMatch = await verifyPassword(user.password, password);
+    
+            if (!passwordMatch) {
+                console.log(redChalk('Incorrect password'));
+                return res.status(403).send('Incorrect password');
+            }
+    
+            const token = await createToken(user);
+            console.log(greenChalk('User logged in successfully!'));
+            res.status(200).send({ token });
         } catch (error) {
             console.log('[login] ERROR, Failed to create a token:', error)
             res.status(500).send('Failed to login')
             throw error
         }
-    })
-
+    });
+    
     app.post('/registers', async (req, res) => {
         try {
-            const userData = req.body;
-            console.log("Recibiendo user data...");
-
-            let firstName = userData.firstName;
-            let password = await encriptPassword(userData.password);
-            let lastName = userData.lastName;
-            let gmail = userData.gmail;
-        
-            const user = await User.create({firstName: firstName, password: password, lastName: lastName, gmail: gmail});
-            const token = createToken(user)
-
-            res.status(200).send({ token })
+            const { firstName, password, lastName, gmail } = req.body;
+            console.log("Receiving user data...");
+    
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(gmail)) {
+                console.error('Invalid email format');
+                return res.status(400).json({ message: 'Invalid email format' });
+            }
+    
+            const encryptedPassword = await encryptPassword(password);
+            const user = await User.create({ firstName, lastName, password: encryptedPassword, gmail });
+    
+            const token = await createToken(user);
+            res.status(200).send({ token });
         } catch (error) {
-            console.error("Error al crear el usuario:", error);
-            res.status(500).json({ message: 'Error al crear el usuario', error });
+            console.error(redChalk("Error creating user:"), error);
+            res.status(500).json({ message: 'Error creating user', error });
         }
     });
-
-    app.post('/intercambios', async (req, res) => {
-        try{
-            const intercambioData = req.body
-            console.log("Recibiendo intecambio data");
-
-            let informacion = intercambioData.informacion;
-            let titulo = intercambioData.titulo;
-            let respuestas = intercambioData.respuestas;
-            let foto = intercambioData.foto
-
-            const intecambio = await Intercambio.create({informacion: informacion, titulo: titulo, respuestas: respuestas, foto:foto});
-            res.status(200).json({ message: 'Intercambio creado exitosamente'});
-        } catch(error) {
-            console.error("Error al crear el usuario:", error);
-            res.status(500).json({ message: 'Error al crear el usuario', error });
+    
+    app.post('/send-intercambio', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+        try {
+            const { informacion, titulo, respuestas } = req.body;
+            console.log("Receiving intercambio data...");
+    
+            const foto = req.files['foto'] ? req.files['foto'][0].path : null;
+    
+            const intercambio = await Intercambio.create({ informacion, titulo, respuestas, foto });
+            res.status(200).json({ message: 'Intercambio created successfully' });
+        } catch (error) {
+            console.error(redChalk("Error creating intercambio:"), error);
+            res.status(500).json({ message: 'Error creating intercambio', error });
         }
     });
-
+    
     app.post('/feedbacks', async (req, res) => {
         try {
-            const feedbackData = req.body;
-            console.log("Recibiendo feedback data...");
-
-            let score = feedbackData.puntaje;
-            let suggestion = feedbackData.sugerencia;
-            let opinion = feedbackData.opinion;
-        
-            const feedback = await FeedbackModel.create({puntaje: score, sugerencia: suggestion, opinion: opinion});
-            res.status(201).json({ message: 'Feedback enviado exitosamente'});
+            const { puntaje, sugerencia, opinion } = req.body;
+            console.log("Receiving feedback data...");
+    
+            if (puntaje < 1 || puntaje > 5) {
+                console.error('Invalid puntaje. Must be between 1 and 5.');
+                return res.status(400).json({ message: 'Invalid puntaje' });
+            }
+    
+            await FeedbackModel.create({ puntaje, sugerencia, opinion });
+            res.status(201).json({ message: 'Feedback sent successfully' });
         } catch (error) {
-            console.error("Error al enviar el feedback:", error);
-            res.status(500).json({ message: 'Error al enviar el feedback', error });
+            console.error(redChalk("Error sending feedback:"), error);
+            res.status(500).json({ message: 'Error sending feedback', error });
         }
     });
-
-    app.post('/resumen', async (req, res) => {
+    
+    app.post('/send-resumen', upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
         try {
-            const resumenData = req.body;
-            console.log("Recibiendo resumen data...");
-
-            let descripcion = resumenData.descripcion;
-            let titulo = resumenData.titulo;
-            let archivo = resumenData.archivo;
-            let contenido = resumenData.contenido;
-            let filtros = resumenData.filtros;
-        
-            const resumen = await Resumen.create({titulo: titulo, descripcion: descripcion, archivo: archivo, contenido: contenido, filtros: filtros});
-            res.status(201).json({ message: 'Resumen enviado exitosamente'});
+            const { descripcion, contenido, titulo, filtros, like, dislike } = req.body;
+            console.log("Receiving resumen data...");
+    
+            const archivo = req.files['archivo'] ? req.files['archivo'][0].path : null;
+    
+            const filtrosPermitidos = [
+                'fisica', 'matematica', 'edu judia', 'historia', 'tecnologia', 'ingles', 
+                'geografia', 'quimica', 'lengua', 'fuentes', 'biologia', 'etica', 'economia', 
+                'hebreo', 'ciencias sociales', 'ciencias naturales'
+            ];
+            if (!filtrosPermitidos.includes(filtros.toLowerCase())) {
+                console.error('Filter must be a validated one');
+                return res.status(400).json({ message: 'Invalid filter' });
+            }
+    
+            await Resumen.create({ titulo, descripcion, archivo, contenido, filtros, like, dislike });
+            res.status(201).json({ message: 'Resumen sent successfully' });
         } catch (error) {
-            console.error("Error al enviar el resumen:", error);
-            res.status(500).json({ message: 'Error al enviar el resumen', error });
+            console.error(redChalk("Error sending resumen:"), error);
+            res.status(500).json({ message: 'Error sending resumen', error });
         }
     });
-
-    app.post('/objetos-perdidos-handling', async (req, res) => {
+    
+    app.post('/send-objetosPerdidos', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
-            const objetosPerdidosData = req.body;
-            console.log("Recibiendo objetosPerdidos data...");
-
-            let informacion = objetosPerdidosData.informacion;
-            let foto = objetosPerdidosData.foto;
-        
-            const objeto = await objetosPerdidos.create({informacion: informacion, foto: foto});
-            res.status(201).json({ message: 'Objeto perdido registrado exitosamente'});
+            const { informacion } = req.body;
+            console.log("Receiving objetosPerdidos data...");
+    
+            const foto = req.files['foto'] ? req.files['foto'][0].path : null;
+    
+            await objetosPerdidos.create({ informacion, foto });
+            res.status(201).json({ message: 'Objeto perdido registered successfully' });
         } catch (error) {
-            console.error("Error al registrar el objeto perdido:", error);
-            res.status(500).json({ message: 'Error al registrar el objeto perdido', error });
+            console.error(redChalk("Error registering objeto perdido:"), error);
+            res.status(500).json({ message: 'Error registering objeto perdido', error });
         }
     });
-
-    app.post('/send-foro', async (req, res) => {
+    
+    app.post('/send-foro', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
-            const foroData = req.body;
-            console.log("Recibiendo foro data...");
-
-            let pregunta = foroData.pregunta;
-            let foto = foroData.foto;
-            let textoExplicativo = foroData.textoExplicativo;
-            let comentarios = foroData.comentarios;
-        
-            const foro = await Foro.create({pregunta: pregunta, foto: foto, textoExplicativo: textoExplicativo, comentarios: comentarios});
-            res.status(201).json({ message: 'Foro creado exitosamente'});
+            const { pregunta, textoExplicativo, comentarios } = req.body;
+            console.log("Receiving foro data...");
+    
+            const foto = req.files['foto'] ? req.files['foto'][0].path : null;
+    
+            await Foro.create({ pregunta, textoExplicativo, comentarios, foto });
+            res.status(201).json({ message: 'Foro created successfully' });
         } catch (error) {
-            console.error("Error al crear el foro:", error);
-            res.status(500).json({ message: 'Error al crear el foro', error });
+            console.error(redChalk("Error creating foro:"), error);
+            res.status(500).json({ message: 'Error creating foro', error });
+        }
+    });
+    
+    app.get('/download/:model/:id/:fileType', authenticateToken, async (req, res) => {
+        const { model, id, fileType } = req.params;
+    
+        const models = {
+            resumen: Resumen,
+            foro: Foro,
+            intercambio: Intercambio,
+            objetosPerdidos: objetosPerdidos
+        };
+    
+        if (!models[model]) {
+            return res.status(400).json({ message: 'Invalid model' });
+        }
+    
+        try {
+            const modelInstance = await models[model].findOne({ where: { id } });
+            if (!modelInstance || !modelInstance[fileType]) {
+                return res.status(404).json({ message: 'File not found' });
+            }
+    
+            const filePath = modelInstance[fileType];
+            res.setHeader('Content-Type', 'application/octet-stream');
+            res.setHeader('Content-Disposition', `attachment; filename=${path.basename(filePath)}`);
+            res.download(filePath);
+        } catch (error) {
+            console.error(redChalk("Error downloading file:"), error);
+            res.status(500).json({ message: 'Error downloading file', error });
         }
     });
 }
 
-export {  authenticateToken }
+export { authenticateToken }

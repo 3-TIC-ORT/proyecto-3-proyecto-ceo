@@ -15,7 +15,7 @@ const Foro = sequelize.define('Foros', {
         allowNull: false
     },
     foto: {
-        type: Sequelize.BLOB,
+        type: Sequelize.BLOB('medium'),
         allowNull: true
     },
     textoExplicativo: {
