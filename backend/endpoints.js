@@ -6,7 +6,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { User } from './model/users.js';
 import { Foro } from './model/foros.js';
-import { objetosPerdidos } from './model/objetosPerdidos.js';
+import { objetoPerdido } from './model/objetosPerdidos.js';
 import { FeedbackModel } from './model/feedback.js';
 import { Intercambio } from './model/intercambio.js';
 import { Resumen } from './model/resumenes.js';
@@ -18,7 +18,6 @@ import { config } from 'dotenv';
 
 config();
 
-import chalk from "chalk";
 import { json, where } from 'sequelize';
 
 
@@ -231,7 +230,7 @@ export async function endpoints(app) {
     
             const foto = req.files['foto'] ? req.files['foto'][0].path : null;
     
-            await objetosPerdidos.create({ informacion, foto });
+            await objetoPerdido.create({ informacion, foto });
             res.status(201).json({ message: 'Objeto perdido registered successfully' });
         } catch (error) {
             console.error(redChalk("Error registering objeto perdido:"), error);

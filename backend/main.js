@@ -17,7 +17,7 @@ import { Foro } from './model/foros.js';
 import { Resumen } from "./model/resumenes.js";
 import { FeedbackModel } from "./model/feedback.js";
 import { User } from "./model/users.js";
-import { objetosPerdidos } from './model/objetosPerdidos.js';
+import { objetoPerdido } from './model/objetosPerdidos.js';
 import { campusRouter } from './routes/campusRouter.js';
 
 //paths
