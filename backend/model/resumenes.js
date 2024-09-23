@@ -40,6 +40,7 @@ const Resumen = sequelize.define('Resumenes', {
     }
 }, {
     timestamps: false,
+    tableName: 'Resumenes'
 })
 
 export { Resumen }
