@@ -8,7 +8,7 @@ const redChalk = chalk.redBright;
 const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
 
-const objetosPerdidos = sequelize.define('objetosPerdidos', {
+const objetoPerdido = sequelize.define('objetosPerdidos', {
     foto: {
         type: Sequelize.BLOB,
         allowNull: true
@@ -22,4 +22,4 @@ const objetosPerdidos = sequelize.define('objetosPerdidos', {
     tableName: 'Objetosperdidos'
 })
 
-export { objetosPerdidos } 
+export { objetoPerdido } 

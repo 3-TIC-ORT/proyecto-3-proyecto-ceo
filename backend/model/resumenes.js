@@ -1,6 +1,7 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../DB/DBcontroller.js";
 import chalk from "chalk";
+import { type } from "os";
 
 const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
@@ -8,7 +9,7 @@ const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
 
 console.log(blueChalk("Definiendo modelo resumen..."));
-const Resumen = sequelize.define('Resumen', {
+const Resumen = sequelize.define('Resumenes', {
     archivo: {
         type: Sequelize.BLOB,
         allowNull: true,
@@ -28,10 +29,17 @@ const Resumen = sequelize.define('Resumen', {
     filtros: {
         type: Sequelize.STRING,
         allowNull: false,
+    },
+    like: { //quitar antes de pushear
+        type: Sequelize.INTEGER,
+        allowNull: true,
+    },
+    dislike: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
     }
 }, {
     timestamps: false,
-    tableName: 'Resumen'
 })
 
 export { Resumen }

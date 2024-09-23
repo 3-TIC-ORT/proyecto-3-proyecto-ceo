@@ -12,7 +12,7 @@ config()
 
 import chalk from "chalk";
 import { json, where } from 'sequelize';
-import { Op } from 'sequelize';
+
 
 const blueChalk = chalk.blue
 const greenChalk = chalk.greenBright;
@@ -72,6 +72,7 @@ async function authenticateToken(req, res, next) {
     console.log(authHeader)
     console.log(blueChalk('Checking token...'))
     console.log('[server] TOKEN IS:', token)
+
     if (token == null) {
         console.log(redChalk('No token!'))
         return error;
@@ -130,6 +131,7 @@ export async function endpoints(app) {
             res.status(200).send({ token })
         } catch (error) {
             console.log('[login] ERROR, Failed to create a token:', error)
+            res.status(500).send('Failed to login')
             throw error
         }
     })

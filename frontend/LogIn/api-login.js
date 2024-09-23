@@ -1,3 +1,4 @@
+
 let loginButton = document.getElementById('loginSubmit')
 let goToResumenes = document.getElementById('irAResumenes')
 let goToRegister = document.getElementById('goToRegister')
@@ -38,7 +39,7 @@ async function loginData(event) {
         
 
         if (!response.ok) {
-            throw new Error('[front], Error!!! :(')
+            throw new Error('[client], Error!!! :(')
         }
 
         let data = await response.json()
@@ -64,7 +65,8 @@ async function redirectRoute() {
     if (response.ok) {
         console.log('token:', token)
         console.log('[client] Hurraa, se mando token')
-
+        window.location.href = '../ResumenesPrincipal/index.html'
+    } else {
+        console.log('[client] ERROR: Failed to authenticate (response is not ok)')
     }
-
 };

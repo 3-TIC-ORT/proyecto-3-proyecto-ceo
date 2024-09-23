@@ -12,9 +12,18 @@ const __dirname = path.dirname(__filename);
 const __parentDir = path.dirname(__dirname);
 const __rootDir = path.dirname(__parentDir);
 
+//controller
+import { getResumenes } from '../controllers/resumenesController.js';
+import { json } from 'sequelize';
+
 resumenesRouter.get('/', (req, res) => {
-    console.log("Loading resumenes principal")
-    res.sendFile(path.join(__rootDir, 'frontend/ResumenesPrincipal/index.html'))
+    try {
+        console.log("Loading resumenes principal")
+        const resumenes = getResumenes()
+        res.status(200).json(resumenes)
+    } catch (error) {
+        res.status(500).send('[resumenes] ERROR: Failed to load resumenes')
+    }
 })
 
 resumenesRouter.get('/upload', (req, res)=> {
