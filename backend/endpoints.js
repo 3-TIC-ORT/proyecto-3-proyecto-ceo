@@ -20,7 +20,6 @@ config();
 
 import { json, where } from 'sequelize';
 
-
 const blueChalk = chalk.blue
 const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
@@ -190,7 +189,7 @@ export async function endpoints(app) {
                 return res.status(400).json({ message: 'Invalid puntaje' });
             }
     
-            await FeedbackModel.create({ puntaje, sugerencia, opinion });
+            const feedback = await FeedbackModel.create({ puntaje, sugerencia, opinion });
             res.status(201).json({ message: 'Feedback sent successfully' });
         } catch (error) {
             console.error(redChalk("Error sending feedback:"), error);
@@ -215,7 +214,7 @@ export async function endpoints(app) {
                 return res.status(400).json({ message: 'Invalid filter' });
             }
     
-            await Resumen.create({ titulo, descripcion, archivo, contenido, filtros, like, dislike });
+            const resumen = await Resumen.create({ titulo, descripcion, archivo, contenido, filtros, like, dislike });
             res.status(201).json({ message: 'Resumen sent successfully' });
         } catch (error) {
             console.error(redChalk("Error sending resumen:"), error);
@@ -230,7 +229,7 @@ export async function endpoints(app) {
     
             const foto = req.files['foto'] ? req.files['foto'][0].path : null;
     
-            await objetoPerdido.create({ informacion, foto });
+            const objetoPerdido = await objetoPerdido.create({ informacion, foto });
             res.status(201).json({ message: 'Objeto perdido registered successfully' });
         } catch (error) {
             console.error(redChalk("Error registering objeto perdido:"), error);
@@ -245,7 +244,7 @@ export async function endpoints(app) {
     
             const foto = req.files['foto'] ? req.files['foto'][0].path : null;
     
-            await Foro.create({ pregunta, textoExplicativo, comentarios, foto });
+            const foro = await Foro.create({ pregunta, textoExplicativo, comentarios, foto });
             res.status(201).json({ message: 'Foro created successfully' });
         } catch (error) {
             console.error(redChalk("Error creating foro:"), error);
