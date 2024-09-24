@@ -1,7 +1,50 @@
-
-let dropZone = document.getElementById('drop-area');
 let formData = new FormData();
-console.log('hla')
+let dropZone = document.getElementById('drop-area');
+let publicar = document.getElementById('publish')
+let likeDiv = document.getElementById('like')
+let dislikeDiv = document.getElementById('dislike')
+
+let clicks = 0
+
+let like = false;
+let dislike = false;
+let filtros = ['fisica', 'matematica', 'ingles', 'educacion-judia', 'historia']
+console.log('Running resumenes')
+
+filtros.forEach(filtro => {
+    const select = document.getElementById('filtros')
+    const option = document.createElement('option')
+    option.text = filtro
+
+    select.appendChild(option)
+});
+
+likeDiv.addEventListener('click', function() {
+    clicks = clicks + 1
+    if (clicks % 2 == 0) {
+        like = false
+        dislike = false
+    } else {
+        like = true
+        dislike = false
+    }
+    console.log('clicks:', clicks)
+
+})
+
+dislikeDiv.addEventListener('click', function() {
+    clicks = clicks + 1
+    if (clicks % 2 == 0) {
+        dislike = false
+        like = false
+
+    } else {
+        dislike = true
+        like = false
+    }
+    console.log('clicks:', clicks)
+
+})
 
 dropZone.addEventListener('dragover', function(e) {
     e.stopPropagation();
@@ -12,19 +55,33 @@ dropZone.addEventListener('dragover', function(e) {
 dropZone.addEventListener('drop', function(e) {
     e.preventDefault()
     e.stopPropagation()
-    console.log('getting the file')
+    console.log('Getting the file')
     file = e.dataTransfer.files[0]
-    formData.append('file', file);
-
-    fileFormat = formData.get('file')
-    console.log(fileFormat)
-
-    console.log('Sending-resumen')
-    let response = fetch('/send-resumen', {
-        method: 'POST',
-        body: fileFormat
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
+    formData.append('archivo', file); 
 })
+
+publicar.addEventListener('click', sendResumenes)
+
+async function sendResumenes() {
+    const titulo = document.getElementById('titulo').value
+    const descripcion = document.getElementById('descripcion').value
+    const filtros = document.getElementById('filtros').value
+    
+    formData.append('titulo', titulo)
+    formData.append('descripcion', descripcion)
+    formData.append('filtros', filtros)
+    formData.append('like', like)
+    formData.append('dislike', dislike)
+
+    console.log(formData)
+
+    try {
+        let response = fetch('http://localhost:3000/send-resumen', {
+            method: 'POST',
+            body: formData
+        }) 
+    } catch (error) {
+        console.log('LPTM')
+        console.log(error)
+    }
+}

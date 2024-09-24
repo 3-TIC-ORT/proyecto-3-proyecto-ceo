@@ -22,4 +22,4 @@ const objetoPerdido = sequelize.define('objetosPerdidos', {
     tableName: 'Objetosperdidos'
 })
 
-export { objetoPerdido } 
+export { objetoPerdido }  

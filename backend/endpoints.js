@@ -6,8 +6,8 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { User } from './model/users.js';
 import { Foro } from './model/foros.js';
-import { objetosPerdidos } from './model/objetosPerdidos.js';
-import { FeedbackModel } from './model/feedback.js';
+import { objetoPerdido } from './model/objetosPerdidos.js';
+import { Feedback } from './model/feedback.js';
 import { Intercambio } from './model/intercambio.js';
 import { Resumen } from './model/resumenes.js';
 
@@ -18,7 +18,7 @@ import { config } from 'dotenv';
 
 config();
 
-import chalk from "chalk";
+const SECRET_KEY = process.env.SECRET_KEY;
 import { json, where } from 'sequelize';
 
 
@@ -50,7 +50,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const SECRET_KEY = process.env.SECRET_KEY;
 
 async function encryptPassword(password) {
     try {
@@ -70,7 +69,7 @@ async function createToken(user) {
             firstName: user.firstName
         };
 
-        const token = jsonwebtoken.sign(payload, SECRET_KEY, { expiresIn: '2h' });
+        const token = jsonwebtoken.sign(payload, SECRET_KEY, { expiresIn: '1m' });
         console.log(`[token] TOKEN ID IS: '${user.id}' AND NAME: ${user.firstName}`);
         
         return token;
@@ -113,6 +112,7 @@ async function authenticateToken(req, res, next) {
 }
 
 export async function endpoints(app) {
+
     app.post('/login', async (req, res) => {
         const { password, firstName, gmail } = req.body;
         console.log(blueChalk(`Searching for '${greenChalk(firstName)}' with gmail: ${greenChalk(gmail)}`));
@@ -128,7 +128,6 @@ export async function endpoints(app) {
             }
     
             const passwordMatch = await verifyPassword(user.password, password);
-    
             if (!passwordMatch) {
                 console.log(redChalk('Incorrect password'));
                 return res.status(403).send('Incorrect password');
@@ -201,29 +200,22 @@ export async function endpoints(app) {
     
     app.post('/send-resumen', upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
         try {
-            const { descripcion, contenido, titulo, filtros, like, dislike } = req.body;
+            const { descripcion, titulo, filtros, like, dislike } = req.body;
+            const archivo = req.files?.archivo?.[0]?.filename; 
+            
             console.log("Receiving resumen data...");
-    
-            const archivo = req.files['archivo'] ? req.files['archivo'][0].path : null;
-    
-            const filtrosPermitidos = [
-                'fisica', 'matematica', 'edu judia', 'historia', 'tecnologia', 'ingles', 
-                'geografia', 'quimica', 'lengua', 'fuentes', 'biologia', 'etica', 'economia', 
-                'hebreo', 'ciencias sociales', 'ciencias naturales'
-            ];
-            if (!filtrosPermitidos.includes(filtros.toLowerCase())) {
-                console.error('Filter must be a validated one');
-                return res.status(400).json({ message: 'Invalid filter' });
-            }
-    
-            await Resumen.create({ titulo, descripcion, archivo, contenido, filtros, like, dislike });
+
+            console.log(req.body)
+            console.log(archivo);
+
+            await Resumen.create({ titulo, descripcion, archivo, filtros, like, dislike });
             res.status(201).json({ message: 'Resumen sent successfully' });
         } catch (error) {
             console.error(redChalk("Error sending resumen:"), error);
             res.status(500).json({ message: 'Error sending resumen', error });
         }
     });
-    
+
     app.post('/send-objetosPerdidos', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
             const { informacion } = req.body;
@@ -231,7 +223,7 @@ export async function endpoints(app) {
     
             const foto = req.files['foto'] ? req.files['foto'][0].path : null;
     
-            await objetosPerdidos.create({ informacion, foto });
+            await objetoPerdido.create({ informacion, foto });
             res.status(201).json({ message: 'Objeto perdido registered successfully' });
         } catch (error) {
             console.error(redChalk("Error registering objeto perdido:"), error);
@@ -261,7 +253,7 @@ export async function endpoints(app) {
             resumen: Resumen,
             foro: Foro,
             intercambio: Intercambio,
-            objetosPerdidos: objetosPerdidos
+            objetosPerdidos: objetoPerdido
         };
     
         if (!models[model]) {
@@ -269,6 +261,7 @@ export async function endpoints(app) {
         }
     
         try {
+
             const modelInstance = await models[model].findOne({ where: { id } });
             if (!modelInstance || !modelInstance[fileType]) {
                 return res.status(404).json({ message: 'File not found' });

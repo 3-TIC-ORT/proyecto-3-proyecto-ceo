@@ -14,10 +14,6 @@ const Resumen = sequelize.define('Resumenes', {
         type: Sequelize.BLOB('long'),
         allowNull: true,
     },
-    contenido: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
     titulo: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -31,11 +27,11 @@ const Resumen = sequelize.define('Resumenes', {
         allowNull: false,
     },
     like: { 
-        type: Sequelize.INTEGER,
+        type: Sequelize.BOOLEAN,
         allowNull: true,
     },
     dislike: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BOOLEAN,
         allowNull: true,
     }
 }, {
