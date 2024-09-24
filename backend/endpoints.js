@@ -21,7 +21,6 @@ config();
 const SECRET_KEY = process.env.SECRET_KEY;
 import { json, where } from 'sequelize';
 
-
 const blueChalk = chalk.blue
 const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
@@ -190,7 +189,7 @@ export async function endpoints(app) {
                 return res.status(400).json({ message: 'Invalid puntaje' });
             }
     
-            await FeedbackModel.create({ puntaje, sugerencia, opinion });
+            const feedback = await FeedbackModel.create({ puntaje, sugerencia, opinion });
             res.status(201).json({ message: 'Feedback sent successfully' });
         } catch (error) {
             console.error(redChalk("Error sending feedback:"), error);
@@ -238,7 +237,7 @@ export async function endpoints(app) {
     
             const foto = req.files['foto'] ? req.files['foto'][0].path : null;
     
-            await Foro.create({ pregunta, textoExplicativo, comentarios, foto });
+            const foro = await Foro.create({ pregunta, textoExplicativo, comentarios, foto });
             res.status(201).json({ message: 'Foro created successfully' });
         } catch (error) {
             console.error(redChalk("Error creating foro:"), error);
@@ -277,5 +276,65 @@ export async function endpoints(app) {
         }
     });
 }
+
+app.get('/users', authenticateToken, async (req, res) => {
+    try {
+        const users = await User.findAll();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error(redChalk("Error fetching users:"), error);
+        res.status(500).json({ message: 'Error fetching users', error });
+    }
+});
+
+app.get('/intercambios', authenticateToken, async (req, res) => {
+    try {
+        const intercambios = await Intercambio.findAll();
+        res.status(200).json(intercambios);
+    } catch (error) {
+        console.error(redChalk("Error fetching intercambios:"), error);
+        res.status(500).json({ message: 'Error fetching intercambios', error });
+    }
+});
+
+app.get('/feedbacks', authenticateToken, async (req, res) => {
+    try {
+        const feedbacks = await FeedbackModel.findAll();
+        res.status(200).json(feedbacks);
+    } catch (error) {
+        console.error(redChalk("Error fetching feedbacks:"), error);
+        res.status(500).json({ message: 'Error fetching feedbacks', error });
+    }
+});
+
+app.get('/resumenes', authenticateToken, async (req, res) => {
+    try {
+        const resumenes = await Resumen.findAll();
+        res.status(200).json(resumenes);
+    } catch (error) {
+        console.error(redChalk("Error fetching resumenes:"), error);
+        res.status(500).json({ message: 'Error fetching resumenes', error });
+    }
+});
+
+app.get('/objetos-perdidos', authenticateToken, async (req, res) => {
+    try {
+        const objetos = await objetoPerdido.findAll();
+        res.status(200).json(objetos);
+    } catch (error) {
+        console.error(redChalk("Error fetching objetos perdidos:"), error);
+        res.status(500).json({ message: 'Error fetching objetos perdidos', error });
+    }
+});
+
+app.get('/foros', authenticateToken, async (req, res) => {
+    try {
+        const foros = await Foro.findAll();
+        res.status(200).json(foros);
+    } catch (error) {
+        console.error(redChalk("Error fetching foros:"), error);
+        res.status(500).json({ message: 'Error fetching foros', error });
+    }
+});
 
 export { authenticateToken }
