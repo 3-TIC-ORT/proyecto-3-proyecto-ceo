@@ -260,7 +260,7 @@ export async function endpoints(app) {
             resumen: Resumen,
             foro: Foro,
             intercambio: Intercambio,
-            objetosPerdidos: objetosPerdidos
+            objetoPerdido: objetoPerdido
         };
     
         if (!models[model]) {
