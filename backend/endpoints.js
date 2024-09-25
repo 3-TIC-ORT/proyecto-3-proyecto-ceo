@@ -322,6 +322,7 @@ export async function endpoints(app) {
         const { id } = req.params;
         const { action, descripcion, titulo, filtros } = req.body;
         const archivo = req.file ? req.file.buffer : undefined;
+        const userId = req.user.id;
     
         try {
             const resumen = await Resumen.findByPk(id);
@@ -329,27 +330,31 @@ export async function endpoints(app) {
             if (!resumen) {
                 return res.status(404).json({ message: 'Resumen not found' });
             }
-    
+
             if (action === 'like') {
-                if (resumen.like > 0) {
-                    resumen.like -= 1;
-                } else {
-                    resumen.like += 1;
-                    if (resumen.dislike > 0) {
-                        resumen.dislike -= 1;
-                    }
-                }
-            } else if (action === 'dislike') {
                 if (resumen.dislike > 0) {
                     resumen.dislike -= 1;
-                } else {
-                    resumen.dislike += 1;
-                    if (resumen.like > 0) {
-                        resumen.like -= 1;
-                    }
                 }
+                resumen.like += 1;
+    
+                await Interaccion.upsert({
+                    userId,
+                    resumenId: id,
+                    action: 'like'
+                });
+            } else if (action === 'dislike') {
+                if (resumen.like > 0) {
+                    resumen.like -= 1;
+                }
+                resumen.dislike += 1;
+    
+                await Interaccion.upsert({
+                    userId,
+                    resumenId: id,
+                    action: 'dislike'
+                });
             } else {
-                return res.status(404).json({ message: 'Invalid action' });
+                return res.status(400).json({ message: 'Invalid action' });
             }
 
             if (titulo !== undefined) resumen.titulo = titulo;

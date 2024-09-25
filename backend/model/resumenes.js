@@ -33,6 +33,10 @@ const Resumen = sequelize.define('Resumenes', {
     dislike: {
         type: Sequelize.BOOLEAN,
         allowNull: true,
+    },
+    userId:{
+        type: Sequelize.NUMBER,
+        allowNull: true,
     }
 }, {
     timestamps: false,
