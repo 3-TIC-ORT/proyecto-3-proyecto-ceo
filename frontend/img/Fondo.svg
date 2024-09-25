@@ -30,4 +30,7 @@
 <path d="M753.494 791.484V612.5L668.5 655.523V834.684L753.494 791.484Z" fill="#007BFF"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M470 1035.91L753.494 890.562L668.5 834.684L470 935.576V1035.91ZM1920 292.5L880 825.703V727.185L1476.5 424L1570 373.76L1685 315.024L1920 195V292.5Z" fill="#87CEEB"/>
 <path d="M753.494 890.562V791.484L668.5 834.684L753.494 890.562Z" fill="#007BFF"/>
+<rect y="-2" width="1920" height="1083" stroke="black"/>
+<rect y="-2" width="1920" height="1083" fill="white" fill-opacity="0.5"/>
+<rect y="-2" width="1920" height="1083" stroke="black"/>
 </svg>
