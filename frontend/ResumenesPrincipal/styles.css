@@ -1,0 +1,158 @@
+
+.body {
+    height: 100vh;
+    width: 100vw;
+
+    background-image: url(/frontend/img/Vector.svg);
+    background-size: over;           
+    background-repeat: repeat-y;
+    background-color: rgba(255, 255, 255, 0.50);    
+}
+
+.navBar {
+    height: 12vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none; 
+    border-bottom: 2px solid black;
+    background-color: #FFFF;
+}
+
+.resumen {
+    height: 10vh;
+    width: 90vw;
+    border-radius: 15px;
+    background: #E0E0E0;
+    margin: 2.5%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boton {
+    height: 100%;
+    width: 15%;
+    background-color: #007BFF;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recomendacion {
+    display: flex;
+    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.inputs {
+    height: 60%;
+    width: 57.5%;
+    border-radius: 30px;
+    border-radius: 50px;
+    border: 3px solid #000;
+    background: #FFF;
+
+    color: #3d3535;
+    font-family: K2D;
+    font-size: xx-large;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding-left: 5%;
+}
+
+.inputs::placeholder {
+    color: #707070;
+    font-family: K2D;
+    font-size: xx-large;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.text {
+    color: #000;
+    font-family: K2D;
+    font-size: large;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.recipienteResumen {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thumbs {
+    transform: scale(0.6);
+}
+
+.resumenes {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+#info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+    justify-content: space-around;
+}
+
+#filtros {
+    width: 20%;
+    margin-left: 7%;
+    border-radius: 30px;
+}
+
+#navItems {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login {
+    margin-left: 5%;
+    height: 60%;
+}
+
+#itemNav {
+    font-size: large;
+    margin-right: 7%;
+}
+
+#itemObjetos {
+    font-size: large;
+}
+
+#logo {
+    width: 15%;
+    margin-right: 5%;
+}
+
+#tituloYLogo {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#nombreResumen {
+    display: flex;
+    justify-content: flex-start;
+    width: 50%;
+    margin-right: 10%;
+}

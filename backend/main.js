@@ -65,8 +65,8 @@ endpoints(app)
 
 
 //rutass
-app.use('/resumenes', authenticateToken, resumenesRouter)
-app.use('/foros', authenticateToken,forosRouter)
+app.use('/ResumenesPrincipal/index.html', authenticateToken, resumenesRouter)
+app.use('/foros', authenticateToken, forosRouter)
 app.use('/objetos-perdidos', authenticateToken, objPerdidosRouter)
 app.use('/home', campusRouter)
 
