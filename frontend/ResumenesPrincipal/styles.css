@@ -3,7 +3,7 @@
     height: 100vh;
     width: 100vw;
 
-    background-image: url(/frontend/img/Vector.svg);
+    background-image: url(/frontend/img/Fondo.svg);
     background-size: over;           
     background-repeat: repeat-y;
     background-color: rgba(255, 255, 255, 0.50);    
@@ -63,7 +63,7 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    padding-left: 5%;
+    padding-left: 2.5%;
 }
 
 .inputs::placeholder {
@@ -88,8 +88,8 @@
     width: 100vw;
     height: auto;
     display: flex;
+    flex-direction: column; 
     align-items: center;
-    justify-content: center;
 }
 
 .thumbs {
@@ -114,7 +114,6 @@
 #filtros {
     width: 20%;
     margin-left: 7%;
-    border-radius: 30px;
 }
 
 #navItems {
@@ -155,4 +154,19 @@
     justify-content: flex-start;
     width: 50%;
     margin-right: 10%;
+}
+
+#tituloLogo {
+    color: #294F78;
+    text-align: right;
+    font-family: Kodchasan;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+#ort {
+    color: #007BFF;
+    font-weight: 700;
 }

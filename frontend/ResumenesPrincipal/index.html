@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=K2D&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -16,7 +19,7 @@
     <nav class="navBar" id="nav">
         <div id="tituloYLogo">
             <img id="logo" src="../img/Logo.jpg" alt="logo">
-            <label for="PORTAL">PORTAL</label>
+            <label for="PORTAL" id="tituloLogo">P<span id="ort">ORT</span>AL</label>
         </div>
 
         <div id="navItems">
@@ -33,7 +36,7 @@
     </nav>
 
     <nav class="navBar" id="barraBusqueda">
-        <input type="text" id="busqueda" placeholder="Resumen...." class="inputs">
+        <input type="text" id="busqueda" placeholder="Busca el resumen que necesites..." class="inputs">
         <select name="filtros" id="filtros" class="inputs">
             <option value="" disabled>Filtro...</option>
             <option value="fisica">Fisica</option>
@@ -41,45 +44,10 @@
         </select>
     </nav>
 
-    <div class="recipienteResumen">
+    <div class="recipienteResumen" id="containerResumenes">
 
         <div class="resumenes">
-            <div class="resumen">
-                <p class="text" id="nombreResumen">Nombre del resumen</p>
-                <div class="text" id="info">
-                    <p>Tema: </p>
-    
-                    <div class="recomendacion" id="likes">
-                        <img src="/frontend/img/Like.svg" class="thumbs" alt="">
-                        <p id="numeroLikes">33</p>
-                    </div>
-                    <div class="recomendacion" id="dislikes">
-                        <img src="/frontend/img/Dislike.svg" class="thumbs" alt="">
-                        <p id="numeroDislikes">33</p>
-                    </div>
-    
-                </div>
-    
-            </div>
 
-            <div class="resumen">
-                <p class="text" id="nombreResumen">Nombre del resumen</p>
-                <div class="text" id="info">
-                    <p>Tema: </p>
-    
-                    <div class="recomendacion" id="likes">
-                        <img src="/frontend/img/Like.svg" class="thumbs" alt="">
-                        <p id="numeroLikes">33</p>
-                    </div>
-                    <div class="recomendacion" id="dislikes">
-                        <img src="/frontend/img/Dislike.svg" class="thumbs" alt="">
-                        <p id="numeroDislikes">33</p>
-                    </div>
-    
-                </div>
-    
-            </div>
-            
         </div>
     </div>
 
