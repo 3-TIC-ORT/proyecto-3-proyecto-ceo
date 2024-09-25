@@ -222,7 +222,7 @@ export async function endpoints(app) {
     
             const foto = req.files['foto'] ? req.files['foto'][0].path : null;
     
-            await objetoPerdido.create({ informacion, foto });
+            const objetoPerdido = await objetoPerdido.create({ informacion, foto });
             res.status(201).json({ message: 'Objeto perdido registered successfully' });
         } catch (error) {
             console.error(redChalk("Error registering objeto perdido:"), error);
@@ -245,95 +245,124 @@ export async function endpoints(app) {
         }
     });
 
-    app.put()
-
-    app.put('/intercambio/:id', authenticateToken, async (req, res)=>{
+    app.put('/objetosPerdidos/:id', authenticateToken, upload.single('foto'), async (req, res)=>{
         const {id} = req.params;
-        const {informacion, titulo, respuestas, archivo} = req.body
+        const { informacion } =  req.body;
+        const foto = req.file ? req.file.buffer : undefined;
 
         try {
-            const intercambio = Intercambio.findByPk(id);
+            const objetoPerdido = objetoPerdido.findByPk(id);
 
-            if(!intercambio){
-                res.status(200).json({message: 'intercambbio does not exist'});
+            if(!objetoPerdido){
+                res.status(404).json({message: 'Objeto perdido not found'});
             }
-            const updatedFields = {};
-            if (pregunta !== undefined) updatedFields.titulo = titulo;
-            if (textoExplicativo !== undefined) updatedFields.respuestas = respuestas;
-            if (comentarios !== undefined) updatedFields.informacion = informacion;
-            if (archivo !== undefined) updatedFields.archivo = archivo;
 
-            await intercambio.upload(updatedFields);
-            res.status(200).json({message: 'intercambio upload succesfully'});
+            if (foto !== undefined) objetoPerdido.foto = foto;
+            if (informacion !== undefined) objetoPerdido.informacion = informacion;
+
+            await objetoPerdido.save();
+            res.status(200).json({message: 'Objeto perdido upload  succesfully'});
         } catch (error) {
             console.error('Upload failed');
-            res.status(500).json({message: 'Error updating intercambio'})
+            res.status(500).json({message: 'Error updating objetos perdidos'});
         }
     });
 
-    app.put('/foros/:id', authenticateToken, async (req, res) => {
+    app.put('/intercambio/:id', authenticateToken, upload.single('archivo'), async (req, res) => {
         const { id } = req.params;
-        const { pregunta, textoExplicativo, comentarios } = req.body;
+        const { informacion, titulo, respuestas } = req.body;
+        const archivo = req.file ? req.file.buffer : undefined;
     
         try {
-            const foro = await Foro.findByPk(id);
+            const intercambio = await Intercambio.findByPk(id);
     
+            if (!intercambio) {
+                return res.status(404).json({ message: 'Intercambio does not exist' });
+            }
+
+            if (titulo !== undefined) intercambio.titulo = titulo;
+            if (respuestas !== undefined) intercambio.respuestas = respuestas;
+            if (informacion !== undefined) intercambio.informacion = informacion;
+            if (archivo !== undefined) intercambio.archivo = archivo;
+    
+            await intercambio.save();
+            res.status(200).json({ message: 'Intercambio updated successfully' });
+        } catch (error) {
+            console.error('Upload failed:', error);
+            res.status(500).json({ message: 'Error updating intercambio' });
+        }
+    });
+
+    app.put('/foros/:id', authenticateToken, upload.single('foto'), async (req, res) => {
+        const { id } = req.params;
+        const { pregunta, textoExplicativo, comentarios } = req.body;
+        const foto = req.file ? req.file.buffer : undefined;
+
+        try {
+            const foro = await Foro.findByPk(id);
+
             if (!foro) {
                 return res.status(404).json({ message: 'Foro not found' });
             }
 
-            const updatedFields = {};
-            if (pregunta !== undefined) updatedFields.pregunta = pregunta;
-            if (textoExplicativo !== undefined) updatedFields.textoExplicativo = textoExplicativo;
-            if (comentarios !== undefined) updatedFields.comentarios = comentarios;
-    
-            await foro.update(updatedFields);
-            res.status(200).json({ message: 'Foro updated successfully'});
+            if (pregunta !== undefined) foro.pregunta = pregunta;
+            if (textoExplicativo !== undefined) foro.textoExplicativo = textoExplicativo;
+            if (comentarios !== undefined) foro.comentarios = comentarios;
+            if (foto !== undefined) foro.foto = foto;
+
+            await foro.save();
+            res.status(200).json({ message: 'Foro updated successfully' });
         } catch (error) {
-            console.error("Error updating foro:");
-            res.status(500).json({ message: 'Error updating foro'});
+            console.error("Error updating foro:", error);
+            res.status(500).json({ message: 'Error updating foro' });
         }
     });
+
+    app.put('/resumen/:id', authenticateToken, upload.single('archivo'), async (req, res) => {
+        const { id } = req.params;
+        const { action, descripcion, titulo, filtros } = req.body;
+        const archivo = req.file ? req.file.buffer : undefined;
     
-
-    app.put('/resumen/:id', authenticateToken, async (req, res)=> {
-        const {id} = req.params;
-        const {action} = req.body;
-
-        try{
+        try {
             const resumen = await Resumen.findByPk(id);
-
-            if (!resumen){
-                res.status(404).json({message: 'Resumen not found'});
+    
+            if (!resumen) {
+                return res.status(404).json({ message: 'Resumen not found' });
             }
-
-            if(action === 'like'){
-                if (resumen.like > 0){
+    
+            if (action === 'like') {
+                if (resumen.like > 0) {
                     resumen.like -= 1;
-                } else{
+                } else {
                     resumen.like += 1;
-                    if(resumen.dislike > 0){
+                    if (resumen.dislike > 0) {
                         resumen.dislike -= 1;
                     }
                 }
-
-            } else if (action === 'dislike'){
-                if(resumen.dislike){
+            } else if (action === 'dislike') {
+                if (resumen.dislike > 0) {
                     resumen.dislike -= 1;
-                } else{ 
+                } else {
                     resumen.dislike += 1;
-                    if(resumen.like > 0){
+                    if (resumen.like > 0) {
                         resumen.like -= 1;
                     }
                 }
-            }else{
-                res.status(404).json({message: 'Invalid action'});
+            } else {
+                return res.status(404).json({ message: 'Invalid action' });
             }
+
+            if (titulo !== undefined) resumen.titulo = titulo;
+            if (filtros !== undefined) resumen.filtros = filtros;
+            if (descripcion !== undefined) resumen.descripcion = descripcion;
+            if (archivo !== undefined) resumen.archivo = archivo;
+    
             await resumen.save();
-            res.status(200).json({message: 'Like/dislike upload sucessfully'});
-        }catch(error){
-            console.error('Ulpoad failed')
-            res.status(500).json({message: 'Error uploading like/dislike'});
+    
+            res.status(200).json({ message: 'Resumen updated successfully' });
+        } catch (error) {
+            console.error('Update failed:', error);
+            res.status(500).json({ message: 'Error updating resumen' });
         }
     });
     
