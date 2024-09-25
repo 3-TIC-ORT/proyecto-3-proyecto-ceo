@@ -1,7 +1,48 @@
+AOS.init();
+
+let publicarRedirect = document.getElementById('publicar')
+let loginPopupButton = document.getElementById('loginPopupButton')
+let popup = document.getElementById('loginPopup')
+
+
+publicarRedirect.addEventListener('click', redirectToUploads)
+loginPopupButton.addEventListener('click', popupLogin )
+
+
+function redirectToUploads() {
+    window.location.href = '../ResumenesUpload/index.html'
+}
+
+async function popupLogin() {
+    let gmail = document.getElementById('gmail').value
+    let password = document.getElementById('password').value
+
+    console.log('Login through the popup-')
+    let response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            gmail: gmail,
+            password: password
+        })
+    })
+
+    if (response.ok) {
+        let data = await response.json() 
+        localStorage.setItem('token', data.token)
+        fetchResumenes()
+        popup.classList.remove('show');
+        popup.classList.add('hidden');
+
+        publicarRedirect.classList.remove('hidden');
+        publicarRedirect.classList.add('show')
+    }
+}
 
 async function fetchResumenes() {
     const token = localStorage.getItem('token');
-
 
     let response = await fetch('http://localhost:3000/resumen', {
         method: 'GET',
@@ -9,6 +50,15 @@ async function fetchResumenes() {
             'Authorization': `Bearer ${token}`,
         },
     })
+
+    if (!response.ok) {
+        console.log('Displaying popup')
+        popup.classList.remove('hidden')
+        popup.classList.add('show')
+
+        publicarRedirect.classList.remove('show');
+        publicarRedirect.classList.add('hidden')
+    }
 
     try {
 
@@ -21,7 +71,6 @@ async function fetchResumenes() {
 
     } catch (error) {
         console.log('[client] ERROR: Failed to authenticate or fetching data', error);
-
     }
 }
 
@@ -46,6 +95,7 @@ function populateResumenes(resumenes) {
 
         </div>` 
         div.className = 'resumen'
+        div.setAttribute('data-aos', 'fade-up');
         div.innerHTML = modelResumen
         containerResumenes.appendChild(div)
     });

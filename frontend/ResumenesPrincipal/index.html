@@ -14,6 +14,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="styles.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
 </head>
 <body class="body">
     <nav class="navBar" id="nav">
@@ -24,7 +28,7 @@
 
         <div id="navItems">
             <a href="../PaginaInicio/PaginaInicio.html" class="text" id="itemNav">Inicio</a>
-            <a class="text" id="itemNav">Resumenes</a>
+            <a class="text" id="itemNav"><span class="navResumen">Resumenes</span></a>
             <a href="../Foro/Foro.html" class="text" id="itemNav">Foros</a>
             <a href="../Intercambios/Intercambios.html" class="text" id="itemNav">Intercambios</a>
             <a href="../ObjetosPerdidos/ObjetosPerdidos.html" class="text" id="itemObjetos">Objetos Perdidos</a>
@@ -45,10 +49,22 @@
     </nav>
 
     <div class="recipienteResumen" id="containerResumenes">
-
         <div class="resumenes">
 
+        </div> 
+
+        <div class="boton text" id="publicar">Publicar</div>
+    </div>
+
+    <div id="loginPopup" class="popup hidden">
+        <h1>Login</h1>
+
+        <div class="info" id="logInfo">
+            <input type="text" class="inputs" id="gmail" placeholder="Gmail...." value="example11@gmail.com"></input>
+            <input type="password" class="inputs" id="password" placeholder="Password...." value="test"></input>
         </div>
+
+        <div class="boton" id="loginPopupButton">Iniciar sesion</div>
     </div>
 
     <script src="main.js"></script>

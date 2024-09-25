@@ -118,7 +118,7 @@ export async function endpoints(app) {
     
         try {
             const user = await User.findOne({
-                where: { firstName, gmail }
+                where: { gmail }
             });    
     
             if (!user) {
