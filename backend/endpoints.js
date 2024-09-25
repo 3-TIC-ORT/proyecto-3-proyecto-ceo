@@ -189,7 +189,7 @@ export async function endpoints(app) {
                 return res.status(400).json({ message: 'Invalid puntaje' });
             }
     
-            const feedback = await FeedbackModel.create({ puntaje, sugerencia, opinion });
+            const feedback = await Feedback.create({ puntaje, sugerencia, opinion });
             res.status(201).json({ message: 'Feedback sent successfully' });
         } catch (error) {
             console.error(redChalk("Error sending feedback:"), error);
@@ -200,12 +200,9 @@ export async function endpoints(app) {
     app.post('/send-resumen', upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
         try {
             const { descripcion, titulo, filtros, like, dislike } = req.body;
-            const archivo = req.files?.archivo?.[0]?.filename; 
-            
             console.log("Receiving resumen data...");
 
-            console.log(req.body)
-            console.log(archivo);
+            const archivo = req.files['archivo'] ? req.files['archivo'][0].path : null;
 
             const resumen = await Resumen.create({ titulo, descripcion, archivo, filtros, like, dislike });
             res.status(201).json({ message: 'Resumen sent successfully' });
