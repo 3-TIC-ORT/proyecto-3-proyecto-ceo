@@ -5,35 +5,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=K2D&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="divtemasfiltrarbuscarresumenesp">
-        <input class="InputBuscarRB" id="InputBuscarRB" type="text" placeholder="¿Que que queres buscar?">
-
-        <select class="filtrarporresumenes" id="filtrarporresumenes" placeholder="Filtrar por">
-        </select>
-
-        <div id="TemasResumenes" class="TemasResumenes">
+<body class="body">
+    <nav class="navBar" id="nav">
+        <div id="tituloYLogo">
+            <img id="logo" src="../img/Logo.jpg" alt="logo">
+            <label for="PORTAL" id="tituloLogo">P<span id="ort">ORT</span>AL</label>
         </div>
 
-    </div>
+        <div id="navItems">
+            <a href="../PaginaInicio/PaginaInicio.html" class="text" id="itemNav">Inicio</a>
+            <a class="text" id="itemNav">Resumenes</a>
+            <a href="../Foro/Foro.html" class="text" id="itemNav">Foros</a>
+            <a href="../Intercambios/Intercambios.html" class="text" id="itemNav">Intercambios</a>
+            <a href="../ObjetosPerdidos/ObjetosPerdidos.html" class="text" id="itemObjetos">Objetos Perdidos</a>
+        </div>
 
-    <div id="TemasResumenes" class="TemasResumenes">
-    </div>
+        <div class="boton" id="login">
+            <p class="text">Iniciar sesion</p>
+        </div>
+    </nav>
 
-    <div class="BarraBotones">
-        <button class="BotonInicio" id="BotonInicio">Inicio</button>
-        <button class="BotonResumenes" id="BotonResumenes">Resumenes</button>
-        <button class="BotonForos" id="BotonForos">Foros</button>
-        <button class="BotonIntercambios" id="BotonIntercambios">Intercambios </button>
-        <button class="BotonObjetosPerdidos" id="BotonObjetosPerdidos">Objetos Perdidos</button>
-    </div>
+    <nav class="navBar" id="barraBusqueda">
+        <input type="text" id="busqueda" placeholder="Busca el resumen que necesites..." class="inputs">
+        <select name="filtros" id="filtros" class="inputs">
+            <option value="" disabled>Filtro...</option>
+            <option value="fisica">Fisica</option>
+            <option value="matematica">Matematica</option>
+        </select>
+    </nav>
 
-    <div class="BarraSuperiorVisual"></div>
+    <div class="recipienteResumen" id="containerResumenes">
 
-    <div class="PublicarResumenes">
-        <a href="../ResumenesUpload/ResumenesUpload.html">Upload</a>
+        <div class="resumenes">
+
+        </div>
     </div>
 
     <script src="main.js"></script>
