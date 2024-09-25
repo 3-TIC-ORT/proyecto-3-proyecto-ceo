@@ -207,7 +207,7 @@ export async function endpoints(app) {
             console.log(req.body)
             console.log(archivo);
 
-            await Resumen.create({ titulo, descripcion, archivo, filtros, like, dislike });
+            const resumen = await Resumen.create({ titulo, descripcion, archivo, filtros, like, dislike });
             res.status(201).json({ message: 'Resumen sent successfully' });
         } catch (error) {
             console.error(redChalk("Error sending resumen:"), error);
@@ -242,6 +242,98 @@ export async function endpoints(app) {
         } catch (error) {
             console.error(redChalk("Error creating foro:"), error);
             res.status(500).json({ message: 'Error creating foro', error });
+        }
+    });
+
+    app.put()
+
+    app.put('/intercambio/:id', authenticateToken, async (req, res)=>{
+        const {id} = req.params;
+        const {informacion, titulo, respuestas, archivo} = req.body
+
+        try {
+            const intercambio = Intercambio.findByPk(id);
+
+            if(!intercambio){
+                res.status(200).json({message: 'intercambbio does not exist'});
+            }
+            const updatedFields = {};
+            if (pregunta !== undefined) updatedFields.titulo = titulo;
+            if (textoExplicativo !== undefined) updatedFields.respuestas = respuestas;
+            if (comentarios !== undefined) updatedFields.informacion = informacion;
+            if (archivo !== undefined) updatedFields.archivo = archivo;
+
+            await intercambio.upload(updatedFields);
+            res.status(200).json({message: 'intercambio upload succesfully'});
+        } catch (error) {
+            console.error('Upload failed');
+            res.status(500).json({message: 'Error updating intercambio'})
+        }
+    });
+
+    app.put('/foros/:id', authenticateToken, async (req, res) => {
+        const { id } = req.params;
+        const { pregunta, textoExplicativo, comentarios } = req.body;
+    
+        try {
+            const foro = await Foro.findByPk(id);
+    
+            if (!foro) {
+                return res.status(404).json({ message: 'Foro not found' });
+            }
+
+            const updatedFields = {};
+            if (pregunta !== undefined) updatedFields.pregunta = pregunta;
+            if (textoExplicativo !== undefined) updatedFields.textoExplicativo = textoExplicativo;
+            if (comentarios !== undefined) updatedFields.comentarios = comentarios;
+    
+            await foro.update(updatedFields);
+            res.status(200).json({ message: 'Foro updated successfully'});
+        } catch (error) {
+            console.error("Error updating foro:");
+            res.status(500).json({ message: 'Error updating foro'});
+        }
+    });
+    
+
+    app.put('/resumen/:id', authenticateToken, async (req, res)=> {
+        const {id} = req.params;
+        const {action} = req.body;
+
+        try{
+            const resumen = await Resumen.findByPk(id);
+
+            if (!resumen){
+                res.status(404).json({message: 'Resumen not found'});
+            }
+
+            if(action === 'like'){
+                if (resumen.like > 0){
+                    resumen.like -= 1;
+                } else{
+                    resumen.like += 1;
+                    if(resumen.dislike > 0){
+                        resumen.dislike -= 1;
+                    }
+                }
+
+            } else if (action === 'dislike'){
+                if(resumen.dislike){
+                    resumen.dislike -= 1;
+                } else{ 
+                    resumen.dislike += 1;
+                    if(resumen.like > 0){
+                        resumen.like -= 1;
+                    }
+                }
+            }else{
+                res.status(404).json({message: 'Invalid action'});
+            }
+            await resumen.save();
+            res.status(200).json({message: 'Like/dislike upload sucessfully'});
+        }catch(error){
+            console.error('Ulpoad failed')
+            res.status(500).json({message: 'Error uploading like/dislike'});
         }
     });
     
