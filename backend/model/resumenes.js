@@ -27,11 +27,13 @@ const Resumen = sequelize.define('Resumenes', {
         allowNull: false,
     },
     like: { 
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.NUMBER,
+        defaultValue: 0,
         allowNull: true,
     },
     dislike: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.NUMBER,
+        defaultValue: 0,
         allowNull: true,
     },
     userId:{

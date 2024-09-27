@@ -202,6 +202,11 @@ export async function endpoints(app) {
             const userId  = req.user.id;
             console.log("Receiving resumen data...");
 
+            if(!userId){
+                console.error('error uploading user id');
+                res.status(500).json({message: 'userId is empty' });
+            }
+
             const archivo = req.files['archivo'] ? req.files['archivo'][0].path : null;
 
             const resumen = await Resumen.create({ titulo, descripcion, archivo, filtros, like, dislike, userId });
