@@ -14,7 +14,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="../globalStyle.css">
 
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
@@ -23,14 +22,14 @@
 <body class="body">
     <nav class="navBar" id="nav">
         <div id="tituloYLogo">
-            <img id="logo" src="../img/Logo.svg" alt="logo">
+            <img id="logo" src="../img/Logo.jpg" alt="logo">
             <label for="PORTAL" id="tituloLogo">P<span id="ort">ORT</span>AL</label>
         </div>
 
         <div id="navItems">
             <a href="../PaginaInicio/PaginaInicio.html" class="text" id="itemNav">Inicio</a>
-            <a class="text" id="itemNav"><span class="navResumen">Resumenes</span></a>
-            <a href="../Foro/index.html" class="text" id="itemNav">Foros</a>
+            <a href="../ResumenesPrincipal/index.html" class="text" id="itemNav">Resumenes</a>
+            <a href="../Foro/Foro.html" class="text" id="itemNav"><span class="navResumen">Foros</span></a>
             <a href="../Intercambios/Intercambios.html" class="text" id="itemNav">Intercambios</a>
             <a href="../ObjetosPerdidos/ObjetosPerdidos.html" class="text" id="itemObjetos">Objetos Perdidos</a>
         </div>
@@ -41,16 +40,11 @@
     </nav>
 
     <nav class="navBar" id="barraBusqueda">
-        <input type="text" id="busqueda" placeholder="Busca el resumen que necesites..." class="inputs">
-        <select name="filtros" id="filtros" class="inputs">
-            <option value="" disabled>Filtro...</option>
-            <option value="fisica">Fisica</option>
-            <option value="matematica">Matematica</option>
-        </select>
+        <input type="text" id="busqueda" placeholder="Busca la pregunta que necesites..." class="inputs">
     </nav>
 
-    <div class="recipienteResumen" id="containerResumenes">
-        <div class="resumenes">
+    <div class="recipienteForos" id="containerForos">
+        <div class="preguntas">
 
         </div> 
 

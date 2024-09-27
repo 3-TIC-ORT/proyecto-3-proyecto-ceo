@@ -13,8 +13,13 @@ const __parentDir = path.dirname(__dirname);
 const __rootDir = path.dirname(__parentDir);
 
 forosRouter.get("/", (req, res) => {
-    
-    res.sendFile(path.join(__rootDir, 'frontend/Foro/'))
+    try {
+        console.log("Loading foros principal")
+        const foros = await getForos()
+        res.status(200).json(foros)
+    } catch (error) {
+        res.status(500).send('[foro] ERROR: Failed to load foros')
+    }
 })
 
 forosRouter.get("/search", (req, res) => {
