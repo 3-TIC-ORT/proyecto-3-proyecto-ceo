@@ -111,7 +111,6 @@ async function authenticateToken(req, res, next) {
 }
 
 export async function endpoints(app) {
-
     app.post('/login', async (req, res) => {
         const { password, firstName, gmail } = req.body;
         console.log(blueChalk(`Searching for '${greenChalk(firstName)}' with gmail: ${greenChalk(gmail)}`));
@@ -197,14 +196,15 @@ export async function endpoints(app) {
         }
     });
     
-    app.post('/send-resumen', upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
+    app.post('/send-resumen', authenticateToken, upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
         try {
             const { descripcion, titulo, filtros, like, dislike } = req.body;
+            const userId  = req.user.id;
             console.log("Receiving resumen data...");
 
             const archivo = req.files['archivo'] ? req.files['archivo'][0].path : null;
 
-            const resumen = await Resumen.create({ titulo, descripcion, archivo, filtros, like, dislike });
+            const resumen = await Resumen.create({ titulo, descripcion, archivo, filtros, like, dislike, userId });
             res.status(201).json({ message: 'Resumen sent successfully' });
         } catch (error) {
             console.error(redChalk("Error sending resumen:"), error);
@@ -327,40 +327,27 @@ export async function endpoints(app) {
             if (!resumen) {
                 return res.status(404).json({ message: 'Resumen not found' });
             }
-
+    
             if (action === 'like') {
+                resumen.like += 1;
                 if (resumen.dislike > 0) {
                     resumen.dislike -= 1;
                 }
-                resumen.like += 1;
-    
-                await Interaccion.upsert({
-                    userId,
-                    resumenId: id,
-                    action: 'like'
-                });
             } else if (action === 'dislike') {
-                if (resumen.like > 0) {
-                    resumen.like -= 1;
-                }
                 resumen.dislike += 1;
-    
-                await Interaccion.upsert({
-                    userId,
-                    resumenId: id,
-                    action: 'dislike'
-                });
+                if (resumen.like > 0) {
+                    resumen.like -= 1; 
+                }
             } else {
                 return res.status(400).json({ message: 'Invalid action' });
             }
-
+    
             if (titulo !== undefined) resumen.titulo = titulo;
             if (filtros !== undefined) resumen.filtros = filtros;
             if (descripcion !== undefined) resumen.descripcion = descripcion;
             if (archivo !== undefined) resumen.archivo = archivo;
     
             await resumen.save();
-    
             res.status(200).json({ message: 'Resumen updated successfully' });
         } catch (error) {
             console.error('Update failed:', error);
