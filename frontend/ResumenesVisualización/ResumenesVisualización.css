@@ -1,0 +1,91 @@
+.barrasuperiorbotonespi{
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    width: 100%;
+    height: 15vh;
+    align-items: center;
+}
+.LogIn{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 2vw;
+    width: 13vw;
+}
+.LineaBarraBotones{
+    display: flex;
+    width: 100%;
+    height: 0.3vh;
+    background-color: black;
+   
+}
+.Logo{
+    width: 13vw;
+    height: 10vh;
+    background-image: url(../TIMI/Fondos/Logo\ y\ titulo.png);
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2vw;
+}
+.BarraBotones{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 60vw;
+    height: 100%;
+}
+.BotonInicio{
+    width: 6vw;
+    height: 5vh;
+    font-size: 150%;
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #557291;
+}
+.BotonResumenes{
+    width: 12vw;
+    height: 6vh;
+    font-size: 150%;
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+}
+.BotonForos{
+    width: 6vw;
+    height: 5vh;
+    font-size: 150%;
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+}
+.BotonIntercambios{
+    width: 12vw;
+    height: 5vh;
+    font-size: 150%;
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+}
+.BotonObjetosPerdidos{
+    width: 16vw;
+    height: 5vh;
+    font-size: 150%;
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+}
+.BotonLogIn{
+    width: 15vw;
+    height: 8vh;
+    font-size: 150%;
+    border-radius: 5vh;
+    font-weight: bold;
+    border: none;
+    background-color: #007bff;
+}
