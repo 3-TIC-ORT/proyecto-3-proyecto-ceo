@@ -1,0 +1,217 @@
+.body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    background-image: url(/frontend/img/Fondo.svg);
+    background-size: over;           
+    background-repeat: repeat-y;
+    background-color: rgba(255, 255, 255, 0.50);    
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 50vh;
+    width: 50vw;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 1000;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+span {
+    font-family: K2D;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.navBar {
+    height: 12vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none; 
+    border-bottom: 2px solid black;
+    background-color: #FFFF;
+}
+
+.boton {
+    height: 100%;
+    width: 15%;
+    background-color: #007BFF;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navResumen {
+    text-decoration: underline;
+    font-weight: 900;
+    color: #294F78;
+}
+
+.inputs {
+    height: 60%;
+    width: 57.5%;
+    border-radius: 30px;
+    border-radius: 50px;
+    border: 3px solid #000;
+    background: #FFF;
+
+    color: #3d3535;
+    font-family: K2D;
+    font-size: xx-large;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding-left: 2.5%;
+}
+
+.inputs::placeholder {
+    color: #707070;
+    font-family: K2D;
+    font-size: xx-large;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.text {
+    text-decoration: none;
+    color: #000;
+    font-family: K2D;
+    font-size: large;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.thumbs {
+    transform: scale(0.6);
+
+}
+
+.hidden {
+    display: none !important;
+}
+
+.show {
+    display: block;
+}
+
+
+#info {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-right: 5%;
+    width: 100%;
+    height: 100%;
+}
+
+#logInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+}
+
+#filtros {
+    width: 20%;
+    margin-left: 7%;
+}
+
+#navItems {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login {
+    margin-left: 5%;
+    height: 60%;
+}
+
+#itemNav {
+    font-size: large;
+    margin-right: 7%;
+}
+
+#itemObjetos {
+    font-size: large;
+}
+
+#logo {
+    width: 15%;
+    margin-right: 5%;
+}
+
+#tituloYLogo {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+#tituloLogo {
+    color: #294F78;
+    text-align: right;
+    font-family: Kodchasan;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+#ort {
+    color: #007BFF;
+    font-weight: 700;
+}
+
+#loginPopupButton {
+    height: 15%;
+    width: 70%;
+    border: 1px solid black;
+}
+
+#loginPopupButton:active {
+    height: 14.5%;
+    width: 69.5%;
+    background-color: #294F78;
+}
+
+
+#loginPopup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#gmail {
+    height: 40%;
+    width: 80%;
+    font-size: xx-large;
+    margin-bottom: 5%;
+}
+#password {
+    height: 40%;
+    width: 80%;
+    font-size: xx-large;
+    margin-bottom: 10%;
+}
+

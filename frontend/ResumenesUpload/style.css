@@ -1,9 +1,56 @@
-
-
 .dropArea {
-    width: 20vw;
-    height: 10vh;
+    width: 30%;
+    height: 100%;
     border: black;
-    border-radius: 10px;
-    background-color: grey;
+    border-radius: 50px;
+    background: #007BFF;
+}
+
+.center {
+    height: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.handle {
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-content: space-around;
+}
+
+.recipiente {
+    margin-top: 2.5%;
+    height: 60%;
+    width: 80%;
+    border-radius: 30px;
+    background: #E0E0E0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#titulo {
+    height: 7.5%;
+    width: 55%;
+}
+
+#descripcion {
+    height: 30%;
+    width: 80%;
+}
+
+#filtro {
+    height: 100%;
+    width: 20%;
+}
+
+#publish {
+    height: 7.5%;
+    width: 20%;
 }
