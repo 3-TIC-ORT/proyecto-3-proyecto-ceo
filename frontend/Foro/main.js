@@ -5,10 +5,25 @@ let publicarRedirect = document.getElementById('publicar')
 let loginPopupButton = document.getElementById('loginPopupButton')
 let popup = document.getElementById('loginPopup')
 
+import { popupLogin } from '../controllers/popupController.js'
 
 publicarRedirect.addEventListener('click', redirectToUploads)
-loginPopupButton.addEventListener('click', popupLogin )
 
+loginPopupButton.addEventListener('click', ()  => {
+    let gmail = document.getElementById('gmail').value
+    let password = document.getElementById('password').value
+
+    if (popupLogin(gmail, password)) {
+        console.log('[POPUP] Success!')
+        popup.classList.remove('show');
+        popup.classList.add('hidden');
+
+        publicarRedirect.classList.remove('hidden');
+        publicarRedirect.classList.add('show')
+
+        fetchForos()
+    }
+})
 
 function redirectToUploads() {
     window.location.href = '../ForoUpload/index.html'
@@ -48,7 +63,7 @@ async function fetchForos() {
 }
 
 function populateForos(foros) {
-    const containerPreguntas = document.getElementById('containerResumenes')
+    const containerPreguntas = document.getElementById('containerForos')
     foros.forEach(pregunta => {
         console.log(pregunta)
         let div = document.createElement('div')

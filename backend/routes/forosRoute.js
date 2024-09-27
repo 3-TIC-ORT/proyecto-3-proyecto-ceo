@@ -3,7 +3,10 @@ import { Router } from 'express'
 import { app } from '../main.js'
 import { fileURLToPath } from 'url'
 import path from 'path';
+import chalk from 'chalk';
 
+const redChalk = chalk.red
+import { getForos } from '../controllers/forosController.js';
 
 const forosRouter = Router()
 
@@ -16,9 +19,10 @@ forosRouter.get("/", async (req, res) => {
     try {
         console.log("Loading foros principal")
         const foros = await getForos()
+        console.log('foros',foros)
         res.status(200).json(foros)
     } catch (error) {
-        res.status(500).send('[foro] ERROR: Failed to load foros')
+        res.status(500).send(redChalk('[foro] ERROR: Failed to load foros'))
     }
 })
 
