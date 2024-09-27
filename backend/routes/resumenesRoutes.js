@@ -36,12 +36,18 @@ resumenesRouter.get('/upload', async (req, res)=> {
 resumenesRouter.get('/visualizar', async (req, res)=>{
     console.log("loading visualizacion de resumenes");
 
+    const id = req.query.id
+    console.log('id:', id)
+    
+    const resumen = await Resumen.findOne({
+        where: { 
+            id
+        }
+    });
+
+    console.log(resumen)
+
     try {
-        const id = getQueryParams();
-        const resumen = await Resumen.findOne({
-            where: { 
-                id,
-        }});
 
         res.status(200).json(resumen);
     } catch (error) {

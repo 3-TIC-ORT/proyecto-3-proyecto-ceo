@@ -1,6 +1,6 @@
-AOS.init();
+import { popupLogin } from "../controllers/popupController.js";
 
-import { getQueryParams } from '../../backend/controllers/detailsPageController.js'
+AOS.init();
 
 let publicarRedirect = document.getElementById('publicar')
 let loginPopupButton = document.getElementById('loginPopupButton')
@@ -8,39 +8,16 @@ let popup = document.getElementById('loginPopup')
 
 
 publicarRedirect.addEventListener('click', redirectToUploads)
-loginPopupButton.addEventListener('click', popupLogin )
+loginPopupButton.addEventListener('click', ()  => {
+    let gmail = document.getElementById('gmail').value
+    let password = document.getElementById('password').value
+
+    popupLogin(gmail, password)
+})
 
 
 function redirectToUploads() {
     window.location.href = '../ResumenesUpload/index.html'
-}
-
-async function popupLogin() {
-    let gmail = document.getElementById('gmail').value
-    let password = document.getElementById('password').value
-
-    console.log('Login through the popup-')
-    let response = await fetch('http://localhost:3000/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            gmail: gmail,
-            password: password
-        })
-    })
-
-    if (response.ok) {
-        let data = await response.json() 
-        localStorage.setItem('token', data.token)
-        fetchResumenes()
-        popup.classList.remove('show');
-        popup.classList.add('hidden');
-
-        publicarRedirect.classList.remove('hidden');
-        publicarRedirect.classList.add('show')
-    }
 }
 
 async function fetchResumenes() {
@@ -116,3 +93,4 @@ function redirectToDetailsPage(id) {
 }
 
 fetchResumenes()
+

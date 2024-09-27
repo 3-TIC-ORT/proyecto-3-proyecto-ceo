@@ -1,4 +1,3 @@
-import { get } from "http";
 
 async function getQueryParams() {
     console.log('Getting parameters..')

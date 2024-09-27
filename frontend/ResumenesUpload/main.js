@@ -38,7 +38,7 @@ publicar.addEventListener('click', sendResumenes)
 async function sendResumenes() {
     const titulo = document.getElementById('titulo').value
     const descripcion = document.getElementById('descripcion').value
-    const filtros = document.getElementById('filtros').value
+    const filtros = document.getElementById('filtro').value
     
     formData.append('titulo', titulo)
     formData.append('descripcion', descripcion)
