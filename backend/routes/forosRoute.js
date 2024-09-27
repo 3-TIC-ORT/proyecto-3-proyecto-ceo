@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const __parentDir = path.dirname(__dirname);
 const __rootDir = path.dirname(__parentDir);
 
-forosRouter.get("/", (req, res) => {
+forosRouter.get("/", async (req, res) => {
     try {
         console.log("Loading foros principal")
         const foros = await getForos()

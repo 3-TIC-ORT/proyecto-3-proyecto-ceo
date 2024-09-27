@@ -12,39 +12,12 @@ let filtros = ['fisica', 'matematica', 'ingles', 'educacion-judia', 'historia']
 console.log('Running resumenes')
 
 filtros.forEach(filtro => {
-    const select = document.getElementById('filtros')
+    const select = document.getElementById('filtro')
     const option = document.createElement('option')
     option.text = filtro
 
     select.appendChild(option)
 });
-
-likeDiv.addEventListener('click', function() {
-    clicks = clicks + 1
-    if (clicks % 2 == 0) {
-        like = false
-        dislike = false
-    } else {
-        like = true
-        dislike = false
-    }
-    console.log('clicks:', clicks)
-
-})
-
-dislikeDiv.addEventListener('click', function() {
-    clicks = clicks + 1
-    if (clicks % 2 == 0) {
-        dislike = false
-        like = false
-
-    } else {
-        dislike = true
-        like = false
-    }
-    console.log('clicks:', clicks)
-
-})
 
 dropZone.addEventListener('dragover', function(e) {
     e.stopPropagation();

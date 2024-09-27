@@ -1,5 +1,7 @@
 AOS.init();
 
+import { getQueryParams } from '../../backend/controllers/detailsPageController.js'
+
 let publicarRedirect = document.getElementById('publicar')
 let loginPopupButton = document.getElementById('loginPopupButton')
 let popup = document.getElementById('loginPopup')
@@ -76,6 +78,7 @@ async function fetchResumenes() {
 
 function populateResumenes(resumenes) {
     const containerResumenes = document.getElementById('containerResumenes')
+
     resumenes.forEach(resumen => {
         console.log(resumen)
         let div = document.createElement('div')
@@ -97,9 +100,19 @@ function populateResumenes(resumenes) {
         div.className = 'resumen'
         div.setAttribute('data-aos', 'fade-up');
         div.innerHTML = modelResumen
+
+        div.addEventListener('click', () => {
+            redirectToDetailsPage(resumen.id)
+        })
+        
+
         containerResumenes.appendChild(div)
     });
     containerResumenes.className = 'recipienteResumen'
+}
+
+function redirectToDetailsPage(id) {
+    window.location.href = `../ResumenesVisualizacion/index.html?id=${id}`;
 }
 
 fetchResumenes()

@@ -42,13 +42,15 @@
     <div class="center">
         <div class="recipiente">
             <input id="titulo" class="inputs" type="text" placeholder="Titulo del tema" value="Brownies">
-            <input id="descripcion" class="inputs" type="text" placeholder="Información" value="Locos">
+            <textarea id="descripcion" class="inputs" type="text" placeholder="Información" value="Locos"></textarea>
 
             <div class="handle">
                 <div id="drop-area" type="file" class="dropArea">
-                    Drop your file
+                    <span> Drop your file </span>
                 </div>
-                <select class="inputs" id="filtro"></select> 
+                <select class="inputs" id="filtro">
+                    <option value="" disabled selected hidden>Seleccione un filtro...</option>
+                </select> 
             </div>
 
             <button id="publish" class="boton">Publicar</button>
