@@ -1,6 +1,6 @@
 body {
-    width: 100%;
-    height: 2142.5px;
+    width: 100vw;
+    height: 115vh;
     margin:0%;
     background-image: url(../TIMI/Fondos/FondoInicio.png);
     background-repeat: no-repeat;
@@ -20,7 +20,7 @@ body {
     align-items: center;
     justify-content: center;
     margin-right: 2vw;
-    width: 15vw;
+    width: 13vw;
 }
 .LineaBarraBotones{
     display: flex;
@@ -49,7 +49,7 @@ body {
 .BotonInicio{
     width: 6vw;
     height: 5vh;
-    font-size: 230%;
+    font-size: 150%;
     border: none;
     background-color: transparent;
     font-weight: bold;
@@ -59,7 +59,7 @@ body {
 .BotonResumenes{
     width: 12vw;
     height: 6vh;
-    font-size: 230%;
+    font-size: 150%;
     border: none;
     background-color: transparent;
     font-weight: bold;
@@ -67,7 +67,7 @@ body {
 .BotonForos{
     width: 6vw;
     height: 5vh;
-    font-size: 230%;
+    font-size: 150%;
     border: none;
     background-color: transparent;
     font-weight: bold;
@@ -75,7 +75,7 @@ body {
 .BotonIntercambios{
     width: 12vw;
     height: 5vh;
-    font-size: 230%;
+    font-size: 150%;
     border: none;
     background-color: transparent;
     font-weight: bold;
@@ -83,7 +83,7 @@ body {
 .BotonObjetosPerdidos{
     width: 16vw;
     height: 5vh;
-    font-size: 230%;
+    font-size: 150%;
     border: none;
     background-color: transparent;
     font-weight: bold;
@@ -91,7 +91,7 @@ body {
 .BotonLogIn{
     width: 15vw;
     height: 8vh;
-    font-size: 230%;
+    font-size: 150%;
     border-radius: 5vh;
     font-weight: bold;
     border: none;
