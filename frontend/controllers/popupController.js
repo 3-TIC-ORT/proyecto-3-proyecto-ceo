@@ -15,7 +15,7 @@ async function popupLogin(gmail, password) {
     if (response.ok) {
         let data = await response.json() 
         localStorage.setItem('token', data.token)
-
+        location.reload()
         return true;
     }
 }

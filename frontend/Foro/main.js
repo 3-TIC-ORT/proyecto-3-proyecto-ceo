@@ -29,6 +29,10 @@ function redirectToUploads() {
     window.location.href = '../ForoUpload/index.html'
 }
 
+function redirectToDetailsPage(id) {
+    window.location.href = `../ForoVisualizacion/index.html?id=${id}`;
+}
+
 async function fetchForos() {
     const token = localStorage.getItem('token');
 
@@ -67,26 +71,18 @@ function populateForos(foros) {
     foros.forEach(pregunta => {
         console.log(pregunta)
         let div = document.createElement('div')
-        let modelPregunta = 
-        `<p class="text" id="nombreResumen">${pregunta.pregunta}</p>
-        <div class="text" id="info">
+        let modelPregunta = `<p class="text" id="nombrePregunta">${pregunta.pregunta}</p>`
 
-            <div class="recomendacion" id="likes">
-                <img src="/frontend/img/Like.svg" class="thumbs" alt="">
-                <p id="numeroLikes">33</p>
-            </div>
-            <div class="recomendacion" id="dislikes">
-                <img src="/frontend/img/Dislike.svg" class="thumbs" alt="">
-                <p id="numeroDislikes">33</p>
-            </div>
+        div.addEventListener('click', () => {
+            redirectToDetailsPage(pregunta.id)
+        })
 
-        </div>` 
         div.className = 'pregunta'
         div.setAttribute('data-aos', 'fade-up');
         div.innerHTML = modelPregunta
         containerPreguntas.appendChild(div)
     });
-    containerPreguntas.className = 'recipienteResumen'
+    containerPreguntas.className = 'recipienteForos'
 }
 
 fetchForos()

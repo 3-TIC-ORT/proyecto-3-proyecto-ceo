@@ -4,9 +4,11 @@ import { app } from '../main.js'
 import { fileURLToPath } from 'url'
 import path from 'path';
 import chalk from 'chalk';
+import { Foro } from '../model/foros.js';
 
 const redChalk = chalk.red
 import { getForos } from '../controllers/forosController.js';
+import { getQueryParams } from '../../frontend/controllers/detailsPageController.js';
 
 const forosRouter = Router()
 
@@ -17,28 +19,44 @@ const __rootDir = path.dirname(__parentDir);
 
 forosRouter.get("/", async (req, res) => {
     try {
-        console.log("Loading foros principal")
+        console.log("Loading foros principal...")
         const foros = await getForos()
-        console.log('foros',foros)
         res.status(200).json(foros)
     } catch (error) {
         res.status(500).send(redChalk('[foro] ERROR: Failed to load foros'))
     }
 })
 
-forosRouter.get("/search", (req, res) => {
+forosRouter.get("/search", async (req, res) => {
 
-    res.sendFile(path.join(__rootDir, 'frontend/ForoBusqueda/'))
 })
 
-forosRouter.get("/upload", (req, res) => {
+forosRouter.get("/upload", async (req, res) => {
 
-    res.sendFile(path.join(__rootDir, 'frontend/ForoUpload/ForoUpload.html'))
 })
 
-forosRouter.get("/open", (req, res) => {
+forosRouter.get("/open", async (req, res) => {
+    console.log('Loading selected pregunta....')
+    const id = req.query.id
+    console.log('ID: ', id)
+    
+    const pregunta = await Foro.findOne({
+        where: {
+            id
+        }
+    });
 
-    res.sendFile(path.join(__rootDir, 'frontend/ForoVisualizacion/ForoVisualizacion.html'))
+    if (!pregunta) {
+        console.log('No existe esa pregunta')
+        res.status(400).send('No existe la pregunta')
+    }
+
+    try {
+        console.log('Data: ', pregunta)
+        res.status(200).json(pregunta)
+    } catch (error) {
+        res.status(500).send('Failed to send the pregunta...')
+    }
 })
 
 export { forosRouter }

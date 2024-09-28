@@ -1,3 +1,16 @@
+@keyframes moveLeft {
+
+    from {
+        transform: translateX(-10%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+}
+
 .body {
     height: 100vh;
     width: 100vw;
@@ -5,7 +18,7 @@
     background-image: url(/frontend/img/Fondo.svg);
     background-size: over;           
     background-repeat: repeat-y;
-    background-color: rgba(255, 255, 255, 0.50);    
+    background-color: rgba(120, 73, 73, 0.5);    
 }
 
 .popup {
@@ -54,6 +67,8 @@ span {
     align-items: center;
     justify-content: center;
     border: 1px solid black;
+
+    animation: moveLeft 0.5s ease-out;
 }
 
 .boton {
@@ -239,7 +254,7 @@ span {
 }
 
 #publicar {
-    position: fixed;  /* Or position: absolute/fixed based on your layout */
+    position: fixed;  
     z-index: 10;
     top: 80%;
     left: 70%;
