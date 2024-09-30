@@ -69,7 +69,7 @@ async function createToken(user) {
             firstName: user.firstName
         };
 
-        const token = jsonwebtoken.sign(payload, SECRET_KEY, { expiresIn: '1m' });
+        const token = jsonwebtoken.sign(payload, SECRET_KEY, { expiresIn: '2m' });
         console.log(`[token] TOKEN ID IS: '${user.id}' AND NAME: ${user.firstName}`);
         
         return token;
@@ -218,14 +218,15 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-objetosPerdidos', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+    app.post('/send-objetos', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
-            const { informacion } = req.body;
             console.log("Receiving objetosPerdidos data...");
-    
+
+            const { informacion } = req.body;
+            const userId = req.user.id
             const foto = req.files['foto'] ? req.files['foto'][0].path : null;
     
-            const objetoPerdido = await objetoPerdido.create({ informacion, foto });
+            const objetoPerdido = await objetoPerdido.create({ informacion, foto, userId });
             res.status(201).json({ message: 'Objeto perdido registered successfully' });
         } catch (error) {
             console.error(redChalk("Error registering objeto perdido:"), error);

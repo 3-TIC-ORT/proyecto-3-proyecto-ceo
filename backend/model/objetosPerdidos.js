@@ -16,6 +16,10 @@ const objetoPerdido = sequelize.define('objetosPerdidos', {
     informacion: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    userId: {
+        type: Sequelize.NUMBER,
+        allowNull: false
     }
 }, {
     timestamps: false,

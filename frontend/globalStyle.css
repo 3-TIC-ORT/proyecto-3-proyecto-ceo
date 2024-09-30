@@ -8,6 +8,17 @@
     background-color: rgba(255, 255, 255, 0.50);    
 }
 
+.dropArea {
+    width: 30%;
+    height: 100%;
+    border: black;
+    border-radius: 50px;
+    background: #007BFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .popup {
     position: fixed;
     top: 50%;

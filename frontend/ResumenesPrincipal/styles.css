@@ -67,8 +67,8 @@ span {
     align-items: center;
     justify-content: center;
     border: 1px solid black;
-
     animation: moveLeft 0.5s ease-out;
+
 }
 
 .boton {

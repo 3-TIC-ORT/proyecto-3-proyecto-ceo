@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url'
 import path from 'path';
 import { authenticateToken } from '../endpoints.js';
 import { Resumen } from '../model/resumenes.js';
+import chalk from 'chalk';
 
 const resumenesRouter = Router()
 
@@ -23,6 +24,7 @@ resumenesRouter.get('/', async (req, res) => {
         const resumenes = await getResumenes()
         res.status(200).json(resumenes)
     } catch (error) {
+        console.log(chalk.red(error))
         res.status(500).send('[resumenes] ERROR: Failed to load resumenes')
     }
 })

@@ -11,10 +11,10 @@ const __dirname = path.dirname(__filename);
 const __parentDir = path.dirname(__dirname);
 const __rootDir = path.dirname(__parentDir);
 
-objPerdidosRouter.get('/', (req, res)=>{
+objPerdidosRouter.get('/', async (req, res)=>{
 
-    res.sendFile(path.join(__rootDir, 'frontend/ObjetosPerdidos/ObjetosPerdidos.html'));
-})
+    res.send('pepe')
+});
 
 objPerdidosRouter.get("/upload", (req, res) => {
 

@@ -72,7 +72,7 @@ endpoints(app)
 
 app.use('/resumen', authenticateToken, resumenesRouter)
 app.use('/foros', authenticateToken, forosRouter)
-app.use('/objetos-perdidos', authenticateToken, objPerdidosRouter)
+app.use('/objetos', authenticateToken, objPerdidosRouter)
 app.use('/home', campusRouter)
 
 
