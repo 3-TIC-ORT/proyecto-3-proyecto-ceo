@@ -4,6 +4,7 @@ import { app } from '../main.js'
 import { fileURLToPath } from 'url'
 import path from 'path';
 import { authenticateToken } from '../endpoints.js';
+import { Resumen } from '../model/resumenes.js';
 
 const resumenesRouter = Router()
 
@@ -14,7 +15,7 @@ const __rootDir = path.dirname(__parentDir);
 
 //controller
 import { getResumenes } from '../controllers/resumenesController.js';
-import { json } from 'sequelize';
+import { json, where } from 'sequelize';
 
 resumenesRouter.get('/', async (req, res) => {
     try {
@@ -31,4 +32,28 @@ resumenesRouter.get('/upload', async (req, res)=> {
 
     res.sendFile(path.join(__rootDir, 'frontend/ResumenesUpload/ResumenesUpload.html'));
 })
+
+resumenesRouter.get('/visualizar', async (req, res)=>{
+    console.log("loading visualizacion de resumenes");
+
+    const id = req.query.id
+    console.log('id:', id)
+    
+    const resumen = await Resumen.findOne({
+        where: { 
+            id
+        }
+    });
+
+    console.log(resumen)
+
+    try {
+
+        res.status(200).json(resumen);
+    } catch (error) {
+        console.error('Failed visualizacion');
+        res.status(500).json({message: 'failed vizualizacion'});
+    }
+})
+
 export { resumenesRouter }

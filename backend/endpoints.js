@@ -20,6 +20,7 @@ config();
 
 const SECRET_KEY = process.env.SECRET_KEY;
 import { json, where } from 'sequelize';
+import { text } from 'stream/consumers';
 
 const blueChalk = chalk.blue
 const greenChalk = chalk.greenBright;
@@ -117,7 +118,7 @@ export async function endpoints(app) {
     
         try {
             const user = await User.findOne({
-                where: { firstName, gmail }
+                where: { gmail }
             });    
     
             if (!user) {
@@ -235,6 +236,7 @@ export async function endpoints(app) {
     app.post('/send-foro', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
             const { pregunta, textoExplicativo, comentarios } = req.body;
+            
             console.log("Receiving foro data...");
     
             const foto = req.files['foto'] ? req.files['foto'][0].path : null;

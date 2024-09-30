@@ -1,0 +1,76 @@
+.dropArea {
+    width: 30%;
+    height: 100%;
+    border: black;
+    border-radius: 50px;
+    background: #007BFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center {
+    height: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.handle {
+    margin-top: 2.5%;
+    height: 12.5%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-content: space-around;
+}
+
+.recipiente {
+    margin-top: 2.5%;
+    height: 87.5%;
+    width: 80%;
+    border-radius: 30px;
+    background: #E0E0E0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#titulo {
+    height: 7.5%;
+    width: 55%;
+}
+
+#descripcion {
+    margin-top: 2.5%;
+    padding-top: 2.5%;
+    height: 45%;
+    width: 80%;
+    border-radius: 10px;
+    font-size: medium;
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start
+}
+
+#filtro {
+    appearance: none;
+    height: 100%;
+    width: 40%;
+    border: 2px solid black;
+    border-radius: 30px;
+    outline: none; 
+    background-size: 5%;
+    background-image: url(../../img/Arrow.svg);
+    background-repeat: no-repeat;
+    background-position: 92.5%;
+}
+
+#publish {
+    height: 10%;
+    width: 20%;
+    margin-top: 2.5%;
+}

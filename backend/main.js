@@ -32,8 +32,12 @@ import { authenticateToken } from './endpoints.js';
 import { endpoints } from './endpoints.js';
 
 const app = Express()
+app.use(cors({
+    origin: 'http://127.0.0.1:5500', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+}))
 app.use(express.json())
-app.use(cors())
+
 app.use(express.static(path.join(__rootDir, 'frontend/')));
 
 
@@ -65,6 +69,7 @@ endpoints(app)
 
 
 //rutass
+
 app.use('/resumen', authenticateToken, resumenesRouter)
 app.use('/foros', authenticateToken, forosRouter)
 app.use('/objetos-perdidos', authenticateToken, objPerdidosRouter)

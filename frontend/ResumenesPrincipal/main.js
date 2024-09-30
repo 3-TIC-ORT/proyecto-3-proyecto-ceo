@@ -1,7 +1,27 @@
+import { popupLogin } from "../controllers/popupController.js";
+
+AOS.init();
+
+let publicarRedirect = document.getElementById('publicar')
+let loginPopupButton = document.getElementById('loginPopupButton')
+let popup = document.getElementById('loginPopup')
+
+
+publicarRedirect.addEventListener('click', redirectToUploads)
+loginPopupButton.addEventListener('click', ()  => {
+    let gmail = document.getElementById('gmail').value
+    let password = document.getElementById('password').value
+
+    popupLogin(gmail, password)
+})
+
+
+function redirectToUploads() {
+    window.location.href = 'uploadResumenes/index.html'
+}
 
 async function fetchResumenes() {
     const token = localStorage.getItem('token');
-
 
     let response = await fetch('http://localhost:3000/resumen', {
         method: 'GET',
@@ -9,6 +29,15 @@ async function fetchResumenes() {
             'Authorization': `Bearer ${token}`,
         },
     })
+
+    if (!response.ok) {
+        console.log('Displaying popup')
+        popup.classList.remove('hidden')
+        popup.classList.add('show')
+
+        publicarRedirect.classList.remove('show');
+        publicarRedirect.classList.add('hidden')
+    }
 
     try {
 
@@ -21,12 +50,12 @@ async function fetchResumenes() {
 
     } catch (error) {
         console.log('[client] ERROR: Failed to authenticate or fetching data', error);
-
     }
 }
 
 function populateResumenes(resumenes) {
     const containerResumenes = document.getElementById('containerResumenes')
+
     resumenes.forEach(resumen => {
         console.log(resumen)
         let div = document.createElement('div')
@@ -46,10 +75,22 @@ function populateResumenes(resumenes) {
 
         </div>` 
         div.className = 'resumen'
+        div.setAttribute('data-aos', 'fade-up');
         div.innerHTML = modelResumen
+
+        div.addEventListener('click', () => {
+            redirectToDetailsPage(resumen.id)
+        })
+        
+
         containerResumenes.appendChild(div)
     });
     containerResumenes.className = 'recipienteResumen'
 }
 
+function redirectToDetailsPage(id) {
+    window.location.href = `visualizacionResumenes/index.html?id=${id}`;
+}
+
 fetchResumenes()
+
