@@ -17,7 +17,7 @@ loginPopupButton.addEventListener('click', ()  => {
 
 
 function redirectToUploads() {
-    window.location.href = '../ResumenesUpload/index.html'
+    window.location.href = 'uploadResumenes/index.html'
 }
 
 async function fetchResumenes() {
@@ -89,7 +89,7 @@ function populateResumenes(resumenes) {
 }
 
 function redirectToDetailsPage(id) {
-    window.location.href = `../ResumenesVisualizacion/index.html?id=${id}`;
+    window.location.href = `visualizacionResumenes/index.html?id=${id}`;
 }
 
 fetchResumenes()

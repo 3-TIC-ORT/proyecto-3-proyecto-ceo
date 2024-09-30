@@ -26,11 +26,11 @@ loginPopupButton.addEventListener('click', ()  => {
 })
 
 function redirectToUploads() {
-    window.location.href = '../ForoUpload/index.html'
+    window.location.href = 'ForoUpload/index.html'
 }
 
 function redirectToDetailsPage(id) {
-    window.location.href = `../ForoVisualizacion/index.html?id=${id}`;
+    window.location.href = `ForoVisualizacion/index.html?id=${id}`;
 }
 
 async function fetchForos() {
