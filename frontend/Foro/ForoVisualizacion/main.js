@@ -1,16 +1,16 @@
-import { getQueryParams } from "../controllers/detailsPageController.js";
 
-console.log('Running resumen visualizacion')
+import { getQueryParams } from "../../controllers/detailsPageController.js";
+console.log('Running preguntas visualizacion')
 
-async function getResumenesDetails() {
-    console.log('Getting resumen info')
+async function getPreguntasDetails() {
+    console.log('Getting preguntas info')
     const token = localStorage.getItem('token')
 
     const id = await getQueryParams()
 
     try {
 
-        const response = await fetch(`http://localhost:3000/resumen/visualizar?id=${id}`, {
+        const response = await fetch(`http://localhost:3000/foros/open?id=${id}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -19,11 +19,11 @@ async function getResumenesDetails() {
     
         if (response.ok) {
 
-            console.log('Got the resumen info')
+            console.log('Got the pregunta info')
             const data = await response.json()
 
             console.log('Received data: ', data)
-            displayResumen(data)
+            displayPregunta(data)
         } 
 
     } catch (error) {
@@ -31,14 +31,14 @@ async function getResumenesDetails() {
     }
 }
 
-async function displayResumen(resumen) {
+
+async function displayPregunta(pregunta) {
     const informacion = document.getElementById('informacion')
     const titulo = document.getElementById('titulo')
 
-    titulo.innerText = resumen.titulo
-    informacion.innerText = resumen.descripcion
+    titulo.innerText = pregunta.titulo
+    informacion.innerText = pregunta.descripcion
 
 }
 
-getResumenesDetails()
-
+getPreguntasDetails()
