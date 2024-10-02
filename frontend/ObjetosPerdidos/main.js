@@ -103,7 +103,7 @@ async function populateObjetos(objetos) {
 }
 
 function redirectToDetailsPage(id) {
-    window.location.href = `ObjetosPerdidosVisualizacion/index.html?id=${id}`
+    window.location.href = `ObjVisualizacion/index.html?id=${id}`
 }
 
 function redirectToUploads() {

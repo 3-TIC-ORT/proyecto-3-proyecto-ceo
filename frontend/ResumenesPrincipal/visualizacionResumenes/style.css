@@ -24,13 +24,14 @@
 .Logo{
     width: 13vw;
     height: 10vh;
-    background-image: url(../TIMI/Fondos/Logo\ y\ titulo.png);
+    background-image: url(../../TIMI/Fondos/Logo\ y\ titulo.png);
     background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-left: 2vw;
 }
+
 .BarraBotones{
     display: flex;
     justify-content: space-around;
