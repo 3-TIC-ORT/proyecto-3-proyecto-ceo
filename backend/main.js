@@ -75,21 +75,6 @@ app.use('/foros', authenticateToken, forosRouter)
 app.use('/objetos', authenticateToken, objPerdidosRouter)
 app.use('/home', campusRouter)
 
-
-app.get("/users", async (req,res) => {
-    try {
-        const users = await User.findAll();
-        console.log("Corriendo")
-        console.log(users)
-    } catch (error) {
-        console.error(err , "Busqueda no Exitosa")
-    }
-});
-
-app.get("/", async (req,res) => {
-    res.sendFile(path.resolve('frontend', 'LogIn/LogIn.html'))
-});
-
 app.listen(PORT, () => {
     try {
         console.log(yellowChalk("Connection Successful!!!!!!!", PORT))

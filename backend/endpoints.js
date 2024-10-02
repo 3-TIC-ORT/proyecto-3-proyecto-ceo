@@ -4,6 +4,11 @@ import multer from 'multer';
 import path, { dirname } from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+
+//CONTROLLERS
+import { getObjeto } from './controllers/objPerdController.js';
+
+//MODELS
 import { User } from './model/users.js';
 import { Foro } from './model/foros.js';
 import { objetoPerdido } from './model/objetosPerdidos.js';
@@ -20,7 +25,7 @@ config();
 
 const SECRET_KEY = process.env.SECRET_KEY;
 import { json, where } from 'sequelize';
-import { text } from 'stream/consumers';
+import { blob, text } from 'stream/consumers';
 
 const blueChalk = chalk.blue
 const greenChalk = chalk.greenBright;
@@ -218,16 +223,25 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-objetos', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+    app.post('/send-objetos', authenticateToken, upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
             console.log("Receiving objetosPerdidos data...");
 
-            const { informacion } = req.body;
+            const { informacion, titulo } = req.body;
+            console.log(req.user)
             const userId = req.user.id
-            const foto = req.files['foto'] ? req.files['foto'][0].path : null;
+            const file = req.files['foto'] ? req.files['foto'][0] : null;
+
+            if (!file) {
+                return res.status(400).send('No file uploaded');
+            }
+            const foto = file.path;
+            const foto_format = path.extname(file.originalname).substring(1); 
+
+            console.log(yellowChalk('format:', foto_format))
     
-            const objetoPerdido = await objetoPerdido.create({ informacion, foto, userId });
-            res.status(201).json({ message: 'Objeto perdido registered successfully' });
+            const objPerdido = await objetoPerdido.create({ informacion, foto, userId, titulo, foto_format });
+            res.status(201).send({ message: 'Objeto perdido registered successfully' });
         } catch (error) {
             console.error(redChalk("Error registering objeto perdido:"), error);
             res.status(500).json({ message: 'Error registering objeto perdido', error });
@@ -254,7 +268,6 @@ export async function endpoints(app) {
         const {id} = req.params;
         const { informacion } =  req.body;
         const foto = req.file ? req.file.buffer : undefined;
-
         try {
             const objetoPerdido = objetoPerdido.findByPk(id);
 
@@ -393,66 +406,25 @@ export async function endpoints(app) {
             res.status(500).json({ message: 'Error downloading file', error });
         }
     });
+
+    app.get('/image/:id', async (req, res) => {
+        try {
+            const id = req.params.id
+            const objeto = await getObjeto(id)
+
+            const mimeType = objeto.foto_format;
+            const fileBuffer = fs.readFileSync(objeto.foto);
+    
+            res.set('Content-Type', mimeType);
+            res.set('Content-Length', fileBuffer.length);
+            res.status(200).send(fileBuffer);
+        } catch (error) {
+            console.log('Failed to fetch the image blob:', error)
+            res.status(500).send('failed')
+        }
+    })
 }
 
-app.get('/users', authenticateToken, async (req, res) => {
-    try {
-        const users = await User.findAll();
-        res.status(200).json(users);
-    } catch (error) {
-        console.error(redChalk("Error fetching users:"), error);
-        res.status(500).json({ message: 'Error fetching users', error });
-    }
-});
 
-app.get('/intercambios', authenticateToken, async (req, res) => {
-    try {
-        const intercambios = await Intercambio.findAll();
-        res.status(200).json(intercambios);
-    } catch (error) {
-        console.error(redChalk("Error fetching intercambios:"), error);
-        res.status(500).json({ message: 'Error fetching intercambios', error });
-    }
-});
-
-app.get('/feedbacks', authenticateToken, async (req, res) => {
-    try {
-        const feedbacks = await FeedbackModel.findAll();
-        res.status(200).json(feedbacks);
-    } catch (error) {
-        console.error(redChalk("Error fetching feedbacks:"), error);
-        res.status(500).json({ message: 'Error fetching feedbacks', error });
-    }
-});
-
-app.get('/resumenes', authenticateToken, async (req, res) => {
-    try {
-        const resumenes = await Resumen.findAll();
-        res.status(200).json(resumenes);
-    } catch (error) {
-        console.error(redChalk("Error fetching resumenes:"), error);
-        res.status(500).json({ message: 'Error fetching resumenes', error });
-    }
-});
-
-app.get('/objetos-perdidos', authenticateToken, async (req, res) => {
-    try {
-        const objetos = await objetoPerdido.findAll();
-        res.status(200).json(objetos);
-    } catch (error) {
-        console.error(redChalk("Error fetching objetos perdidos:"), error);
-        res.status(500).json({ message: 'Error fetching objetos perdidos', error });
-    }
-});
-
-app.get('/foros', authenticateToken, async (req, res) => {
-    try {
-        const foros = await Foro.findAll();
-        res.status(200).json(foros);
-    } catch (error) {
-        console.error(redChalk("Error fetching foros:"), error);
-        res.status(500).json({ message: 'Error fetching foros', error });
-    }
-});
 
 export { authenticateToken }

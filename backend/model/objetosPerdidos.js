@@ -1,6 +1,7 @@
 import Sequelize from "sequelize";
 import { sequelize } from "../DB/DBcontroller.js";
 import chalk from "chalk";
+import { type } from "os";
 
 
 const greenChalk = chalk.greenBright;
@@ -17,8 +18,16 @@ const objetoPerdido = sequelize.define('objetosPerdidos', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    titulo: {
+        type: Sequelize.STRING,
+        allowNull: false       
+    },
     userId: {
         type: Sequelize.NUMBER,
+        allowNull: false
+    },
+    foto_format: {
+        type: Sequelize.STRING,
         allowNull: false
     }
 }, {

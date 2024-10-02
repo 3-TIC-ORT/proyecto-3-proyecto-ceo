@@ -205,6 +205,24 @@ span {
     background-color: #294F78;
 }
 
+#publicar {
+    position: fixed;  
+    z-index: 10;
+    top: 80%;
+    left: 70%;
+    height: 7.5%;
+    width: 25%;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    font-size: xx-large;
+
+}
+
+#publicar:active {
+    background-color: #294F78;
+}
+
 
 #loginPopup {
     display: flex;
