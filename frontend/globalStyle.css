@@ -2,10 +2,21 @@
     height: 100vh;
     width: 100vw;
     margin: 0;
-    background-image: url(/frontend/img/Fondo.svg);
+    background-image: url(/frontend/img/Fondo-Resumenes.svg);
     background-size: over;           
     background-repeat: repeat-y;
     background-color: rgba(255, 255, 255, 0.50);    
+}
+
+.dropArea {
+    width: 30%;
+    height: 100%;
+    border: black;
+    border-radius: 50px;
+    background: #007BFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .popup {
@@ -54,7 +65,7 @@ span {
     justify-content: center;
 }
 
-.navResumen {
+.navSelected {
     text-decoration: underline;
     font-weight: 900;
     color: #294F78;
@@ -191,6 +202,24 @@ span {
 #loginPopupButton:active {
     height: 14.5%;
     width: 69.5%;
+    background-color: #294F78;
+}
+
+#publicar {
+    position: fixed;  
+    z-index: 10;
+    top: 80%;
+    left: 70%;
+    height: 7.5%;
+    width: 25%;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    font-size: xx-large;
+
+}
+
+#publicar:active {
     background-color: #294F78;
 }
 

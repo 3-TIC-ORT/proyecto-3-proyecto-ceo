@@ -9,6 +9,7 @@ import { Foro } from '../model/foros.js';
 const redChalk = chalk.red
 import { getForos } from '../controllers/forosController.js';
 import { getQueryParams } from '../../frontend/controllers/detailsPageController.js';
+import { searchPregunta } from '../controllers/forosController.js';
 
 const forosRouter = Router()
 
@@ -28,7 +29,16 @@ forosRouter.get("/", async (req, res) => {
 })
 
 forosRouter.get("/search", async (req, res) => {
-
+    const query = req.query.query
+    try {
+        const preguntas = await searchPregunta(query)
+        if (!preguntas) {
+            res.status(404).send('Could not find any preguntas!')
+        }
+        res.status(200).json(preguntas)
+    } catch (error) {
+        console.log('[foros] Failed to initate search:', error)
+    }
 })
 
 forosRouter.get("/upload", async (req, res) => {

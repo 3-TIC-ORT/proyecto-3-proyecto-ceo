@@ -6,8 +6,8 @@ let dislikeDiv = document.getElementById('dislike')
 
 let clicks = 0
 
-let like = false;
-let dislike = false;
+let like = 0;
+let dislike = 0;
 let filtros = ['fisica', 'matematica', 'ingles', 'educacion-judia', 'historia']
 console.log('Running resumenes')
 
@@ -36,6 +36,7 @@ dropZone.addEventListener('drop', function(e) {
 publicar.addEventListener('click', sendResumenes)
 
 async function sendResumenes() {
+
     const titulo = document.getElementById('titulo').value
     const descripcion = document.getElementById('descripcion').value
     const filtros = document.getElementById('filtro').value
@@ -49,9 +50,14 @@ async function sendResumenes() {
     console.log(formData)
 
     try {
+        const token = localStorage.getItem('token');
+
         let response = fetch('http://localhost:3000/send-resumen', {
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
         }) 
     } catch (error) {
         console.log('LPTM')

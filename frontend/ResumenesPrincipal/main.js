@@ -1,24 +1,23 @@
 import { popupLogin } from "../controllers/popupController.js";
+import { searchByQuery } from "../controllers/searchQueryController.js";
 
 AOS.init();
 
 let publicarRedirect = document.getElementById('publicar')
 let loginPopupButton = document.getElementById('loginPopupButton')
 let popup = document.getElementById('loginPopup')
-
+let searchInput = document.getElementById('busqueda')
+let filtros = document.getElementById('filtros')
 
 publicarRedirect.addEventListener('click', redirectToUploads)
+searchInput.addEventListener('input', search)
+filtros.addEventListener('input', search)
 loginPopupButton.addEventListener('click', ()  => {
     let gmail = document.getElementById('gmail').value
     let password = document.getElementById('password').value
 
     popupLogin(gmail, password)
 })
-
-
-function redirectToUploads() {
-    window.location.href = 'uploadResumenes/index.html'
-}
 
 async function fetchResumenes() {
     const token = localStorage.getItem('token');
@@ -55,6 +54,8 @@ async function fetchResumenes() {
 
 function populateResumenes(resumenes) {
     const containerResumenes = document.getElementById('containerResumenes')
+    const selector = '.resumen'
+    cleanContainer(selector)
 
     resumenes.forEach(resumen => {
         console.log(resumen)
@@ -90,6 +91,29 @@ function populateResumenes(resumenes) {
 
 function redirectToDetailsPage(id) {
     window.location.href = `visualizacionResumenes/index.html?id=${id}`;
+}
+
+function redirectToUploads() {
+    window.location.href = 'uploadResumenes/index.html'
+}
+
+function cleanContainer(selector) {
+    console.log('Cleaning container with id:', selector)
+    const container = document.getElementById('containerResumenes')
+    const elements = container.querySelectorAll(selector)
+    elements.forEach(element => element.remove())
+}
+
+async function search() {
+    const endpoint = 'resumen'
+    const route = 'search'
+
+    const query = searchInput.value
+    const filtro = filtros.value
+
+    const resultados = await searchByQuery(endpoint, route, query, filtro)
+
+    populateResumenes(resultados)
 }
 
 fetchResumenes()

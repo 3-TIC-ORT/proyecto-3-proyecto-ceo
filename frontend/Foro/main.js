@@ -4,10 +4,13 @@ AOS.init();
 let publicarRedirect = document.getElementById('publicar')
 let loginPopupButton = document.getElementById('loginPopupButton')
 let popup = document.getElementById('loginPopup')
+let searchBar = document.getElementById('busqueda')
 
 import { popupLogin } from '../controllers/popupController.js'
+import { searchByQuery } from '../controllers/searchQueryController.js';
 
 publicarRedirect.addEventListener('click', redirectToUploads)
+searchBar.addEventListener('input', search)
 
 loginPopupButton.addEventListener('click', ()  => {
     let gmail = document.getElementById('gmail').value
@@ -31,6 +34,13 @@ function redirectToUploads() {
 
 function redirectToDetailsPage(id) {
     window.location.href = `ForoVisualizacion/index.html?id=${id}`;
+}
+
+function cleanContainer(selector) {
+    console.log('Cleaning container with id:', selector)
+    const container = document.getElementById('containerForos')
+    const elements = container.querySelectorAll(selector)
+    elements.forEach(element => element.remove())
 }
 
 async function fetchForos() {
@@ -68,6 +78,9 @@ async function fetchForos() {
 
 function populateForos(foros) {
     const containerPreguntas = document.getElementById('containerForos')
+    const selector = '.pregunta'
+    cleanContainer(selector)
+    
     foros.forEach(pregunta => {
         console.log(pregunta)
         let div = document.createElement('div')
@@ -83,6 +96,16 @@ function populateForos(foros) {
         containerPreguntas.appendChild(div)
     });
     containerPreguntas.className = 'recipienteForos'
+}
+
+
+async function search() {
+    const endpoint = 'foros'
+    const route = 'search'
+    const query = searchBar.value
+
+    const resultados = await searchByQuery(endpoint, route, query)
+    populateForos(resultados)
 }
 
 fetchForos()
