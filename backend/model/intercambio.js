@@ -18,7 +18,7 @@ const Intercambio = sequelize.define('Intercambio',{
         allowNull: false
     },
     respuestas:{
-        type: Sequelize.STRING,
+        type: Sequelize.JSON,
         allowNull: true,
     },
     foto:{

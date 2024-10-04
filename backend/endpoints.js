@@ -26,6 +26,7 @@ config();
 const SECRET_KEY = process.env.SECRET_KEY;
 import { json, where } from 'sequelize';
 import { blob, text } from 'stream/consumers';
+import { combineTableNames } from 'sequelize/lib/utils';
 
 const blueChalk = chalk.blue
 const greenChalk = chalk.greenBright;
@@ -288,7 +289,7 @@ export async function endpoints(app) {
 
     app.put('/intercambio/:id', authenticateToken, upload.single('archivo'), async (req, res) => {
         const { id } = req.params;
-        const { informacion, titulo, respuestas } = req.body;
+        const { informacion, titulo, respuestas,} = req.body;
         const archivo = req.file ? req.file.buffer : undefined;
     
         try {
@@ -299,10 +300,22 @@ export async function endpoints(app) {
             }
 
             if (titulo !== undefined) intercambio.titulo = titulo;
-            if (respuestas !== undefined) intercambio.respuestas = respuestas;
             if (informacion !== undefined) intercambio.informacion = informacion;
             if (archivo !== undefined) intercambio.archivo = archivo;
-    
+
+            if (respuestas !== undefined) {
+                let respuestasActuales = intercambio.respuestas || '[]';
+                respuestasActuales = JSON.parse(respuestasActuales); 
+                const nuevasRespuestas =  JSON.parse(respuestas);
+
+                if (Array.isArray(nuevasRespuestas)) {
+                    respuestasActuales = respuestasActuales.concat(nuevasRespuestas);
+                } else {
+                    respuestas.push(nuevasRespuestas);
+                }
+                intercambio.respuestas = JSON.stringify(respuestasActualesActuales);
+            }
+
             await intercambio.save();
             res.status(200).json({ message: 'Intercambio updated successfully' });
         } catch (error) {
@@ -325,8 +338,20 @@ export async function endpoints(app) {
 
             if (pregunta !== undefined) foro.pregunta = pregunta;
             if (textoExplicativo !== undefined) foro.textoExplicativo = textoExplicativo;
-            if (comentarios !== undefined) foro.comentarios = comentarios;
             if (foto !== undefined) foro.foto = foto;
+            
+            if (comentarios !== undefined){
+                let comentariosActuales = foro.comentarios || '[]';
+                comentariosActuales = JSON.parse(comentariosActuales);
+                const nuevosComentarios =  JSON.parse(comentarios);
+
+                if (Array.isArray(nuevasComentarios)) {
+                    comentariosActuales.concat(nuevosComentarios);
+                } else {
+                    comentariosActuales.push(nuevosComentarios);
+                }
+                foro.comentarios = JSON.stringify(comentariosActuales);
+            }
 
             await foro.save();
             res.status(200).json({ message: 'Foro updated successfully' });

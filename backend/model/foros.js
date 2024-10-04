@@ -23,7 +23,7 @@ const Foro = sequelize.define('Foros', {
         allowNull: false
     },
     comentarios: {
-        type: Sequelize.STRING,
+        type: Sequelize.JSON,
         allowNull: true
     }
 },{
