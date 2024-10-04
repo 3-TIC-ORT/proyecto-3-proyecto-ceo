@@ -15,8 +15,8 @@ const __parentDir = path.dirname(__dirname);
 const __rootDir = path.dirname(__parentDir);
 
 //controller
-import { getResumenes } from '../controllers/resumenesController.js';
-import { json, where } from 'sequelize';
+import { getResumenes, searchResumenes } from '../controllers/resumenesController.js';
+import { json, where, Op} from 'sequelize';
 
 resumenesRouter.get('/', async (req, res) => {
     try {
@@ -29,10 +29,20 @@ resumenesRouter.get('/', async (req, res) => {
     }
 })
 
-resumenesRouter.get('/upload', async (req, res)=> {
-    console.log("Loading resumenes upload")
-
-    res.sendFile(path.join(__rootDir, 'frontend/ResumenesUpload/ResumenesUpload.html'));
+resumenesRouter.get('/search', async (req, res)=> {
+    console.log("Loading resumenes search")
+    try {
+        const query = req.query.query
+        const filtro = req.query.filtro
+        const resultados = await searchResumenes(query, filtro);
+        
+        if (!resultados) {
+            res.status(404).send('Did not find any resumenes')
+        }
+        res.status(200).json(resultados)
+    } catch (error) {
+        console.log('[resumenes] Failed to initate search:', error)
+    }
 })
 
 resumenesRouter.get('/visualizar', async (req, res)=>{
