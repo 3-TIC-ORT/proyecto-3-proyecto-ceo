@@ -1,0 +1,147 @@
+.fisica {
+    background-color: rgba(255, 129, 4, 0.5);
+    border-radius: 7.5px;
+    height: 40%;
+    width: 12.5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px black;
+    
+}
+
+.dotFisica {
+    background-color: rgba(255, 129, 4, 1);
+    width: 10%;
+    height: 32.5%;
+    border-radius: 100px;
+    margin-left: 10%;
+}
+
+.ingles {
+    background-color: rgba(8, 154, 238, 0.5);
+    border-radius: 7.5px;
+    height: 40%;
+    width: 12.5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px black;
+    
+}
+
+.dotIngles {
+    background-color: rgb(8, 154, 238);
+    width: 10%;
+    height: 32.5%;
+    border-radius: 100px;
+    margin-left: 10%;
+}
+
+
+.matematica {
+    background-color: rgb(134, 44, 224, 0.5);
+    border-radius: 7.5px;
+    height: 40%;
+    width: 18%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px black;
+    
+}
+
+.dotMatematica {
+    background-color: rgb(134, 44, 224);
+    width: 7.5%;
+    height: 32.5%;
+    border-radius: 100px;
+    margin-left: 10%;
+}
+
+.historia {
+    background-color: rgba(161, 164, 157, 0.5);
+    border-radius: 7.5px;
+    height: 40%;
+    width: 18%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px black;
+    
+}
+
+.dotHistoria {
+    background-color: rgba(161, 164, 157, 1);
+    width: 7.5%;
+    height: 32.5%;
+    border-radius: 100px;
+    margin-left: 10%;
+}
+
+.biologia {
+    background-color: rgba(171, 224, 14, 0.5);
+    border-radius: 7.5px;
+    height: 40%;
+    width: 18%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px black;
+    
+}
+
+.dotBiologia {
+    background-color: rgba(171, 224, 14, 1);
+    width: 7.5%;
+    height: 32.5%;
+    border-radius: 100px;
+    margin-left: 10%;
+}
+
+.etica {
+    background-color: rgba(253, 190, 0, 0.5);
+    border-radius: 7.5px;
+    height: 40%;
+    width: 12.5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px black;
+    
+}
+
+.dotEtica {
+    background-color: rgb(253, 190, 0);
+    width: 10%;
+    height: 32.5%;
+    border-radius: 100px;
+    margin-left: 10%;
+}
+
+.economia {
+    background-color: rgba(224, 45, 14, 0.5);
+    border-radius: 7.5px;
+    height: 40%;
+    width: 18%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px black;
+    
+}
+
+.dotEconomia {
+    background-color: rgba(224, 45, 14, 1);
+    width: 7.5%;
+    height: 32.5%;
+    border-radius: 100px;
+    margin-left: 10%;
+}

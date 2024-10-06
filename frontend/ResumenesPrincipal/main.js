@@ -1,5 +1,6 @@
 import { popupLogin } from "../controllers/popupController.js";
 import { searchByQuery } from "../controllers/searchQueryController.js";
+import { divColorFilter } from "../controllers/colorAssigningController.js";
 
 AOS.init();
 
@@ -52,18 +53,19 @@ async function fetchResumenes() {
     }
 }
 
-function populateResumenes(resumenes) {
+async function populateResumenes(resumenes) {
     const containerResumenes = document.getElementById('containerResumenes')
     const selector = '.resumen'
     cleanContainer(selector)
 
-    resumenes.forEach(resumen => {
+    for (const resumen of resumenes) { 
         console.log(resumen)
+        let { style, dotStyle } = await divColorFilter(resumen.filtros)
         let div = document.createElement('div')
         let modelResumen = 
         `<p class="text" id="nombreResumen">${resumen.titulo}</p>
         <div class="text" id="info">
-            <p>Tema: ${resumen.filtros} </p>
+            <div class='${style}'>${resumen.filtros}<div class='${dotStyle}'></div></div>
 
             <div class="recomendacion" id="likes">
                 <img src="/frontend/img/Like.svg" class="thumbs" alt="">
@@ -85,7 +87,7 @@ function populateResumenes(resumenes) {
         
 
         containerResumenes.appendChild(div)
-    });
+    };
     containerResumenes.className = 'recipienteResumen'
 }
 

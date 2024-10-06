@@ -8,7 +8,7 @@ let clicks = 0
 
 let like = 0;
 let dislike = 0;
-let filtros = ['fisica', 'matematica', 'ingles', 'educacion-judia', 'historia']
+let filtros = ['fisica', 'matematica', 'ingles', 'educacion-judia', 'historia', 'biologia', 'etica', 'economia']
 console.log('Running resumenes')
 
 filtros.forEach(filtro => {

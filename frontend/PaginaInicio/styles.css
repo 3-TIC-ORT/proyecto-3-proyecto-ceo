@@ -1,119 +1,165 @@
-body {
-    width: 100vw;
-    height: 115vh;
-    margin:0%;
-    background-image: url(../TIMI/Fondos/FondoInicio.png);
-    background-repeat: no-repeat;
-    background-size: cover;
+a {
+    -webkit-user-drag: none;
+    text-decoration: none; 
+    color: inherit;
+    outline: none; 
+    user-select: none;
 }
-.barrasuperiorbotonespi{
-    display: flex;
-    justify-content: space-between;
-    background-color: white;
-    width: 100%;
-    height: 15vh;
-    align-items: center;
+
+.body {
+    margin: 0;
+    background-image: url(../img/Fondo-inicio.svg);
+    background-repeat: repeat-y;
+    background-color: rgba(255, 255, 255, 0.50);    
+    min-height: 180vh;
 }
-.LogIn{
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 2vw;
-    width: 13vw;
-}
-.LineaBarraBotones{
-    display: flex;
-    width: 100%;
-    height: 0.3vh;
-    background-color: black;
-   
-}
-.Logo{
-    width: 13vw;
-    height: 10vh;
-    background-image: url(../TIMI/Fondos/Logo\ y\ titulo.png);
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 2vw;
-}
-.BarraBotones{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 60vw;
-    height: 100%;
-}
-.BotonInicio{
-    width: 6vw;
-    height: 5vh;
-    font-size: 150%;
-    border: none;
-    background-color: transparent;
-    font-weight: bold;
-    text-decoration: underline;
-    color: #557291;
-}
-.BotonResumenes{
-    width: 12vw;
-    height: 6vh;
-    font-size: 150%;
-    border: none;
-    background-color: transparent;
-    font-weight: bold;
-}
-.BotonForos{
-    width: 6vw;
-    height: 5vh;
-    font-size: 150%;
-    border: none;
-    background-color: transparent;
-    font-weight: bold;
-}
-.BotonIntercambios{
-    width: 12vw;
-    height: 5vh;
-    font-size: 150%;
-    border: none;
-    background-color: transparent;
-    font-weight: bold;
-}
-.BotonObjetosPerdidos{
-    width: 16vw;
-    height: 5vh;
-    font-size: 150%;
-    border: none;
-    background-color: transparent;
-    font-weight: bold;
-}
-.BotonLogIn{
-    width: 15vw;
-    height: 8vh;
-    font-size: 150%;
-    border-radius: 5vh;
-    font-weight: bold;
-    border: none;
-    background-color: #007bff;
-}
-nav{
-    width: 85%;
-    height: 15%;
-    border-radius: 10vh;
+
+.topDiv {
     background-color: #D9D9D9;
-}
-footer{
+    width: 75%;
+    height: 15%;
+    border-radius: 50px;
     display: flex;
-    background-color: peru;
-    width: 100%;
-    height: 7vh;
+    justify-content: center;
+    margin-bottom: 7.5%;
+    overflow: hidden;
 }
-article {
+
+.container {
+    position: relative;
+    height: 85%;
+    width: 100vw;
     display: flex;
-    width: 100%;
-    height: 230vh;
     flex-direction: column;
     align-items: center;
-    
+    justify-content: center;
+    margin-top: 2.5%;
+}
+
+.logoSpace {
+    background-image: url(../img/LogoInicio.svg);
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center;
+    width: 100%; 
+    height: 100%; 
+}
+
+.carousel {
+    width: 32.5vw;
+    height: 50%; 
+    position: relative;
+    transform-style: preserve-3d; 
+    margin-bottom: 5%;
+}
+
+.carousel__face { 
+    -webkit-user-select: none; 
+    position: absolute;
+    width: 30vw;
+    height: 27.5vh;
+    top: -5vw;
+    display: flex;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    background-color: #D9D9D9;
+    transition: 0.5s ease;
+}
+
+.carousel__face img {
+    pointer-events: none; 
+}
+
+.carousel__face:nth-child(1) {
+    transform: rotateY(0deg) translateZ(30vw);
+}
+.carousel__face:nth-child(1):hover {
+    transform: translateZ(32.5vw) scale(1.1);
+}
+
+.carousel__face:nth-child(2) {
+    transform: rotateY(60deg) translateZ(30vw);
+}
+.carousel__face:nth-child(2):hover {
+    transform: rotateY(60deg) translateZ(32.5vw) scale(1.1);
+}
+
+.carousel__face:nth-child(3) {
+    transform: rotateY(120deg) translateZ(30vw);
+}
+.carousel__face:nth-child(3):hover {
+    transform: rotateY(120deg) translateZ(32.5vw) scale(1.1);
+}
+
+.carousel__face:nth-child(4) {
+    transform: rotateY(180deg) translateZ(30vw);
+}
+.carousel__face:nth-child(4):hover {
+    transform: rotateY(180deg) translateZ(32.5vw) scale(1.1);
+}
+
+.carousel__face:nth-child(5) {
+    transform: rotateY(240deg) translateZ(30vw);
+}
+.carousel__face:nth-child(5):hover {
+    transform: rotateY(240deg) translateZ(32.5vw) scale(1.1);
+}
+
+.carousel__face:nth-child(6) {
+    transform: rotateY(300deg) translateZ(30vw);
+}
+.carousel__face:nth-child(6):hover {
+    transform: rotateY(300deg) translateZ(32.5vw) scale(1.1);
+}
+
+
+
+#centerDiv {
+    position: relative;
+    width: 100%;
+    margin: 5% auto 0 auto;
+    perspective: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10%;
+
+}
+
+#intro {
+    font-size: xx-large;
+}
+
+#tituloLogo {
+    font-size: 200%;
+}
+
+#left {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#right {
+    width: 60%;
+}
+
+#calificanos {
+    position: relative;
+    background-color: #D9D9D9;
+    height: 50%;
+    width: 80%;
+}
+
+#icon {
+    height: 60%;
+    width: 60%;
+    margin: 7.5%;
+}
+
+.smallText {
+    font-size: small;
 }
