@@ -131,9 +131,10 @@ a {
     font-size: xx-large;
 }
 
-#tituloLogo {
-    font-size: 200%;
+#topText {
+    margin-bottom: -2.5%;
 }
+
 
 #left {
     width: 40%;
@@ -159,6 +160,22 @@ a {
     width: 60%;
     margin: 7.5%;
 }
+
+#ort2 {
+    color: #294F78;
+    font-weight: 700;
+}
+
+#tituloLogo2 {
+    color: #000;
+    text-align: center;
+    font-family: K2D;
+    font-size: 80;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
 
 .smallText {
     font-size: small;

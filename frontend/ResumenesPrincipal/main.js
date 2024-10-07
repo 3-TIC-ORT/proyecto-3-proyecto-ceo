@@ -38,7 +38,7 @@ async function fetchResumenes() {
         publicarRedirect.classList.remove('show');
         publicarRedirect.classList.add('hidden')
     }
-
+    
     try {
 
         if (response.ok) {

@@ -16,6 +16,17 @@
     justify-content: center;
 }
 
+.whiteBackground {
+    background-color: #E0E0E0;
+}
+
+.align {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 .handle {
     margin-top: 2.5%;
     height: 12.5%;
@@ -74,3 +85,4 @@
     width: 20%;
     margin-top: 2.5%;
 }
+

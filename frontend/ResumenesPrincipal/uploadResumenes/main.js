@@ -4,10 +4,16 @@ let publicar = document.getElementById('publish')
 let likeDiv = document.getElementById('like')
 let dislikeDiv = document.getElementById('dislike')
 
+const deleteButton = document.getElementById('deleteFile')
+const fileNameDisplay = document.getElementById('fileName')
+const uploadedDiv = document.getElementById('uploadedFile')
+const textSpan = document.getElementById('text1')
+
 let clicks = 0
 
 let like = 0;
 let dislike = 0;
+let importado = false;
 let filtros = ['fisica', 'matematica', 'ingles', 'educacion-judia', 'historia', 'biologia', 'etica', 'economia']
 console.log('Running resumenes')
 
@@ -28,9 +34,11 @@ dropZone.addEventListener('dragover', function(e) {
 dropZone.addEventListener('drop', function(e) {
     e.preventDefault()
     e.stopPropagation()
+    importado = true;
     console.log('Getting the file')
     file = e.dataTransfer.files[0]
     formData.append('archivo', file); 
+    switchState(e, file)
 })
 
 publicar.addEventListener('click', sendResumenes)
@@ -62,5 +70,17 @@ async function sendResumenes() {
     } catch (error) {
         console.log('LPTM')
         console.log(error)
+    }
+}
+
+
+function switchState(e, file) {
+    console.log('checking state')
+    if (importado) {
+        textSpan.className = 'hidden'
+        dropZone.classList = 'drop-Area whiteBackground'
+
+        uploadedDiv.classList = 'show align'
+        fileNameDisplay.innerHTML = 'hola'
     }
 }
