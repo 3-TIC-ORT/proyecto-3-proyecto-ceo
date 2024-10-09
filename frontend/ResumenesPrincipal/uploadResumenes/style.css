@@ -36,6 +36,11 @@
     justify-content: space-around;
 }
 
+.trashCan {
+    scale: 0.6;
+    margin-left: 5%;
+}
+
 .recipiente {
     margin-top: 2.5%;
     height: 87.5%;
@@ -84,5 +89,16 @@
     height: 10%;
     width: 20%;
     margin-top: 2.5%;
+}
+
+#uploadedFile {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    transition: 3s;
+}
+
+#nombre {
+    margin-top: -5%;
 }
 

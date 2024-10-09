@@ -5,10 +5,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=K2D&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../globalStyle.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <H1>Mantene los ID legibles ("titulo", "informacion", "foto", etc..)</H1>
-    <script src="main.js"></script>
+<body class="body">
+
+    <nav class="navBar" id="nav">
+        <div id="tituloYLogo">
+            <img id="logo" src="../../img/Logo.svg" alt="logo">
+            <label for="PORTAL" id="tituloLogo">P<span id="ort">ORT</span>AL</label>
+        </div>
+
+        <div id="navItems">
+            <a href="../../PaginaInicio/index.html" class="text" id="itemNav">Inicio</a>
+            <a class="text" id="itemNav"><span class="navResumen">Resumenes</span></a>
+            <a href="../../Foro/index.html" class="text" id="itemNav">Foros</a>
+            <a href="../../Intercambios/index.html" class="text" id="itemNav">Intercambios</a>
+            <a href="../../ObjetosPerdidos/index.html" class="text" id="itemObjetos">Objetos Perdidos</a>
+        </div>
+
+        <div class="boton" id="login">
+            <p class="text">Iniciar sesion</p>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="tituloObjeto">
+            <h1>gatito</h1>
+        </div>
+
+        <div id="informacion">
+            <div id="padding">
+                <p class="descripcion" id="descripcion">descripcion</p>
+
+                <p id="gmailUser">yimail</p>
+                <p id="nombre">name</p>
+
+            </div>
+        </div>
+    </div>
+    
+    <div id="previsualizacion">
+        <img id="imagen" src="" alt="">
+    </div>
+
+    <script type="module" src="main.js"></script>
 </body>
 </html>

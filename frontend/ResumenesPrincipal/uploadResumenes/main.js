@@ -38,9 +38,10 @@ dropZone.addEventListener('drop', function(e) {
     console.log('Getting the file')
     file = e.dataTransfer.files[0]
     formData.append('archivo', file); 
-    switchState(e, file)
+    checkState(e, file)
 })
 
+deleteButton.addEventListener('click', deleteFile)
 publicar.addEventListener('click', sendResumenes)
 
 async function sendResumenes() {
@@ -74,13 +75,25 @@ async function sendResumenes() {
 }
 
 
-function switchState(e, file) {
+function checkState(e, file) {
     console.log('checking state')
     if (importado) {
         textSpan.className = 'hidden'
         dropZone.classList = 'drop-Area whiteBackground'
 
         uploadedDiv.classList = 'show align'
-        fileNameDisplay.innerHTML = 'hola'
+        fileNameDisplay.innerHTML = file.name
     }
+}
+
+function deleteFile() {
+    formData.delete('archivo')
+    file = null
+    textSpan.className = 'show';
+    dropZone.className = 'drop-Area'
+
+    uploadedDiv.classList = 'hidden'
+    fileNameDisplay.innerHTML = '';
+    importado = false; 
+    window.location.reload()
 }

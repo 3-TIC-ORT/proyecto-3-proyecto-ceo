@@ -1,4 +1,4 @@
-import { getQueryParams } from "../../controllers/detailsPageController.js";
+import { getQueryParams } from "../../controllers/queryParamsController.js";
 
 console.log('Running resumen visualizacion')
 

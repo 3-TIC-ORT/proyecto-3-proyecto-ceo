@@ -23,3 +23,4 @@ async function searchByQuery(endpoint, route, query, filtro) {
 }
 
 export { searchByQuery }
+
