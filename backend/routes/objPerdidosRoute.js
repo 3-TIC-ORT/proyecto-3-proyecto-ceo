@@ -13,6 +13,7 @@ const __parentDir = path.dirname(__dirname);
 const __rootDir = path.dirname(__parentDir);
 import chalk from 'chalk';
 import { objetoPerdido } from '../model/objetosPerdidos.js';
+import { findUserById } from '../controllers/userIdFinderController.js';
 
 objPerdidosRouter.get('/', async (req, res)=>{
     try {
@@ -34,7 +35,7 @@ objPerdidosRouter.get("/upload", (req, res) => {
 objPerdidosRouter.get("/visualizar", async (req, res) => {
     console.log('Loading selected objeto....')
     const id = req.query.id
-    console.log('ID: ', id)
+    console.log('OBJETO ID: ', id)
     
     const objeto = await objetoPerdido.findOne({
         where: {
@@ -42,17 +43,26 @@ objPerdidosRouter.get("/visualizar", async (req, res) => {
         }
     });
 
-    if (!pregunta) {
+    if (!objeto) {
         console.log('No existe ese objeto')
         res.status(400).send('No existe el objeto')
     }
 
     try {
-        console.log('Data:', objeto)
+        console.log('[objeto] Data:', objeto)
         res.status(200).json(objeto)
     } catch (error) {
         res.status(500).send('Failed to send the objeto...')
     }
+})
+
+objPerdidosRouter.get('/user', async (req, res) => {
+    const id = req.query.id
+    console.log(' USER ID: ', id)
+
+    const user = await findUserById(id)
+
+    res.status(200).json(user);
 })
 
 export { objPerdidosRouter }

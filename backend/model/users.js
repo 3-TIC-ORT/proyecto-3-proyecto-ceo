@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 import Sequelize from "sequelize";
 import { sequelize } from "../DB/DBcontroller.js";
 import chalk from "chalk";

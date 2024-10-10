@@ -104,10 +104,12 @@ async function populateObjetos(objetos) {
 
 function redirectToDetailsPage(id) {
     window.location.href = `ObjVisualizacion/index.html?id=${id}`
+    URL.revokeObjectURL();
 }
 
 function redirectToUploads() {
     window.location.href = 'ObjUpload/index.html'
+    URL.revokeObjectURL();
 }
 
 fetchObjetos()

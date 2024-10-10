@@ -53,7 +53,6 @@ import { objPerdidosRouter } from './routes/objPerdidosRoute.js';
 
 //colores
 import chalk from "chalk";
-import { error } from "console";
 
 const SECRET_KEY = process.env.SECRET_KEY
 

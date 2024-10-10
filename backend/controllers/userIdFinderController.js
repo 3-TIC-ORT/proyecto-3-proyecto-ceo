@@ -1,4 +1,4 @@
-import { User } from "../../backend/model/users.js";
+import { User } from "../model/users.js";
 
 async function findUserById(id) {
     const user = await User.findOne({
@@ -6,7 +6,7 @@ async function findUserById(id) {
             id
         }
     })
-
+    
     return user;
 }
 

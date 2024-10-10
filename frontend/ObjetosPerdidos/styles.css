@@ -16,7 +16,7 @@
 }
 
 .objeto {
-    height: 50vh;
+    height: 45vh;
     width: 20vw;
     border-radius: 15px;
     background: #E0E0E0;
@@ -40,7 +40,8 @@
 .img {
     margin-top: 10%;
     width: 90%;
-    height: 70%;
+    height: 75%;
+    border-radius: 10px;
 }
 
 

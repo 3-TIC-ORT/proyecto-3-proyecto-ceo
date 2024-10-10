@@ -20,6 +20,7 @@ async function getDetails(endpoint, route) {
             console.log('Got the details info')
             const data = await response.json()
             console.log('Received data: ', data)
+            return data;
         } 
 
     } catch (error) {
