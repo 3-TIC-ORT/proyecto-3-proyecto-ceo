@@ -88,6 +88,10 @@ span {
     padding-left: 2.5%;
 }
 
+.backButton {
+    scale: 0.6;
+}
+
 .inputs::placeholder {
     color: #707070;
     font-family: K2D;
@@ -110,6 +114,11 @@ span {
 .thumbs {
     transform: scale(0.6);
 
+}
+
+.trashCan {
+    scale: 0.6;
+    margin-left: 5%;
 }
 
 .hidden {

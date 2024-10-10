@@ -3,7 +3,6 @@ import { Router } from 'express'
 import { app } from '../main.js'
 import { fileURLToPath } from 'url'
 import path from 'path';
-import { getObjetosPerdidos } from '../controllers/objPerdController.js';
 
 const objPerdidosRouter = Router();
 
@@ -13,6 +12,11 @@ const __parentDir = path.dirname(__dirname);
 const __rootDir = path.dirname(__parentDir);
 import chalk from 'chalk';
 import { objetoPerdido } from '../model/objetosPerdidos.js';
+
+//controllers
+
+import { deletePost } from '../controllers/deletePostController.js';
+import { getObjetosPerdidos } from '../controllers/objPerdController.js';
 import { findUserById } from '../controllers/userIdFinderController.js';
 
 objPerdidosRouter.get('/', async (req, res)=>{
@@ -63,6 +67,19 @@ objPerdidosRouter.get('/user', async (req, res) => {
     const user = await findUserById(id)
 
     res.status(200).json(user);
+})
+
+objPerdidosRouter.post('/delete', async (req, res) => {
+    const id = req.query.id;
+    const model = objetoPerdido;
+    console.log(' POST ID: ', id);
+    try {
+        const deletedPost = await deletePost(id, model)
+        res.status(200).send('[objetos] Succesfuly deleted post.')
+    } catch (error) {
+        res.status(500).send('[objetos] Failed to delete post.')
+    }
+    
 })
 
 export { objPerdidosRouter }

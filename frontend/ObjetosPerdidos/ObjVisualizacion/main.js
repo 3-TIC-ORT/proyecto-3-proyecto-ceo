@@ -1,14 +1,20 @@
 import { getDetails } from "../../controllers/getDetailsController.js";
 import { fetchUserById } from '../../controllers/fetchUserController.js'
+import { tryDeletePost } from '../../controllers/deletePostController.js'
 
 const endpoint = 'objetos'
 let route = 'visualizar'
+//---------------------------------------------------------------//
 let gmailUser = document.getElementById('gmailUser')
 let nombreUser = document.getElementById('nombreUser')
 let nombre = document.getElementById('nombre')
 let contacto = document.getElementById('contacto')
-
+//---------------------------------------------------------------//
 const previsualizacion = document.getElementById('imgContainer')
+const deleteButton = document.getElementById('deletePost')
+//---------------------------------------------------------------//
+deleteButton.addEventListener('click', deletePost)
+let ID;
 
 async function displayObjeto() {
     let descripcion = document.getElementById('descripcion')
@@ -48,6 +54,7 @@ async function displayObjeto() {
         };
 
         const url = await fetchImg(objeto.id)
+        ID = objeto.id
         const mimeType = objeto.foto_format
 
         img.src = url
@@ -59,6 +66,13 @@ async function displayObjeto() {
         console.log('[objetos] ERROR, failed at getting details:', error)
     }
 
+}
+
+async function deletePost() {
+    route = 'delete'
+    const deletion = await tryDeletePost(endpoint, route, ID)
+
+    window.location.href = '../index.html'
 }
 
 displayObjeto()
