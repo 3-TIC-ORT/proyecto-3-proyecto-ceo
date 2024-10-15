@@ -13,14 +13,12 @@ async function divColorFilter(filter) {
             console.log('3')
             style = 'matematica'
             dotStyle = 'dotMatematica'
-
             break
         }
         case 'ingles': {
             console.log('3')
             style = 'ingles'
             dotStyle = 'dotIngles'
-
             break
         }
         case 'edu-judia': {

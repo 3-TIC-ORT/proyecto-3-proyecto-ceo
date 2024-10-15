@@ -8,6 +8,7 @@
 
 .thinText {
     font-weight: 100;
+
 }
 
 .container {
@@ -18,6 +19,14 @@
     justify-content: center;
     align-items: center;
     margin-top: 1.25%;
+}
+
+.buttons {
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-content: space-around;
 }
 
 .previsualizacion {
@@ -77,10 +86,9 @@
 #title {
     font-size: xx-large;
     margin-right: 10%;
-}
-
-#back {
-    margin-right: 2.5%;
+    margin-top: 0;
+    margin-bottom: 0;
+    display: flex;
 }
 
 #masterContainer {
@@ -89,4 +97,14 @@
     display: flex;
     justify-content: center;
     margin: 0;
+}
+
+#authorize {
+    width: 20%;
+    height: 20%;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

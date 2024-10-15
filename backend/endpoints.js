@@ -248,15 +248,16 @@ export async function endpoints(app) {
         }
     });
     
-    app.post('/send-foro', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+    app.post('/send-foro', authenticateToken, upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
-            const { pregunta, textoExplicativo, comentarios } = req.body;
+            const { pregunta, textoExplicativo } = req.body;
             
             console.log("Receiving foro data...");
-    
+            
             const foto = req.files['foto'] ? req.files['foto'][0].path : null;
-    
-            const foro = await Foro.create({ pregunta, textoExplicativo, comentarios, foto });
+            const userId = req.user.id;
+            
+            const foro = await Foro.create({ pregunta, textoExplicativo, foto, userId });
             res.status(201).json({ message: 'Foro created successfully' });
         } catch (error) {
             console.error(redChalk("Error creating foro:"), error);

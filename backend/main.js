@@ -72,6 +72,8 @@ endpoints(app)
 app.use('/resumen', authenticateToken, resumenesRouter)
 app.use('/foros', authenticateToken, forosRouter)
 app.use('/objetos', authenticateToken, objPerdidosRouter)
+app.use('/comentarios', authenticateToken, objPerdidosRouter)
+
 app.use('/home', campusRouter)
 
 app.listen(PORT, () => {

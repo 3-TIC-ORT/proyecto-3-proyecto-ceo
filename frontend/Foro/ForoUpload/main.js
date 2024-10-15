@@ -19,6 +19,7 @@ dropZone.addEventListener('drop', function(e) {
 publicar.addEventListener('click', sendForos)
 
 async function sendForos() {
+    const token = localStorage.getItem('token')
     const pregunta = document.getElementById('pregunta').value
     const textoExplicativo = document.getElementById('textoExplicativo').value
     
@@ -30,6 +31,9 @@ async function sendForos() {
     try {
         let response = fetch('http://localhost:3000/send-foro', {
             method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             body: formData
         }) 
     } catch (error) {

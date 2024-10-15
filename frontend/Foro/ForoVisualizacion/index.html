@@ -6,37 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=K2D&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="../../globalStyle.css">
+    <link rel="stylesheet" href="style.css">
+
+
 </head>
-<body>
-    <div class="FVPaginaCompleta">
-        <div class="DivImagenFV">
-            <img class="FVIMG" id="FVIMG" src="" alt="">
+<body class="body">
+    <nav class="navBar" id="nav">
+        <div id="tituloYLogo">
+            <img id="logo" src="../../img/Logo.svg" alt="logo">
+            <label for="PORTAL" id="tituloLogo">P<span id="ort">ORT</span>AL</label>
         </div>
-        <div class="FVTextInputParrafo">
-            <div class="FVPreguntaYTexto">
-                <h1 class="FVPregunta" id="FVPregunta">
 
-                </h1>
-                <p class="FVTextoExplicativo" id="FVTextoExplicativo">
+        <div id="navItems">
+            <a href="../../PaginaInicio/index.html" class="text" id="itemNav">Inicio</a>
+            <a class="text" id="itemNav"><span class="navResumen">Resumenes</span></a>
+            <a href="../../Foro/index.html" class="text" id="itemNav">Foros</a>
+            <a href="../../Intercambios/index.html" class="text" id="itemNav">Intercambios</a>
+            <a href="../../ObjetosPerdidos/index.html" class="text" id="itemObjetos">Objetos Perdidos</a>
+        </div>
 
-                </p>
+        <div class="boton" id="login">
+            <p class="text">Iniciar sesion</p>
+        </div>
+    </nav>
+
+    <div id="masterContainer">
+        <div id="topDiv">
+            <a href="../index.html"><img src="../../img/Back-Arrow.svg" alt="go back" class="backButton" id="back"></a>
+            <h1 id="title">TITULO</h1>
+        </div>
+        
+        <div class="container" id="center">
+            <div id="info">
+                <p class="textThin" id="text">pepepepepepepepeppepee</p>
             </div>
-            <div class="FVInputRespuestas">
-                <div class="FVInputDiv">
-                    <input class="FVImput" id="FVImput" type="text" placeholder="Insertar Comentario">
-                </div>
-                <div class="FVRespuestasDiv">
-                    <p class="FVRespuestas" id="FVRespuestas">
 
-                    </p>
-                </div>
-            </div>
+            <div id="foto"></div>
+        </div>
+
+        <div id="bottomDiv">
+            <input type="text" name="" id="input" class="inputs" placeholder="Deja una respuesta...">
+            <img src="../../img/Back-Arrow.svg" alt="" id="send">
         </div>
     </div>
 
-
+    <div id="comentarios">
+    </div>
+    
     <script type="module" src="main.js"></script>
 </body>
 </html>
