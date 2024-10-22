@@ -30,7 +30,7 @@ body {
    
 }
 .Logo{
-    width: 13vw;
+    width: 14vw;
     height: 10vh;
     background-image: url(../TIMI/Fondos/Logo\ y\ titulo.png);
     background-repeat: no-repeat;
@@ -38,6 +38,7 @@ body {
     align-items: center;
     justify-content: center;
     margin-left: 2vw;
+    background-size: cover;
 }
 .BarraBotones{
     display: flex;
@@ -57,7 +58,12 @@ body {
     color: #557291;
 }
 .BotonResumenes{
-    width: 12vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    text-decoration: unset;
+    width: 9vw;
     height: 6vh;
     font-size: 150%;
     border: none;
@@ -89,6 +95,11 @@ body {
     font-weight: bold;
 }
 .BotonLogIn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    text-decoration: unset;
     width: 15vw;
     height: 8vh;
     font-size: 150%;
