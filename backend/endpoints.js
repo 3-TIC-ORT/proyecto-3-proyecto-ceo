@@ -304,7 +304,7 @@ export async function endpoints(app) {
 
     app.put('/objetosPerdidos/:id', authenticateToken, upload.single('foto'), async (req, res)=>{
         const {id} = req.params;
-        const { informacion } =  req.body;
+        const { informacion, titulo } =  req.body;
         const foto = req.file ? req.file.buffer : undefined;
         try {
             const objetoPerdido = objetoPerdido.findByPk(id);
@@ -313,6 +313,7 @@ export async function endpoints(app) {
                 res.status(404).json({message: 'Objeto perdido not found'});
             }
 
+            if (titulo !== undefined) objetoPerdido.titulo = titulo;
             if (foto !== undefined) objetoPerdido.foto = foto;
             if (informacion !== undefined) objetoPerdido.informacion = informacion;
 
@@ -351,7 +352,7 @@ export async function endpoints(app) {
 
     app.put('/foros/:id', authenticateToken, upload.single('foto'), async (req, res) => {
         const { id } = req.params;
-        const { pregunta, textoExplicativo, comentarios } = req.body;
+        const { pregunta, textoExplicativo } = req.body;
         const foto = req.file ? req.file.buffer : undefined;
 
         try {
@@ -363,7 +364,6 @@ export async function endpoints(app) {
 
             if (pregunta !== undefined) foro.pregunta = pregunta;
             if (textoExplicativo !== undefined) foro.textoExplicativo = textoExplicativo;
-            if (comentarios !== undefined) foro.comentarios = comentarios;
             if (foto !== undefined) foro.foto = foto;
 
             await foro.save();
@@ -512,7 +512,5 @@ export async function endpoints(app) {
 
     })
 }
-
-
 
 export { authenticateToken }
