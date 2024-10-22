@@ -1,4 +1,4 @@
-import { Intercambio } from "../model/intercambio";
+import { Intercambio } from "../model/intercambio.js";
 import chalk from "chalk";
 
 const yellowChalk = chalk.yellowBright;
@@ -10,4 +10,4 @@ async function getIntercambios() {
     return intercambios;
 }
 
-export { getIntercambios }
+export { getIntercambios }adsfasdf

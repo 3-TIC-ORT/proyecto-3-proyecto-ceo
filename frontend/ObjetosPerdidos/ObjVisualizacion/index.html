@@ -14,52 +14,55 @@
     <link rel="stylesheet" href="../../globalStyle.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="body">
+<body class="body" id="body">  
 
-    <nav class="navBar" id="nav">
-        <div id="tituloYLogo">
-            <img id="logo" src="../../img/Logo.svg" alt="logo">
-            <label for="PORTAL" id="tituloLogo">P<span id="ort">ORT</span>AL</label>
-        </div>
+    <div id="properties">
 
-        <div id="navItems">
-            <a href="../../PaginaInicio/index.html" class="text" id="itemNav">Inicio</a>
-            <a class="text" id="itemNav"><span class="navResumen">Resumenes</span></a>
-            <a href="../../Foro/index.html" class="text" id="itemNav">Foros</a>
-            <a href="../../Intercambios/index.html" class="text" id="itemNav">Intercambios</a>
-            <a href="../../ObjetosPerdidos/index.html" class="text" id="itemObjetos">Objetos Perdidos</a>
-        </div>
-
-        <div class="boton" id="login">
-            <p class="text">Iniciar sesion</p>
-        </div>
-    </nav>
-
-    <div id="masterContainer">
-        <div class="container">
-            <div id="tituloObjeto">
-                <a href="../index.html"><img src="../../img/Back-Arrow.svg" alt="go back" class="backButton" id="back"></a>
-                <h1 class="text" id="title"></h1>
-                <div id="deletePost">
-                    <img class="trashCan" src="../../img/TachitoBasura.svg" alt="hola">
-                </div>
+        <nav class="navBar" id="nav">
+            <div id="tituloYLogo">
+                <img id="logo" src="../../img/Logo.svg" alt="logo">
+                <label for="PORTAL" id="tituloLogo">P<span id="ort">ORT</span>AL</label>
             </div>
     
-            <div id="informacion">
-                <div id="padding">
-                    <p class="descripcion" id="descripcion">descripcion</p>
-    
-                    <p class="text" id="contacto">Contacto: <span id="gmailUser" class="thinText"></span></p>
-                    <p class="text" id="nombre">Nombre: <span id="nombreUser" class="thinText"></span></p>
-    
-                </div>
+            <div id="navItems">
+                <a href="../../PaginaInicio/index.html" class="text" id="itemNav">Inicio</a>
+                <a class="text" id="itemNav"><span class="navResumen">Resumenes</span></a>
+                <a href="../../Foro/index.html" class="text" id="itemNav">Foros</a>
+                <a href="../../Intercambios/index.html" class="text" id="itemNav">Intercambios</a>
+                <a href="../../ObjetosPerdidos/index.html" class="text" id="itemObjetos">Objetos Perdidos</a>
             </div>
-        </div>
+    
+            <div class="boton" id="login">
+                <p class="text">Iniciar sesion</p>
+            </div>
+        </nav>
+    
+        <div id="masterContainer">
+            <div class="container">
+                <div id="tituloObjeto">
+                    <a href="../index.html"><img src="../../img/Back-Arrow.svg" alt="go back" class="backButton" id="back"></a>
+                    <h1 class="text" id="title"></h1>
+                    <div id="deletePost">
+                        <img class="trashCan" src="../../img/TachitoBasura.svg" alt="hola">
+                    </div>
+                </div>
         
-        <div class="previsualizacion" id="imgContainer">
+                <div id="informacion">
+                    <div id="padding">
+                        <p class="descripcion" id="descripcion">descripcion</p>
+        
+                        <p class="text" id="contacto">Contacto: <span id="gmailUser" class="thinText"></span></p>
+                        <p class="text" id="nombre">Nombre: <span id="nombreUser" class="thinText"></span></p>
+        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="previsualizacion" id="imgContainer">
+            </div>
         </div>
-    </div>
 
+    </div>
 
     <div class="hidden" id="authorize">
         <p class="text">Seguro que quieres borrar esta publicacion?</p>

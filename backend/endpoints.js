@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 
 //CONTROLLERS
 import { getObjeto } from './controllers/objPerdController.js';
+import { findModel } from './controllers/modelFinderController.js';
 
 //MODELS
 import { User } from './model/users.js';
@@ -26,6 +27,8 @@ config();
 const SECRET_KEY = process.env.SECRET_KEY;
 import { json, where } from 'sequelize';
 import { blob, text } from 'stream/consumers';
+import { getResumenByiD } from './controllers/resumenesController.js';
+import { intercambiosRouter } from './routes/intercambiosRoutes.js';
 
 const blueChalk = chalk.blue
 const greenChalk = chalk.greenBright;
@@ -53,7 +56,16 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage });
+const resumenesStorage = multer.memoryStorage()
+const uploadResumenes = multer({ 
+    storage: resumenesStorage, 
+    limits: { fileSize: 15 * 1024 * 1024 } 
+});
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 15 * 1024 * 1024 }
+});
 
 
 async function encryptPassword(password) {
@@ -169,18 +181,28 @@ export async function endpoints(app) {
         }
     });
     
-    app.post('/send-intercambio', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+    app.post('/send-intercambio', authenticateToken, upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
-            const { informacion, titulo, respuestas } = req.body;
-            console.log("Receiving intercambio data...");
+            console.log("Receiving objetosPerdidos data...");
+
+            const { informacion, titulo } = req.body;
+
+            const userId = req.user.id
+            const file = req.files['foto'] ? req.files['foto'][0] : null;
+
+            if (!file) {
+                return res.status(400).send('No file uploaded');
+            }
+            const foto = file.path;
+            const foto_format = path.extname(file.originalname).substring(1); 
+
+            console.log(yellowChalk('format:', foto_format))
     
-            const foto = req.files['foto'] ? req.files['foto'][0].path : null;
-    
-            const intercambio = await Intercambio.create({ informacion, titulo, respuestas, foto });
-            res.status(200).json({ message: 'Intercambio created successfully' });
+            const objPerdido = await Intercambio.create({ informacion, foto, userId, titulo, foto_format });
+            res.status(201).send({ message: 'Objeto perdido registered successfully' });
         } catch (error) {
-            console.error(redChalk("Error creating intercambio:"), error);
-            res.status(500).json({ message: 'Error creating intercambio', error });
+            console.error(redChalk("Error registering objeto perdido:"), error);
+            res.status(500).json({ message: 'Error registering objeto perdido', error });
         }
     });
     
@@ -202,7 +224,7 @@ export async function endpoints(app) {
         }
     });
     
-    app.post('/send-resumen', authenticateToken, upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
+    app.post('/send-resumen', authenticateToken, uploadResumenes.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
         try {
             const { descripcion, titulo, filtros, like, dislike } = req.body;
             const userId  = req.user.id;
@@ -213,9 +235,24 @@ export async function endpoints(app) {
                 res.status(500).json({message: 'userId is empty' });
             }
 
-            const archivo = req.files['archivo'] ? req.files['archivo'][0].path : null;
+            const file = await req.files['archivo'] ? req.files['archivo'][0] : null;
+            let format = null;
+            let archivo = null;
 
-            const resumen = await Resumen.create({ titulo, descripcion, archivo, filtros, like, dislike, userId });
+            if (file) {
+                format = path.extname(file.originalname).substring(1);
+                archivo = file.buffer
+
+                if (archivo) {
+                    console.log("File buffer size:", archivo.length);  
+                } else {
+                    console.log(redChalk('File found, but buffer is undefined or empty:', archivo));
+                }
+            } else {
+                console.log(redChalk('NO FILE FOUND'))
+            }
+
+            const resumen = await Resumen.create({ titulo, descripcion, archivo, filtros, like, dislike, userId, format },  { raw: true });
             res.status(201).json({ message: 'Resumen sent successfully' });
         } catch (error) {
             console.error(redChalk("Error sending resumen:"), error);
@@ -228,7 +265,7 @@ export async function endpoints(app) {
             console.log("Receiving objetosPerdidos data...");
 
             const { informacion, titulo } = req.body;
-            console.log(req.user)
+
             const userId = req.user.id
             const file = req.files['foto'] ? req.files['foto'][0] : null;
 
@@ -408,14 +445,28 @@ export async function endpoints(app) {
         }
     });
 
-    app.get('/image/:id', async (req, res) => {
+    app.get('/image/:id/:model', async (req, res) => {
         try {
             const id = req.params.id
-            const objeto = await getObjeto(id)
+            const model = req.params.model
 
-            const mimeType = objeto.foto_format;
-            const fileBuffer = fs.readFileSync(objeto.foto);
-    
+            const models = {
+                'resumen': Resumen,
+                'foro': Foro,
+                'intercambio': Intercambio,
+                'objeto': objetoPerdido
+            };
+
+            const instance = await findModel(id, models[model])
+
+            const mimeType = {
+                'pdf': 'application/pdf',
+                'png': 'image/png',
+                'jpg': 'image/jpeg',
+            }[instance.foto_format] || 'application/octet-stream';
+
+            const fileBuffer = fs.readFileSync(instance.foto);
+            
             res.set('Content-Type', mimeType);
             res.set('Content-Length', fileBuffer.length);
             res.status(200).send(fileBuffer);
@@ -423,6 +474,42 @@ export async function endpoints(app) {
             console.log('Failed to fetch the image blob:', error)
             res.status(500).send('failed')
         }
+    })
+
+    app.get('/download/:id/:model', authenticateToken, async (req, res) => {
+        const { id, model } = req.params;
+
+        console.log(yellowChalk('FETCHING FILE...'))
+        const models = {
+            'resumen': Resumen,
+            'foro': Foro,
+            'intercambio': Intercambio,
+            'objeto': objetoPerdido
+        };
+
+        try {
+
+            const retrievedModel = await findModel(id, models[model])
+            console.log('Archivo:', retrievedModel.archivo, 'Format:', retrievedModel.format);
+
+            const mimeType = {
+                'pdf': 'application/pdf',
+                'png': 'image/png',
+                'jpg': 'image/jpeg',
+            }[retrievedModel.format] || 'application/octet-stream';
+
+
+            const fileBuffer = retrievedModel.archivo;
+
+
+            res.set('Content-Type', mimeType);
+            res.set('Content-Length', fileBuffer.length);
+            res.status(200).send(fileBuffer);
+        } catch (error) {
+            console.log('Failed to fetch the blob:', error)
+            res.status(500).send('failed')
+        }
+
     })
 }
 

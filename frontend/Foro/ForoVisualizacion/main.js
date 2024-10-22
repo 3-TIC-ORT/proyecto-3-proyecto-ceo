@@ -7,13 +7,15 @@ import { getQueryParams } from "../../controllers/queryParamsController.js";
 console.log('Running preguntas visualizacion')
 const sendButton = document.getElementById('send')
 const input = document.getElementById('input')
+
 let seccion = 'foros'
-let postId;
 let route;
-let method;
+let method = 'GET'
+let endpoint;
+
 let contenido;
 let idCreator;
-
+let postId; 
 
 sendButton.addEventListener('click', sendComment)
 
@@ -36,11 +38,10 @@ async function getPreguntasDetails() {
             console.log('Got the pregunta info')
             const data = await response.json()
             console.log('Received data: ', data)
-            method = 'GET'
-            route = 'get'
+            route = 'fetch'
             contenido = ''
             postId = data.id;
-            const comentarios = await handleComentario(route, seccion, postId, contenido, method )
+            const comentarios = await handleComentario(route, seccion, postId, idCreator, contenido, method)
 
             displayPregunta(data, comentarios)
         } 
@@ -59,17 +60,27 @@ async function displayPregunta(pregunta, comentarios) {
     titulo.innerHTML = pregunta.pregunta;
     informacion.innerHTML = pregunta.textoExplicativo;
 
-    for (const comentario in comentarios) {
-        const user = await fetchUserById(comentario.idCreator)
-        let model = `
-        <div class="respuesta">
-            <div id="contenido">
-                <div id="nombreUser">${user.firstName}</div>
-                <div id="contenidoRes">${comentario.contenido}</div>
-            </div>
-        </div>`
+    route = 'user'
+    endpoint = 'comentarios'
+    for (const comentario of comentarios) {
 
-        containerComentarios.appendChild(model)
+        console.log('CREATOR ID:', comentario.idCreator)
+        const user = await fetchUserById(endpoint, route, comentario.idCreator)
+        console.log('USER INFO:', user)
+
+        console.log('displaying respuesta....')
+        let div = document.createElement('div')
+        div.className = 'respuesta'
+
+        let model = `
+        <div id="contenido">
+            <div id="nombreUser">${user.firstName}</div>
+            <div id="contenidoRes">${comentario.contenido}</div>
+        </div>`
+        
+
+        div.innerHTML = model
+        containerComentarios.appendChild(div)
     };
 
 }
@@ -81,6 +92,7 @@ async function sendComment() {
     idCreator;
     let res = await handleComentario(route, seccion, postId, idCreator, contenido, method)
     console.log('sending comment')
+    window.location.reload()
 }
 
 getPreguntasDetails()

@@ -13,6 +13,7 @@ let contacto = document.getElementById('contacto')
 //---------------------------------------------------------------//
 const previsualizacion = document.getElementById('imgContainer')
 const deleteButton = document.getElementById('deletePost')
+const body = document.getElementById('properties')
 const askDiv = document.getElementById('authorize')
 const accept = document.getElementById('accept')
 const cancel = document.getElementById('cancel')
@@ -23,6 +24,7 @@ cancel.addEventListener('click', hidePopup)
 
 let ID;
 let userID;
+const model = 'objeto'
 
 async function displayObjeto() {
     let descripcion = document.getElementById('descripcion')
@@ -48,7 +50,7 @@ async function displayObjeto() {
 
         const fetchImg = async (id) => {
             try {
-                const response = await fetch(`http://localhost:3000/image/${id}`);
+                const response = await fetch(`http://localhost:3000/image/${id}/${model}`);
                 if (response.ok) {
                     const blob = await response.blob();
                     const imageUrl = URL.createObjectURL(blob);
@@ -79,11 +81,13 @@ async function displayObjeto() {
 }
 
 function askAuthorization() {
-    askDiv.classList = 'show popup'
+    askDiv.classList = 'show popup blur-effect'
+    body.classList = 'body blur-effect'
 }
 
 function hidePopup() {
     askDiv.classList = 'hidden'
+    body.classList = 'body'
 }
 
 async function deletePost() {

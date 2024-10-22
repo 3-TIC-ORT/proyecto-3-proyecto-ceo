@@ -41,7 +41,12 @@
 
     <div class="center">
         <div class="recipiente">
-            <input id="titulo" class="inputs" type="text" placeholder="Titulo del tema" value="Brownies">
+            <div class="topDiv">
+                <a href="../index.html">
+                    <img src="../../img/Back-Arrow.svg" alt="atras" id="back1">
+                </a>
+                <input id="titulo" class="inputs" type="text" maxlength="20" placeholder="Titulo del tema" value="Brownies">
+            </div> 
             <textarea id="descripcion" class="inputs" type="text" placeholder="Información" value="Locos"></textarea>
 
             <div class="handle">
@@ -63,6 +68,14 @@
 
             <button id="publish" class="boton">Publicar</button>
 
+        </div>
+    </div>
+
+    <div class="hidden" id="authorize">
+        <p class="text">Seguro que quieres borrar esta archivo?</p>
+        <div class="buttons">
+            <div id="accept" class="boton"><img src="../../img/Accept-Icon.svg" alt="Si" class="cancel-icon"></div>
+            <div id="cancel" class="boton"><img src="../../img/Cancel-Icon.svg" alt="Cancelar" class="cancel-icon"></div>
         </div>
     </div>
 

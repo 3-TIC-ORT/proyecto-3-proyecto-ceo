@@ -9,7 +9,7 @@ async function fetchUserById(endpoint, route, id) {
                 'Authorization': `Bearer ${token}`
             }
         }) 
-        let data = response.json()
+        let data = await response.json()
         return data;
     } catch (error) {
         console.log('[controller] ERROR, Failed to fetch user by id:', error)

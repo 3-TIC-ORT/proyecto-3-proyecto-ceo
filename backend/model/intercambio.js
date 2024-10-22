@@ -1,6 +1,7 @@
 import Sequelize  from "sequelize";
 import { sequelize } from "../DB/DBcontroller.js";
 import chalk from "chalk";
+import { type } from "os";
 
 const greenChalk = chalk.greenBright;
 const redChalk = chalk.redBright;
@@ -17,12 +18,16 @@ const Intercambio = sequelize.define('Intercambio',{
         type: Sequelize.STRING,
         allowNull: false
     },
-    respuestas:{
-        type: Sequelize.STRING,
+    foto: {
+        type: Sequelize.BLOB('medium'),
         allowNull: true,
     },
-    foto:{
-        type: Sequelize.BLOB('medium'),
+    userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
+    foto_format: {
+        type: Sequelize.STRING,
         allowNull: true,
     }
 },{

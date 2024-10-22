@@ -17,6 +17,7 @@ const __rootDir = path.dirname(__parentDir);
 //controller
 import { getResumenes, searchResumenes } from '../controllers/resumenesController.js';
 import { json, where, Op} from 'sequelize';
+import { findUserById } from '../controllers/userIdFinderController.js';
 
 resumenesRouter.get('/', async (req, res) => {
     try {
@@ -65,6 +66,18 @@ resumenesRouter.get('/visualizar', async (req, res)=>{
     } catch (error) {
         console.error('Failed visualizacion');
         res.status(500).json({message: 'failed vizualizacion'});
+    }
+})
+
+resumenesRouter.get('/user', async (req, res) => {
+    try {
+        console.log("Loading resumenes users")
+        const ID = req.user.id
+        const user = await findUserById(ID)
+        res.status(200).json(user)
+    } catch (error) {
+        console.log(chalk.red(error))
+        res.status(500).send('[resumenes] ERROR: Failed to load resumenes user')
     }
 })
 

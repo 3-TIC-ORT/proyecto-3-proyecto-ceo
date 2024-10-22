@@ -1,11 +1,11 @@
 @keyframes moveLeft {
 
     from {
-        transform: translateX(-10%);
+        transform: translateX(-10%) scale(1);
         opacity: 0;
     }
     to {
-        transform: translateX(0%);
+        transform: translateX(0%) scale(1);
         opacity: 1;
     }
 
@@ -69,6 +69,13 @@ span {
     border: 1px solid black;
     animation: moveLeft 0.5s ease-out;
 
+    box-shadow: 6px 5px 2px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+}
+
+.resumen:hover {
+    transform: translateX(0) scale(1.025) !important; 
+    box-shadow: 8px 6px 4px rgba(0, 0, 0, 0.4); 
 }
 
 .boton {

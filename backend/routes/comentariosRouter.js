@@ -10,6 +10,7 @@ const redChalk = chalk.red
 import { getQueryParams } from '../../frontend/controllers/queryParamsController.js';
 import { where } from 'sequelize';
 import { constrainedMemory } from 'process';
+import { findUserById } from '../controllers/userIdFinderController.js';
 
 const comentariosRouter = Router()
 
@@ -18,15 +19,16 @@ const __dirname = path.dirname(__filename);
 const __parentDir = path.dirname(__dirname);
 const __rootDir = path.dirname(__parentDir);
 
-comentariosRouter.get("/get", async (req, res) => {
+comentariosRouter.get("/fetch", async (req, res) => {
     try {
-        const { idPost, idCreator, seccion } = JSON.parse(req.body);
+        const idPost = req.query.idPost;
+        const seccion = req.query.seccion;
+
         console.log("Receiving comentario data...");
 
-        const comentario = await Comentario.findOne({ 
+        const comentario = await Comentario.findAll({ 
             where: {
                 idPost,
-                idCreator,
                 seccion,
             }
         });
@@ -39,7 +41,7 @@ comentariosRouter.get("/get", async (req, res) => {
 
 comentariosRouter.post("/send", async (req, res) => {
     try {
-        const { idPost, seccion, contenido } = JSON.parse(req.body);
+        const { idPost, seccion, contenido } = req.body;
         const idCreator = req.user.id
         console.log("Receiving comentario data...");
 
@@ -67,3 +69,15 @@ comentariosRouter.get("/delete", async (req, res) => {
         res.status(500).send(redChalk('[comentarios] ERROR: Failed to delete comentario:', error))
     }
 })
+
+comentariosRouter.get("/user", async (req, res) => {
+    try {
+        const ID = req.query.id
+        const foundUser = await findUserById(ID)
+        res.status(201).json(foundUser);
+    } catch (error) {
+        res.status(500).send(redChalk('[comentarios] ERROR: Failed to fetch user IN comentario:', error))
+    }
+})
+
+export { comentariosRouter }

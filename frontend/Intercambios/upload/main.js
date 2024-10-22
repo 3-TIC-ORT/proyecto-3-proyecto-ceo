@@ -12,8 +12,9 @@ const accept = document.getElementById('accept')
 const cancel = document.getElementById('cancel')
 
 const body = document.getElementById('body')
+
 function addEventListeners() {
-    button.addEventListener('click', sendObjeto)
+    button.addEventListener('click', sendIntercambio)
 
     deleteButton.addEventListener('click', askAuthorization)
     accept.addEventListener('click', deleteFile)
@@ -51,7 +52,7 @@ function deleteFile() {
     window.location.reload()
 }
 
-async function sendObjeto() {
+async function sendIntercambio() {
     const titulo = document.getElementById('titulo').value
     const informacion = document.getElementById('descripcion').value
     const token = localStorage.getItem('token')
@@ -60,7 +61,7 @@ async function sendObjeto() {
         formData.append('titulo', titulo)
         formData.append('informacion', informacion)
 
-        let response = await fetch('http://localhost:3000/send-objetos', {
+        let response = await fetch('http://localhost:3000/send-intercambio', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -73,7 +74,7 @@ async function sendObjeto() {
         }
     } catch (error) {
         console.log(error)
-        console.log('Failed to send objeto')
+        console.log('Failed to send intercambio')
     }
 }
 
@@ -88,17 +89,13 @@ function hidePopup() {
 }
 
 function removeEventListeners() {
-    button.removeEventListener('click', sendObjeto)
-
+    button.removeEventListener('click', sendIntercambio)
     deleteButton.removeEventListener('click', askAuthorization)
     accept.removeEventListener('click', deleteFile)
     cancel.removeEventListener('click', hidePopup)
-
     dropZone.removeEventListener('dragover', dropFile)
     dropZone.removeEventListener('drop', getFile)
     dropZone.removeEventListener('dragleave', dragLeave);
-
-    window.removeEventListener('unload', exitPage)
 }
 
 function getFile(e) {
