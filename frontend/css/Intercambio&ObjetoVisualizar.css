@@ -6,14 +6,19 @@
     background-repeat: no-repeat;
 }
 
+.thinText {
+    font-weight: 100;
+
+}
+
 .container {
-    height: 90%; 
+    height: 95%; 
     width: 45%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 2.5%;
+    margin-top: 1.25%;
 }
 
 
@@ -27,10 +32,6 @@
     overflow: hidden;
     border: solid 1px black;
     box-shadow: 6px 5px 2px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .img {
@@ -43,15 +44,29 @@
     margin-bottom: 10%;
 }
 
+#descripcion {
+    padding-top: 1%;
+    border-radius: 10px;
+    width: 90%;
+    font-size: medium;
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start;
+    white-space: pre-wrap; 
+    word-wrap: break-word;
+}
+
 #informacion {
-    height: 85%;
+    height: 80%;
     width: 90%;
     background-color: #E0E0E0;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
     border-radius: 30px;
+     
     box-shadow: 6px 5px 2px rgba(0, 0, 0, 0.3);
+
 }
 
 #tituloObjeto {
@@ -65,30 +80,23 @@
     margin-bottom: 2.5%;
     border-radius: 20px;
     border: solid 1px black;
+
     box-shadow: 6px 5px 2px rgba(0, 0, 0, 0.3);
+
 }
 
 #nombreUser {
     margin-top: 0;
 }
 
-#bottomDiv {
-    height: 12.5%;
-    width: 90%;
-    border-radius: 20px;
-    background-color: #E0E0E0;
-    margin-top: 2.5%;
-}
-
 #padding {
     margin-left: 5%;
     height: 100%;
     width: 100%;
-    margin-bottom: 7%;
 }
 
 #title {
-    font-size: x-large;
+    font-size: xx-large;
     margin-right: 10%;
     margin-top: 0;
     margin-bottom: 0;
@@ -103,41 +111,7 @@
     margin: 0;
 }
 
-#imgContainer {
-    overflow: auto;
-}
-
-#authorize {
-    width: 20%;
-    height: 20%;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-}
-
-
 #properties {
     width: 100%;
     height: 100%;
-}
-
-#bottomDiv {
-    display: flex;
-    align-items: center;
-    box-shadow: 6px 5px 2px rgba(0, 0, 0, 0.3);
-}
-
-#canvas {
-    height: auto;
-    width: 90%;
-}
-
-#botones {
-    position: absolute;
-    top: 50%;
-    right: 2.5%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }

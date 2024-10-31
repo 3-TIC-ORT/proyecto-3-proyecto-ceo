@@ -344,6 +344,11 @@ span {
 #back {
     margin-right: 2.5%;
     margin-left: 2.5%;
+    transition: 0.2s ease;
+}
+
+#back:hover {
+    scale: 0.5;
 }
 
 #authorize {

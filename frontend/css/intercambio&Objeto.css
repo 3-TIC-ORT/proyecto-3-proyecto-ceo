@@ -8,7 +8,6 @@
     justify-content: flex-start;
     overflow: visible;
     flex-wrap: wrap;
-    background-image: url(../img/Fondo-Objetos.svg);
 }
 
 #objeto-body {

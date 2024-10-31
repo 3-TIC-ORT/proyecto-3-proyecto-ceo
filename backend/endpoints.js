@@ -463,6 +463,7 @@ export async function endpoints(app) {
                 'pdf': 'application/pdf',
                 'png': 'image/png',
                 'jpg': 'image/jpeg',
+
             }[instance.foto_format] || 'application/octet-stream';
 
             const fileBuffer = fs.readFileSync(instance.foto);
@@ -491,13 +492,17 @@ export async function endpoints(app) {
 
             const retrievedModel = await findModel(id, models[model])
             console.log('Archivo:', retrievedModel.archivo, 'Format:', retrievedModel.format);
+            let formatFile = retrievedModel.format
 
+            let formatText = `${formatFile}`
+            let imageFormat = `image/${formatFile}`
             const mimeType = {
                 'pdf': 'application/pdf',
                 'png': 'image/png',
                 'jpg': 'image/jpeg',
+                'svg': 'image/svg',
+                formatText: imageFormat
             }[retrievedModel.format] || 'application/octet-stream';
-
 
             const fileBuffer = retrievedModel.archivo;
 

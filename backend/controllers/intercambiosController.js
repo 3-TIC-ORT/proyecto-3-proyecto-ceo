@@ -10,4 +10,4 @@ async function getIntercambios() {
     return intercambios;
 }
 
-export { getIntercambios }adsfasdf
+export { getIntercambios }

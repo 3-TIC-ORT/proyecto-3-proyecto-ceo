@@ -3,14 +3,14 @@ import { fetchUserById } from "../../controllers/fetchUserController.js";
 import { fetchBlob } from "../../controllers/blobController.js";
 
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'
 
 console.log('Running resumen visualizacion')
 const endpoint = 'resumen'
 const route = 'user'
 let ID = await getQueryParams()
 let format;
-let zoomLevel = 1.5;
+let zoomLevel = 3;
 
 const model = 'resumen'
 const url = await fetchBlob(model, ID)
@@ -19,6 +19,7 @@ const downloadButton = document.getElementById('download')
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const container = document.getElementById('imgContainer');
+const iframe = document.getElementById('frame')
 
 let currentPage = 1;
 let pdfDoc = null;
@@ -27,8 +28,8 @@ let startX, startY, scrollLeft, scrollTop;
 
 container.addEventListener('mousedown', (e) => {
     isDragging = true;
-    startX = e.pageX - container.offsetLeft;
-    startY = e.pageY - container.offsetTop;
+    startX = e.pageX - canvas.offsetLeft;
+    startY = e.pageY - canvas.offsetTop;
     scrollLeft = container.scrollLeft;
     scrollTop = container.scrollTop;
 });
@@ -40,7 +41,10 @@ function addEventListeners() {
     container.addEventListener('mouseleave', dragleave);
     container.addEventListener('mouseup', dragleave);
     container.addEventListener('mousemove', varyPosition);
+
 }
+
+
 
 addEventListeners()
 
@@ -70,7 +74,7 @@ async function getResumenesDetails() {
                 'Authorization': `Bearer ${token}`,
             }
         });
-    
+
         if (response.ok) {
 
             console.log('Got the resumen info')
@@ -78,6 +82,7 @@ async function getResumenesDetails() {
 
             format = data.format
             console.log('Received data: ', data)
+            iframe.src = url
             displayResumen(data)
         } 
 
@@ -90,11 +95,11 @@ async function fetchFile() {
     try {
         const link = document.createElement('a');
         link.href = url
-        link.download = `download.${format}`
+        link.download = `download.${format}`;
         document.body.appendChild(link);
         link.click();
         
-        removeEventListeners()
+        removeEventListeners();
         document.body.removeChild(link);
         URL.revokeObjectURL(link.href); 
     } catch (error) {
@@ -115,7 +120,7 @@ async function displayResumen(resumen) {
     titulo.innerText = resumen.titulo
     informacion.innerText = resumen.descripcion
 
-}
+};
 
 async function loadPdf(url) {
     const loadingTask = pdfjsLib.getDocument(url);
@@ -138,10 +143,6 @@ async function renderPage(pageNum) {
     await page.render(renderContext).promise;
 }
 
-function removeEventListeners() {
-    downloadButton.removeEventListener('click', fetchFile)
-    window.removeEventListener('beforeunload', exitPage);
-}
 
 canvas.addEventListener('wheel', (e) => {
     e.preventDefault(); 
@@ -164,5 +165,32 @@ function exitPage() {
 }
 
 getResumenesDetails()
+
 await loadPdf(url)
+
+
+function nextPage() {
+    if (currentPage < pdfDoc.numPages) {
+        currentPage++;
+        renderPage(currentPage);
+    }
+}
+
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        renderPage(currentPage);
+    }
+}
+
+function removeEventListeners() {
+    downloadButton.removeEventListener('click', fetchFile)
+    window.removeEventListener('beforeunload', exitPage);
+
+    container.removeEventListener('mouseleave', dragleave);
+    container.removeEventListener('mouseup', dragleave);
+    container.removeEventListener('mousemove', varyPosition);
+
+
+}
 
