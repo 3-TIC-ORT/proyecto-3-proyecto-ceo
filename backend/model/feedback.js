@@ -22,6 +22,10 @@ const Feedback = sequelize.define('Feedback', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    userId:{
+        type: Sequelize.INTEGER,
+        allownull: false,
+    },
 },{
     timestamps: false,
     tableName: 'Feedback',

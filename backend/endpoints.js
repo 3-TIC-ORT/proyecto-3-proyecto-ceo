@@ -205,10 +205,11 @@ export async function endpoints(app) {
             res.status(500).json({ message: 'Error registering objeto perdido', error });
         }
     });
-    
-    app.post('/feedbacks', async (req, res) => {
+
+    app.post('/feedbacks', authenticateToken,  async (req, res) => {
         try {
             const { puntaje, sugerencia, opinion } = req.body;
+            const userId = req.user.id;
             console.log("Receiving feedback data...");
     
             if (puntaje < 1 || puntaje > 5) {
@@ -216,7 +217,7 @@ export async function endpoints(app) {
                 return res.status(400).json({ message: 'Invalid puntaje' });
             }
     
-            const feedback = await Feedback.create({ puntaje, sugerencia, opinion });
+            const feedback = await Feedback.create({ puntaje, sugerencia, opinion, userId });
             res.status(201).json({ message: 'Feedback sent successfully' });
         } catch (error) {
             console.error(redChalk("Error sending feedback:"), error);
