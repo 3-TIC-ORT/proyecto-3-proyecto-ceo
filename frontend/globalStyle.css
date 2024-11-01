@@ -23,6 +23,10 @@
     background-color: #E0E0E0;
 }
 
+.no-events {
+    pointer-events: none;
+}
+
 
 .popup {
     position: fixed;
@@ -155,6 +159,10 @@ span {
 
 .show {
     display: block;
+}
+
+.appear {
+    opacity: 1 !important;
 }
 
 .respuesta {
@@ -360,6 +368,23 @@ span {
     justify-content: center;
     align-items: center;
     filter: none;  
+}
+
+#messageDisplay {
+    position: fixed;
+    width: 30%;
+    height: 10%;
+    top: 45%;
+    left: 35%;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    filter: none;  
+    background-color: white;
+    border-radius: 8px;
+    opacity: 0;
+    transition: 0.35s ease;
 }
 
 #download {

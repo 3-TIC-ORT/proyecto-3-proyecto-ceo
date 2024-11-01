@@ -1,25 +1,39 @@
 import { getQueryParams } from "../../controllers/queryParamsController.js";
 import { fetchUserById } from "../../controllers/fetchUserController.js";
 import { fetchBlob } from "../../controllers/blobController.js";
+import { tryDeletePost } from "../../controllers/deletePostController.js";
+import { debounce } from "../../controllers/auxiliares.js";
 
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'
 
 console.log('Running resumen visualizacion')
-const endpoint = 'resumen'
-const route = 'user'
-let ID = await getQueryParams()
-let format;
-let zoomLevel = 3;
 
+const endpoint = 'resumen'
+let route = 'user'
 const model = 'resumen'
+let format;
+
+
+let ID = await getQueryParams()
+let zoomLevel = 3;
 const url = await fetchBlob(model, ID)
 
-const downloadButton = document.getElementById('download')
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const container = document.getElementById('imgContainer');
-const iframe = document.getElementById('frame')
+const body = document.getElementById('masterContainer')
+const messageDisplay = document.getElementById('messageDisplay')
+
+const downloadButton = document.getElementById('download')
+const nextButton = document.getElementById('nextPage')
+const prevButton = document.getElementById('prevPage')
+const deleteButton = document.getElementById('deletePost')
+
+const askDiv = document.getElementById('authorize')
+const accept = document.getElementById('accept')
+const cancel = document.getElementById('cancel')
+
 
 let currentPage = 1;
 let pdfDoc = null;
@@ -42,11 +56,16 @@ function addEventListeners() {
     container.addEventListener('mouseup', dragleave);
     container.addEventListener('mousemove', varyPosition);
 
+    deleteButton.addEventListener('click', askAuthorization)
+    accept.addEventListener('click', displayMessage)
+    cancel.addEventListener('click', hidePopup)
+
+    prevButton.addEventListener('click', prevPage)
+    nextButton.addEventListener('click', nextPage)
+
 }
-
-
-
 addEventListeners()
+
 
 function dragleave() {
     isDragging = false;
@@ -62,6 +81,10 @@ function varyPosition(e) {
     container.scrollLeft = scrollLeft - walkX;
     container.scrollTop = scrollTop - walkY;
 }
+
+const debouncedExitPage = debounce(function exit() {
+    window.location.href = '../index.html'
+}, 9000)
 
 async function getResumenesDetails() {
     console.log('Getting resumen info')
@@ -82,7 +105,6 @@ async function getResumenesDetails() {
 
             format = data.format
             console.log('Received data: ', data)
-            iframe.src = url
             displayResumen(data)
         } 
 
@@ -121,6 +143,9 @@ async function displayResumen(resumen) {
     informacion.innerText = resumen.descripcion
 
 };
+
+
+
 
 async function loadPdf(url) {
     const loadingTask = pdfjsLib.getDocument(url);
@@ -169,6 +194,8 @@ getResumenesDetails()
 await loadPdf(url)
 
 
+
+
 function nextPage() {
     if (currentPage < pdfDoc.numPages) {
         currentPage++;
@@ -183,6 +210,35 @@ function prevPage() {
     }
 }
 
+
+
+
+function askAuthorization() {
+    askDiv.classList = 'show popup'
+    body.classList = 'blur-effect'
+}
+
+async function displayMessage() {
+    body.classList = 'blur-effect'
+    askDiv.classList = 'hidden'
+    messageDisplay.classList.add("appear")
+    await deletePost()
+    debouncedExitPage()
+}
+
+
+function hidePopup() {
+    askDiv.classList = 'hidden'
+    body.classList = ''
+}
+
+async function deletePost() {
+    route = 'delete'
+    const deletion = await tryDeletePost(endpoint, route, ID)
+}
+
+
+
 function removeEventListeners() {
     downloadButton.removeEventListener('click', fetchFile)
     window.removeEventListener('beforeunload', exitPage);
@@ -191,6 +247,9 @@ function removeEventListeners() {
     container.removeEventListener('mouseup', dragleave);
     container.removeEventListener('mousemove', varyPosition);
 
+    deleteButton.removeEventListener('click', askAuthorization)
+    accept.removeEventListener('click', deletePost)
+    cancel.removeEventListener('click', hidePopup)
 
 }
 

@@ -13,7 +13,7 @@ let contacto = document.getElementById('contacto')
 //---------------------------------------------------------------//
 const previsualizacion = document.getElementById('imgContainer')
 const deleteButton = document.getElementById('deletePost')
-const body = document.getElementById('properties')
+const body = document.getElementById('masterContainer')
 const askDiv = document.getElementById('authorize')
 const accept = document.getElementById('accept')
 const cancel = document.getElementById('cancel')

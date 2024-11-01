@@ -3,7 +3,7 @@ import { fetchUserById } from '../../controllers/fetchUserController.js'
 import { tryDeletePost } from '../../controllers/deletePostController.js'
 import { handleComentario } from "../../controllers/comentarioController.js";
 
-const endpoint = 'objetos'
+const endpoint = 'intercambios'
 let route = 'visualizar'
 //---------------------------------------------------------------//
 let gmailUser = document.getElementById('gmailUser')
@@ -13,7 +13,7 @@ let contacto = document.getElementById('contacto')
 //---------------------------------------------------------------//
 const previsualizacion = document.getElementById('imgContainer')
 const deleteButton = document.getElementById('deletePost')
-const body = document.getElementById('properties')
+const body = document.getElementById('masterContainer')
 const askDiv = document.getElementById('authorize')
 const accept = document.getElementById('accept')
 const cancel = document.getElementById('cancel')
@@ -38,7 +38,7 @@ async function displayObjeto() {
         route = 'user'
         const user = await fetchUserById(endpoint, route, intercambio.userId)
         if (!intercambio) {
-            console.log('[objetos] ERROR, no data received')
+            console.log('[intercambio] ERROR, no data received')
         } 
 
         userID = user.id
@@ -75,7 +75,7 @@ async function displayObjeto() {
 
         previsualizacion.appendChild(img)
     } catch (error) {
-        console.log('[objetos] ERROR, failed at getting details:', error)
+        console.log('[intercambios] ERROR, failed at getting details:', error)
     }
 
 }
@@ -93,8 +93,7 @@ function hidePopup() {
 async function deletePost() {
     route = 'delete'
     const deletion = await tryDeletePost(endpoint, route, ID)
-
-    window.location.href = '../index.html'
+    window.location.href = '../index.html';
 }
 
 displayObjeto()

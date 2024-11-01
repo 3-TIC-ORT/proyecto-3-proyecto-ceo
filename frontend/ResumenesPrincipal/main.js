@@ -1,6 +1,7 @@
 import { popupLogin } from "../controllers/popupController.js";
 import { searchByQuery } from "../controllers/searchQueryController.js";
 import { divColorFilter } from "../controllers/colorAssigningController.js";
+import { debounce } from "../controllers/auxiliares.js";
 
 AOS.init();
 
@@ -11,8 +12,6 @@ let searchInput = document.getElementById('busqueda')
 let filtros = document.getElementById('filtros')
 
 publicarRedirect.addEventListener('click', redirectToUploads)
-searchInput.addEventListener('input', search)
-filtros.addEventListener('input', search)
 loginPopupButton.addEventListener('click', ()  => {
     let gmail = document.getElementById('gmail').value
     let password = document.getElementById('password').value
@@ -106,17 +105,20 @@ function cleanContainer(selector) {
     elements.forEach(element => element.remove())
 }
 
-async function search() {
-    const endpoint = 'resumen'
-    const route = 'search'
+const debouncedSearch =  debounce(async function search() {
+    const endpoint = 'resumen';
+    const route = 'search';
 
-    const query = searchInput.value
-    const filtro = filtros.value
+    const query = searchInput.value;
+    const filtro = filtros.value;
 
-    const resultados = await searchByQuery(endpoint, route, query, filtro)
+    const resultados = await searchByQuery(endpoint, route, query, filtro);
 
-    populateResumenes(resultados)
-}
+    populateResumenes(resultados);
+}, 300)
+
+searchInput.addEventListener('input', debouncedSearch)
+filtros.addEventListener('input', debouncedSearch)
 
 fetchResumenes()
 
