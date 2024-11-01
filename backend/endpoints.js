@@ -477,6 +477,35 @@ export async function endpoints(app) {
         }
     })
 
+    app.get('/authorization/:model/:postId', authenticateToken, async (req, res) => {
+        const { model, postId } = req.params
+        const id = req.user.id;
+
+        const models = {
+            'resumen': Resumen,
+            'foro': Foro,
+            'intercambio': Intercambio,
+            'objeto': objetoPerdido
+        };
+
+        try {
+            const retrievedModel = await findModel(postId, models[model])
+
+            console.log(blueChalk(id, retrievedModel.userId))
+            if (id === retrievedModel.userId) {
+                console.log(blueChalk('User has authorization!'));
+                res.status(200).send(true);
+            } else {
+                res.status(401).send(false);
+            }
+
+        } catch (error) {
+            console.log('ERROR, failed to check authorization:', error);
+            res.status(500).send('failed')
+        }
+
+    })
+
     app.get('/download/:id/:model', authenticateToken, async (req, res) => {
         const { id, model } = req.params;
 

@@ -2,6 +2,7 @@ import { getDetails } from "../../controllers/getDetailsController.js";
 import { fetchUserById } from '../../controllers/fetchUserController.js'
 import { tryDeletePost } from '../../controllers/deletePostController.js'
 import { handleComentario } from "../../controllers/comentarioController.js";
+import { debouncedExitPage } from "../../controllers/auxiliares.js";
 
 const endpoint = 'objetos'
 let route = 'visualizar'
@@ -18,9 +19,15 @@ const askDiv = document.getElementById('authorize')
 const accept = document.getElementById('accept')
 const cancel = document.getElementById('cancel')
 //---------------------------------------------------------------//
-deleteButton.addEventListener('click', askAuthorization)
-accept.addEventListener('click', deletePost)
-cancel.addEventListener('click', hidePopup)
+function addEventListeners() {
+    deleteButton.addEventListener('click', askAuthorization)
+    accept.addEventListener('click', displayMessage)
+    cancel.addEventListener('click', hidePopup)
+
+    window.addEventListener('unload', removeEventListeners)
+}
+
+addEventListeners()
 
 let ID;
 let userID;
@@ -93,8 +100,23 @@ function hidePopup() {
 async function deletePost() {
     route = 'delete'
     const deletion = await tryDeletePost(endpoint, route, ID)
+}
 
-    window.location.href = '../index.html'
+async function displayMessage() {
+    body.classList.add('blur-effect')
+    askDiv.classList = 'hidden'
+    messageDisplay.classList.add("appear")
+    removeEventListeners()
+    await deletePost()
+    debouncedExitPage()
+}
+
+function removeEventListeners() {
+    deleteButton.removeEventListener('click', askAuthorization);
+    accept.removeEventListener('click', displayMessage);
+    cancel.removeEventListener('click', hidePopup);
+
+    window.removeEventListener('unload', removeEventListeners)
 }
 
 displayObjeto()

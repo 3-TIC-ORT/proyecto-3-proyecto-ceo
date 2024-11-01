@@ -3,6 +3,7 @@ import { fetchUserById } from "../../controllers/fetchUserController.js";
 import { fetchBlob } from "../../controllers/blobController.js";
 import { tryDeletePost } from "../../controllers/deletePostController.js";
 import { debounce } from "../../controllers/auxiliares.js";
+import { checkUserAuthorization } from "../../controllers/userAuthorization.js";
 
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'
@@ -84,7 +85,7 @@ function varyPosition(e) {
 
 const debouncedExitPage = debounce(function exit() {
     window.location.href = '../index.html'
-}, 9000)
+}, 2150)
 
 async function getResumenesDetails() {
     console.log('Getting resumen info')
@@ -134,18 +135,30 @@ async function displayResumen(resumen) {
     const titulo = document.getElementById('title')
     const filtro = document.getElementById('filtro')
     const userName = document.getElementById('nombreUser')
-    const user = await fetchUserById(endpoint, route, resumen.userId)
 
+    const userCreator = await fetchUserById(endpoint, route, resumen.userId)
+    const authorized = await checkUserAuthorization(model, resumen.id)
+
+    console.log(userCreator)
+
+    if (authorized == true) {
+        console.log('Authorized:', authorized)
+        giveAccess()
+    } else {
+        console.log('Unauthorized')
+        console.log(authorized)
+    }
 
     filtro.innerText = resumen.filtros
-    userName.innerText = user.firstName + ' ' + user.lastName
+    userName.innerText = userCreator.firstName + ' ' + userCreator.lastName
     titulo.innerText = resumen.titulo
     informacion.innerText = resumen.descripcion
-
 };
 
-
-
+function giveAccess() {
+    deleteButton.classList.remove('hidden')
+    deleteButton.classList.remove('no-events')
+}
 
 async function loadPdf(url) {
     const loadingTask = pdfjsLib.getDocument(url);

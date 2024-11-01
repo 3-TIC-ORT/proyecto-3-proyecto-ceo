@@ -384,7 +384,12 @@ span {
     background-color: white;
     border-radius: 8px;
     opacity: 0;
-    transition: 0.35s ease;
+    transition: 0.3s ease !important;
+}
+
+#message {
+    color: rgb(159, 21, 21);
+    font-weight: 100;
 }
 
 #download {

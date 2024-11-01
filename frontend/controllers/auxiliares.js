@@ -13,7 +13,7 @@ const debouncedPostDeletion = debounce(async function deletePost() {
 
 const debouncedExitPage = debounce(function exit() {
     window.location.href = '../index.html'
-}, 2000)
+}, 2150)
 
 
 export { debouncedExitPage };

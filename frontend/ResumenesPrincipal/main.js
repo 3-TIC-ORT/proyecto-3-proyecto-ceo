@@ -113,8 +113,8 @@ const debouncedSearch =  debounce(async function search() {
     const filtro = filtros.value;
 
     const resultados = await searchByQuery(endpoint, route, query, filtro);
-
     populateResumenes(resultados);
+    
 }, 300)
 
 searchInput.addEventListener('input', debouncedSearch)

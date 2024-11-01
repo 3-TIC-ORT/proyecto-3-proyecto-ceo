@@ -2,6 +2,7 @@ import { getDetails } from "../../controllers/getDetailsController.js";
 import { fetchUserById } from '../../controllers/fetchUserController.js'
 import { tryDeletePost } from '../../controllers/deletePostController.js'
 import { handleComentario } from "../../controllers/comentarioController.js";
+import { debouncedExitPage } from "../../controllers/auxiliares.js";
 
 const endpoint = 'intercambios'
 let route = 'visualizar'
@@ -17,9 +18,10 @@ const body = document.getElementById('masterContainer')
 const askDiv = document.getElementById('authorize')
 const accept = document.getElementById('accept')
 const cancel = document.getElementById('cancel')
+const messageDisplay = document.getElementById('messageDisplay')
 //---------------------------------------------------------------//
 deleteButton.addEventListener('click', askAuthorization)
-accept.addEventListener('click', deletePost)
+accept.addEventListener('click', displayMessage)
 cancel.addEventListener('click', hidePopup)
 
 let ID;
@@ -93,7 +95,14 @@ function hidePopup() {
 async function deletePost() {
     route = 'delete'
     const deletion = await tryDeletePost(endpoint, route, ID)
-    window.location.href = '../index.html';
+}
+
+async function displayMessage() {
+    body.classList.add('blur-effect')
+    askDiv.classList = 'hidden'
+    messageDisplay.classList.add("appear")
+    await deletePost()
+    debouncedExitPage()
 }
 
 displayObjeto()

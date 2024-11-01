@@ -73,7 +73,8 @@ resumenesRouter.get('/visualizar', async (req, res) => {
 resumenesRouter.get('/user', async (req, res) => {
     try {
         console.log("Loading resumenes users")
-        const ID = req.user.id
+        const ID = req.query.id
+        console.log(ID)
         const user = await findUserById(ID)
         res.status(200).json(user)
     } catch (error) {
@@ -87,7 +88,7 @@ resumenesRouter.post('/delete', async (req, res) => {
     const model = Resumen;
     console.log(' POST ID: ', id);
     try {
-        const deletedPost = await deletePost(id, model)
+        const deletedPost = await deletePost(id, model);
         res.status(200).send('[Resumen] Succesfuly deleted post.')
     } catch (error) {
         res.status(500).send('[Resumen] Failed to delete post.')

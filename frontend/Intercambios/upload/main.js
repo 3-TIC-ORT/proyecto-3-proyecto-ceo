@@ -1,4 +1,5 @@
 
+
 let formData = new FormData();
 let button = document.getElementById('publish')
 const dropZone = document.getElementById('drop-area')
@@ -124,3 +125,4 @@ function dropFile(e) {
 function exitPage() {
     removeEventListeners()
 }
+

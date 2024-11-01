@@ -17,7 +17,6 @@ function addListeners() {
 
 addListeners()
 
-console.log('running objetos')
 async function fetchObjetos() {
     const token = localStorage.getItem('token')
 

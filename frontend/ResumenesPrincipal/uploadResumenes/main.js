@@ -69,7 +69,6 @@ async function sendResumenes() {
         console.log('LPTM')
         console.log(error)
     }
-    window.location.reload()
 }
 
 
