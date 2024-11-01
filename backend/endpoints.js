@@ -29,6 +29,7 @@ import { json, where } from 'sequelize';
 import { blob, text } from 'stream/consumers';
 import { getResumenByiD } from './controllers/resumenesController.js';
 import { intercambiosRouter } from './routes/intercambiosRoutes.js';
+import { Permisos } from './model/permisos.js';
 
 const blueChalk = chalk.blue
 const greenChalk = chalk.greenBright;
@@ -300,6 +301,21 @@ export async function endpoints(app) {
         } catch (error) {
             console.error(redChalk("Error creating foro:"), error);
             res.status(500).json({ message: 'Error creating foro', error });
+        }
+    });
+
+    app.post('/permisos', authenticateToken, async (req, res) =>{
+        try {
+            const { permiso } = req.body;
+            const userId  = req.user.id;
+    
+            console.log("Receiving permiso data...");
+
+            const permisos = await Permisos.create({ permiso, userId });
+            res.status(201).json({  message: 'Permiso created successfully' });
+        } catch (error) {
+            console.error(redChalk("Error creating permiso:"), error);
+            res.status(500).json({ message: 'Error creating permiso'});
         }
     });
 
