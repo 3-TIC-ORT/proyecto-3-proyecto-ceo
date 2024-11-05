@@ -75,13 +75,40 @@
               </div>
         </div>
 
-        <div id="calificanos">
-        
-        </div>
-    
+        <div class="text" id="calificanos">
+            <div>
+                <h1>Calificanos</h1>
+                <p>¿Cuanto nos darias?</p>
+            </div>
+            <div class="row" id="estrellas">
+                <div class="estrellas">
+                    <img src="../img/Empty-Star.svg" alt="1" class="star" data-star="1">
+                    <img src="../img/Empty-Star.svg" alt="2" class="star" data-star="2">
+                    <img src="../img/Empty-Star.svg" alt="3" class="star" data-star="3">
+                    <img src="../img/Empty-Star.svg" alt="4" class="star" data-star="4">
+                    <img src="../img/Empty-Star.svg" alt="5" class="star" data-star="5">
+                </div>
+            </div>
+            <div class="row" id="inputs">
+                <div class="data">
+                    <h2>Alguna opinion?</h2>
+                    <textarea type="text" class="inputs size" id="opinion" placeholder="Tu opinion.."></textarea>
+                </div>
 
+                <div class="data">
+                    <h2>Tienes alguna sugerencia?</h2>
+                    <textarea type="text" class="inputs size" id="sugerencia" placeholder="Tu sugerencia.."></textarea>
+                </div>
+            </div>  
+            <div class="bottom" id="sendDiv">
+                <button class="boton" id="send"><span class="text">Enviar</span></button>
+            </div>
+        </div>
     </div>
 
-    <script src="main.js"></script>
+    <div id="messageDisplay">
+        <p class="text" id="message">Publicado exitosamente!</p>
+    </div>
+    <script type="module" src="main.js"></script>
 </body>
 </html>

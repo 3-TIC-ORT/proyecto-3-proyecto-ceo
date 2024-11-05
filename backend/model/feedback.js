@@ -5,14 +5,10 @@ import chalk from "chalk";
 const blueChalk = chalk.cyanBright;
 
 console.log(blueChalk("Definiendo modelo feedback..."));
-const Feedback = sequelize.define('Feedback', {
+const Feedback = sequelize.define('feedback', {
     puntaje: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
         allowNull: false,
-        validate:{
-            min:1,
-            max:5
-        }
     },
     sugerencia: {
         type: Sequelize.STRING,
@@ -22,9 +18,13 @@ const Feedback = sequelize.define('Feedback', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    }
 },{
     timestamps: false,
-    tableName: 'Feedback',
+    tableName: 'feedback',
 })
 
 export { Feedback }

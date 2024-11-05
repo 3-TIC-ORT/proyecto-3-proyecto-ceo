@@ -6,10 +6,10 @@ console.log("running register")
 async function sendData(event) {
     event.preventDefault();
 
-    let inputLogin = document.getElementById("inputUser").value;
-    let inputApellido = document.getElementById("inputLastName").value;
-    let inputGmail = document.getElementById("inputGmail").value;
-    let inputContraseña = document.getElementById("inputPassword").value;
+    let inputLogin = document.getElementById("user").value;
+    let inputApellido = document.getElementById("lname").value;
+    let inputGmail = document.getElementById("email").value;
+    let inputContraseña = document.getElementById("pwd").value;
 
     console.log("Sending user data....")
 

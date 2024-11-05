@@ -139,8 +139,6 @@ async function displayResumen(resumen) {
     const userCreator = await fetchUserById(endpoint, route, resumen.userId)
     const authorized = await checkUserAuthorization(model, resumen.id)
 
-    console.log(userCreator)
-
     if (authorized == true) {
         console.log('Authorized:', authorized)
         giveAccess()

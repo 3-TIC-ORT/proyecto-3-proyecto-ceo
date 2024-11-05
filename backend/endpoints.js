@@ -206,17 +206,14 @@ export async function endpoints(app) {
         }
     });
     
-    app.post('/feedbacks', async (req, res) => {
+    app.post('/send-feedback', authenticateToken, async (req, res) => {
         try {
             const { puntaje, sugerencia, opinion } = req.body;
+            console.log(puntaje, sugerencia, opinion)
+            const userId = req.user.id
             console.log("Receiving feedback data...");
     
-            if (puntaje < 1 || puntaje > 5) {
-                console.error('Invalid puntaje. Must be between 1 and 5.');
-                return res.status(400).json({ message: 'Invalid puntaje' });
-            }
-    
-            const feedback = await Feedback.create({ puntaje, sugerencia, opinion });
+            const feedback = await Feedback.create({ puntaje, sugerencia, opinion, userId });
             res.status(201).json({ message: 'Feedback sent successfully' });
         } catch (error) {
             console.error(redChalk("Error sending feedback:"), error);
