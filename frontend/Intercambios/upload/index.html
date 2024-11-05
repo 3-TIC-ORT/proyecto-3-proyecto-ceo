@@ -13,9 +13,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../../globalStyle.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="../../css/upload-Intercambio-Obj-Foros.css">
+    <link rel="stylesheet" href="../../globalStyle.css">
 
 
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
@@ -32,8 +32,8 @@
             <a href="../../PaginaInicio/index.html" class="text" id="itemNav">Inicio</a>
             <a href="../../ResumenesPrincipal/index.html" class="text" id="itemNav">Resumenes</a>
             <a href="../../Foro/index.html" class="text" id="itemNav">Foros</a>
-            <a href="../../Intercambios/index.html" class="text" id="itemNav"><span class="navSelected">Intercambios</span></a>
-            <a class="text" id="itemObjetos">Objetos Perdidos</a>
+            <a class="text" id="itemNav"><span class="navSelected">Intercambios</span></a>
+            <a href="../../ObjetosPerdidos/index.html" class="text" id="itemObjetos">Objetos Perdidos</a>
         </div>
 
         <div class="boton" id="login">
@@ -43,13 +43,15 @@
 
     <div class="center">
         <div class="recipiente" id="body">
+
             <div class="topDiv">
                 <a href="../index.html">
                     <img src="../../img/Back-Arrow.svg" alt="atras" id="back1">
                 </a>
-                <input id="titulo" class="inputs" type="text" maxlength="20" placeholder="Nombre del objeto" value="miau">
+                <input id="titulo" class="inputs" type="text" maxlength="20" placeholder="Nombre del objeto">
             </div> 
-            <textarea id="descripcion" class="inputs" type="text" maxlength="900" placeholder="Añade informacion sobre el objeto" value="bla bla blablabla blabla. Blabla? 'Blablababla. Blabla, blabla!' Blablablabla. Bla bla, bla blabalbla, bla bla blabla bla blablabla bla. bla bla blablabla blabla. Blabla? 'Blablababla. Blabla, blabla!' Blablablabla. Bla bla, bla blabalbla, bla bla blabla bla blablabla bla."></textarea>
+
+            <textarea id="descripcion" class="inputs" type="text" maxlength="900" placeholder="Añade informacion sobre el objeto"></textarea>
 
             <div class="handle">
                 <div id="drop-area" type="/image" class="dropArea">
@@ -68,10 +70,11 @@
                     <span class="thinText" id="text">Importante: se mostrara su gmail para facilitar a los demas ponerse en contacto</span>
                 </div> 
 
-                <div class="boton text" id="publish">Publicar</div>
+                <button class="boton text" type="button" id="publish">Publicar</button>
 
             </div>
         </div>
+    
     </div>
 
     <div class="hidden" id="authorize">
@@ -81,7 +84,10 @@
             <div id="cancel" class="boton"><img src="../../img/Cancel-Icon.svg" alt="Cancelar" class="cancel-icon"></div>
         </div>
     </div>
-
-    <script src="main.js"></script>
+        
+    <div id="messageDisplay">
+        <p class="text" id="message">Publicado exitosamente!</p>
+    </div>
+    <script type="module" src="main.js"></script>
 </body>
 </html>

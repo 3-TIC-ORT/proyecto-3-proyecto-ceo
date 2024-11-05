@@ -13,10 +13,25 @@ const debouncedPostDeletion = debounce(async function deletePost() {
 
 const debouncedExitPage = debounce(function exit() {
     window.location.href = '../index.html'
-}, 2150)
+}, 1000)
+
+
+function displayInvalidMessage(displayElement, messageElement, text) {
+    if (!displayElement || !messageElement) {
+        console.log(displayElement, messageElement)
+        console.warn("Display or message element is missing.");
+        return;
+    }
+
+    displayElement.classList.add('appear');
+    messageElement.classList.add('blackText')
+    messageElement.innerHTML = text;
+    setTimeout(() => displayElement.classList.remove('appear'), 1000)
+    console.log('Campos invalidos');
+}
 
 
 export { debouncedExitPage };
 export { debouncedPostDeletion };
-
+export { displayInvalidMessage }
 export { debounce };

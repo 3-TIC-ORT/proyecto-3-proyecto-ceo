@@ -2,8 +2,7 @@ import { getDetails } from "../../controllers/getDetailsController.js";
 import { fetchUserById } from '../../controllers/fetchUserController.js'
 import { tryDeletePost } from '../../controllers/deletePostController.js'
 import { handleComentario } from "../../controllers/comentarioController.js";
-import { debouncedExitPage } from "../../controllers/auxiliares.js";
-
+import { debounce } from "../../controllers/auxiliares.js";
 const endpoint = 'intercambios'
 let route = 'visualizar'
 //---------------------------------------------------------------//
@@ -96,6 +95,10 @@ async function deletePost() {
     route = 'delete'
     const deletion = await tryDeletePost(endpoint, route, ID)
 }
+
+const debouncedExitPage = debounce(function exit() {
+    window.location.href = '../index.html'
+}, 1000)
 
 async function displayMessage() {
     body.classList.add('blur-effect')

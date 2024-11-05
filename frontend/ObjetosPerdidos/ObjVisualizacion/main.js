@@ -3,6 +3,7 @@ import { fetchUserById } from '../../controllers/fetchUserController.js'
 import { tryDeletePost } from '../../controllers/deletePostController.js'
 import { handleComentario } from "../../controllers/comentarioController.js";
 import { debouncedExitPage } from "../../controllers/auxiliares.js";
+import { checkUserAuthorization } from "../../controllers/userAuthorization.js";
 
 const endpoint = 'objetos'
 let route = 'visualizar'
@@ -73,6 +74,7 @@ async function displayObjeto() {
         };
 
         const url = await fetchImg(objeto.id)
+        
         ID = objeto.id
         const mimeType = objeto.foto_format
 
@@ -81,6 +83,17 @@ async function displayObjeto() {
         img.className = 'img'
 
         previsualizacion.appendChild(img)
+
+        const authorized = await checkUserAuthorization(model, objeto.id)
+
+        if (authorized == true) {
+            console.log('Authorized:', authorized)
+            giveAccess()
+        } else {
+            console.log('Unauthorized')
+            console.log(authorized)
+        }
+
     } catch (error) {
         console.log('[objetos] ERROR, failed at getting details:', error)
     }
@@ -110,6 +123,12 @@ async function displayMessage() {
     await deletePost()
     debouncedExitPage()
 }
+
+function giveAccess() {
+    deleteButton.classList.remove('hidden')
+    deleteButton.classList.remove('no-events')
+}
+
 
 function removeEventListeners() {
     deleteButton.removeEventListener('click', askAuthorization);

@@ -1,4 +1,5 @@
-
+import { debouncedExitPage } from "../../controllers/auxiliares.js";
+import { displayInvalidMessage } from "../../controllers/auxiliares.js";
 
 let formData = new FormData();
 let button = document.getElementById('publish')
@@ -12,11 +13,15 @@ const askDiv = document.getElementById('authorize')
 const accept = document.getElementById('accept')
 const cancel = document.getElementById('cancel')
 
+const messageDisplay = document.getElementById('messageDisplay')
+const messageText = document.getElementById('message')
+
 const body = document.getElementById('body')
+let importado;
+let file;
 
 function addEventListeners() {
-    button.addEventListener('click', sendIntercambio)
-
+    button.addEventListener('click', displayMessage);
     deleteButton.addEventListener('click', askAuthorization)
     accept.addEventListener('click', deleteFile)
     cancel.addEventListener('click', hidePopup)
@@ -25,12 +30,11 @@ function addEventListeners() {
     dropZone.addEventListener('drop', getFile)
     dropZone.addEventListener('dragleave', dragLeave);
     
-    window.addEventListener('unload', exitPage)
 }
 
 addEventListeners()
 
-function checkState(e, file) {
+function checkState(file) {
     console.log('checking state')
     if (importado) {
         textSpan.className = 'hidden'
@@ -71,7 +75,7 @@ async function sendIntercambio() {
         })
 
         if (response.ok) {
-            window.location.reload()
+            console.log('Success!')
         }
     } catch (error) {
         console.log(error)
@@ -107,7 +111,7 @@ function getFile(e) {
     dropZone.classList.remove('drag-over');
     file = e.dataTransfer.files[0]
     formData.append('foto', file); 
-    checkState(e, file)
+    checkState(file)
 }
 
 function dragLeave() {
@@ -117,9 +121,34 @@ function dragLeave() {
 function dropFile(e) {
     e.stopPropagation();
     e.preventDefault();
-    console.log('Dropped a file')
     e.dataTransfer.dropEffect = 'copy'; 
     dropZone.classList.add('drag-over');
+}
+
+async function displayMessage() {
+    const titulo = document.getElementById('titulo').value
+    const informacion = document.getElementById('descripcion').value
+    let text = 'Porfavor llene todos los campos.'
+
+    if (!titulo || !informacion) {
+        displayInvalidMessage(messageDisplay, messageText, text)
+        return;
+    }
+
+    if (!file) {
+        text = 'Porfavor añada una foto.'
+        displayInvalidMessage(messageDisplay, messageText, text)
+        return;
+    }
+
+    await sendIntercambio()
+    messageText.classList.remove('blackText')
+    messageText.classList.add('greenText')
+    messageText.innerHTML = 'Publicado exitosamente!';
+    body.classList.add('blur-effect')
+    askDiv.classList = 'hidden'
+    messageDisplay.classList.add('appear')
+    debouncedExitPage()
 }
 
 function exitPage() {

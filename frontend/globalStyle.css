@@ -64,6 +64,10 @@ span {
     background-color: #FFFF;
 }
 
+.blackText {
+    color: black !important;
+}
+
 .boton {
     height: 100%;
     width: 15%;
@@ -385,10 +389,11 @@ span {
     border-radius: 8px;
     opacity: 0;
     transition: 0.3s ease !important;
+    border: 1px solid black;
 }
 
 #message {
-    color: rgb(159, 21, 21);
+    color: rgb(216, 47, 47);
     font-weight: 100;
 }
 

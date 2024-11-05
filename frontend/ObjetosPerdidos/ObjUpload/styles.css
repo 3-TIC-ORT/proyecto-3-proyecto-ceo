@@ -149,3 +149,7 @@
 #drop-area.drag-over {
     transform: scale(1.2);
 }
+
+.greenText {
+    color: rgb(18, 136, 18);
+}
