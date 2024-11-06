@@ -2,7 +2,7 @@ body {
     width: 100vw;
     height: 115vh;
     margin:0%;
-    background-image: url(../TIMI/Fondos/FondoInicio.png);
+    background-image: url(.././TIMI/Fondos/FondoInicio.png);
     background-repeat: no-repeat;
     background-size: cover;
 }
