@@ -29,8 +29,9 @@
         </div>
 
         <div class="boton" id="login">
-            <a href="/frontend/PaginaInicio/login/index.html"><p class="text">Iniciar sesion</p></a>
+            <a href="/frontend/PaginaInicio/Registrarse/index.html" id="registerButton"><p class="text">Registrarse</p></a>
         </div>
+        <span id="loggedUser"></span>
     </nav>
 
     <div class="container">
@@ -105,6 +106,17 @@
             </div>
         </div>
     </div>
+    
+    <div id="loginPopup" class="popup hidden">
+        <h1>Login</h1>
+
+        <div class="info" id="logInfo">
+            <input type="text" class="inputs" id="gmail" placeholder="Gmail...." value="example11@gmail.com"></input>
+            <input type="password" class="inputs" id="password" placeholder="Password...." value="test"></input>
+        </div>
+
+        <div class="boton" id="loginPopupButton">Iniciar sesion</div>
+    </div> 
 
     <div id="messageDisplay">
         <p class="text" id="message">Publicado exitosamente!</p>

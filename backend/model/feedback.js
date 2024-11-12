@@ -25,6 +25,6 @@ const Feedback = sequelize.define('feedback', {
 },{
     timestamps: false,
     tableName: 'feedback',
-})
+});
 
 export { Feedback }

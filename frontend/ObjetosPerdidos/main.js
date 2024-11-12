@@ -2,10 +2,27 @@
 AOS.init()
 
 import { popupLogin } from "../controllers/popupController.js"
+import { isLogged, debounce, displayInvalidMessage } from "../controllers/auxiliares.js"
 
 const uploadButton = document.getElementById('publicar')
 const popup = document.getElementById('loginPopup')
-const loginPopupButton = document.getElementById('loginPopupButton')
+const loginPopupButton = document.getElementById('loginPopupButton');
+
+
+const loggedUser = document.getElementById('loggedUser')
+const registrarDiv = document.getElementById('login')
+isLogged(loggedUser, registrarDiv)
+
+const debouncedDisplayPopup = debounce(function showPopup() {
+    popup.classList.add('appear');
+    popup.classList.remove('hidden');
+
+},1000)
+
+const debouncedPopup = debounce(function removePopup() {
+    popup.classList.remove('show');
+    popup.classList.show('hidden');
+},550)
 
 const model = 'objeto'
 
@@ -33,10 +50,9 @@ async function fetchObjetos() {
             popup.classList.remove('hidden')
             popup.classList.add('show')
             
-            publicarRedirect.classList.remove('show');
-            publicarRedirect.classList.add('hidden')
+            uploadButton.classList.remove('show');
+            uploadButton.classList.add('hidden')
 
-        
         }
 
         const data = await response.json();
@@ -136,10 +152,26 @@ function removeListeners() {
     window.removeEventListener('beforeunload', exitPage);
 }
 
-function log() {
+async function log() {
     let gmail = document.getElementById('gmail').value
     let password = document.getElementById('password').value
-    popupLogin(gmail, password)
+    let login = await popupLogin(gmail, password);
+
+    if (login) {
+        console.log('[POPUP] Success!')
+        debouncedPopup()
+        await fetchObjetos()
+    } else {
+        const messageDisplay = document.getElementById('messageDisplay')
+        const messageText = document.getElementById('message')
+        let text = 'No se pudo iniciar sesion..'
+        console.warn('No se pudo iniciar sesion')
+        popup.classList.remove('show');
+        popup.classList.add('hidden');
+        displayInvalidMessage(messageDisplay, messageText, text)
+        debouncedDisplayPopup()
+    }
+
 }
 
 function exitPage() {

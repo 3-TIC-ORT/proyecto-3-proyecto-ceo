@@ -22,7 +22,7 @@ function displayInvalidMessage(displayElement, messageElement, text) {
         console.warn("Display or message element is missing.");
         return;
     }
-
+    console.log('Displaying invalid message with:', displayElement)
     displayElement.classList.add('appear');
     messageElement.classList.add('blackText')
     messageElement.innerHTML = text;
@@ -30,7 +30,32 @@ function displayInvalidMessage(displayElement, messageElement, text) {
     console.log('Campos invalidos');
 }
 
+async function isLogged(logged, div) {
+    const token = localStorage.getItem('token')
+    if (!token) {
+        console.warn('No token!')
+        return;
+    }
+    try {
+        let response = await fetch('http://localhost:3000/isLogged', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        let data = await response.json()
+        if (response.ok) {
+            div.classList.add('hidden')
+            console.log(data)
+            logged.innerHTML = `${data.firstName} ${data.lastName}`
+        }
 
+    } catch (error) {
+        console.log('ERROR, failed to check user login:', error)
+    }
+}
+
+export { isLogged };
 export { debouncedExitPage };
 export { debouncedPostDeletion };
 export { displayInvalidMessage }

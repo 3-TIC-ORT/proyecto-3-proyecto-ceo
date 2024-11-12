@@ -2,6 +2,7 @@ import { popupLogin } from "../controllers/popupController.js";
 import { searchByQuery } from "../controllers/searchQueryController.js";
 import { divColorFilter } from "../controllers/colorAssigningController.js";
 import { debounce } from "../controllers/auxiliares.js";
+import { isLogged } from "../controllers/auxiliares.js";
 
 AOS.init();
 
@@ -10,6 +11,10 @@ let loginPopupButton = document.getElementById('loginPopupButton')
 let popup = document.getElementById('loginPopup')
 let searchInput = document.getElementById('busqueda')
 let filtros = document.getElementById('filtros')
+
+const loggedUser = document.getElementById('loggedUser')
+const registrarDiv = document.getElementById('login')
+isLogged(loggedUser, registrarDiv)
 
 publicarRedirect.addEventListener('click', redirectToUploads)
 loginPopupButton.addEventListener('click', ()  => {
@@ -114,7 +119,7 @@ const debouncedSearch =  debounce(async function search() {
 
     const resultados = await searchByQuery(endpoint, route, query, filtro);
     populateResumenes(resultados);
-    
+
 }, 300)
 
 searchInput.addEventListener('input', debouncedSearch)

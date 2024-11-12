@@ -1,4 +1,6 @@
 import { displayInvalidMessage } from "../controllers/auxiliares.js";
+import { popupLogin } from "../controllers/popupController.js"
+import { isLogged } from "../controllers/auxiliares.js";
 
 let angle = 0;
 let isDragging = false
@@ -9,9 +11,24 @@ const stars = document.querySelectorAll('.star')
 const links = document.querySelectorAll('.carousel__face');
 const publishFeedback = document.getElementById('send')
 
+const popup = document.getElementById('loginPopup')
+const loginPopupButton = document.getElementById('loginPopupButton')
+
+const loggedUser = document.getElementById('loggedUser')
+const registrarDiv = document.getElementById('login')
+isLogged(loggedUser, registrarDiv)
+
+function addListeners() {
+    loginPopupButton.addEventListener('click', log)
+    window.addEventListener('beforeunload', exitPage);
+}
+
+addListeners()
+
 const messageDisplay = document.getElementById('messageDisplay')
 const messageText = document.getElementById('message')
 let startX;
+
 
 carousel.addEventListener('mousedown', (e) => {
     isDragging = true;
@@ -104,12 +121,40 @@ async function sendFeedback() {
                 puntaje: puntaje
             })
         })
+
+        if (!response.ok) {
+            console.log('Failed')
+            popup.classList.remove('hidden')
+            popup.classList.add('show')
+            
+            publicarRedirect.classList.remove('show');
+            publicarRedirect.classList.add('hidden')
+        }
+
         if (response.ok) {
             console.log('Feedback sent successfully');
+            window.location.reload()
         } else {
             console.log('Failed to send feedback:', response.statusText);
         }
+
     } catch (error) {
         console.log('ERROR, failed to send feedback:', error);
     }
+}
+
+
+function removeListeners() {
+    loginPopupButton.removeEventListener('click', log)
+    window.removeEventListener('beforeunload', exitPage);
+}
+
+function log() {
+    let gmail = document.getElementById('gmail').value
+    let password = document.getElementById('password').value
+    popupLogin(gmail, password)
+}
+
+function exitPage() {
+    removeListeners()
 }

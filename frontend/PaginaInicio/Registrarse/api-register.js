@@ -1,4 +1,4 @@
-let botonRegister = document.getElementById("register") 
+let botonRegister = document.getElementById("register");
 
 botonRegister.addEventListener("click", sendData)
 

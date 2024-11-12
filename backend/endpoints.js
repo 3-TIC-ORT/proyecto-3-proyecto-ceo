@@ -84,7 +84,8 @@ async function createToken(user) {
     try {
         let payload = {
             id: user.id,
-            firstName: user.firstName
+            firstName: user.firstName,
+            lastName: user.lastName
         };
 
         const token = jsonwebtoken.sign(payload, SECRET_KEY, { expiresIn: '2m' });
@@ -518,6 +519,11 @@ export async function endpoints(app) {
         }
 
     })
+
+    app.get('/isLogged', authenticateToken, async (req, res) => {
+        const user = req.user
+        res.status(201).send(user)
+    });
 
     app.get('/download/:id/:model', authenticateToken, async (req, res) => {
         const { id, model } = req.params;

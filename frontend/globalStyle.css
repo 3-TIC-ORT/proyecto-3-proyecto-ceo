@@ -39,7 +39,6 @@
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    z-index: 1000;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
@@ -54,7 +53,7 @@ span {
 }
 
 .navBar {
-    height: 12vh;
+    height: 10vh;
     width: 100vw;
     display: flex;
     justify-content: center;
@@ -216,8 +215,15 @@ span {
     align-items: center;
     width: 100%;
     height: 50%;
+    transition: 0.2s ease;
 }
 
+#login:hover {
+    scale: 1.05;
+}
+#login:active {
+    scale: 0.9;
+}
 #filtros {
     width: 20%;
     margin-left: 7%;
@@ -233,6 +239,7 @@ span {
 #login {
     margin-left: 5%;
     height: 60%;
+    transition: 0.2s ease;
 }
 
 #itemNav {
@@ -276,6 +283,13 @@ span {
     height: 15%;
     width: 70%;
     border: 1px solid black;
+}
+
+#loggedUser {
+    display: flex;
+    text-align: center;
+    font-size: x-large;
+    margin-left: 2.5%;
 }
 
 #loginPopupButton:active {

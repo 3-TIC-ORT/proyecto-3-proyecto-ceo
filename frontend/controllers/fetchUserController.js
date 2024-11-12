@@ -7,7 +7,7 @@ async function fetchUserById(endpoint, route, id) {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
-            }
+            }   
         }) 
         let data = await response.json()
         return data;
