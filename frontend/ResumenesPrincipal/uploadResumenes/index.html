@@ -28,7 +28,7 @@
 
         <div id="navItems">
             <a href="../../PaginaInicio/index.html" class="text" id="itemNav">Inicio</a>
-            <a class="text" id="itemNav"><span class="navResumen">Resumenes</span></a>
+            <a class="text" id="itemNav"><span class="navSelected">Resumenes</span></a>
             <a href="../../Foro/index.html" class="text" id="itemNav">Foros</a>
             <a href="../../Intercambios/index.html" class="text" id="itemNav">Intercambios</a>
             <a href="../../ObjetosPerdidos/index.html" class="text" id="itemObjetos">Objetos Perdidos</a>
@@ -41,12 +41,25 @@
 
     <div class="center">
         <div class="recipiente">
-            <input id="titulo" class="inputs" type="text" placeholder="Titulo del tema" value="Brownies">
+            <div class="topDiv">
+                <a href="../index.html">
+                    <img src="../../img/Back-Arrow.svg" alt="atras" id="back1">
+                </a>
+                <input id="titulo" class="inputs" type="text" maxlength="20" placeholder="Titulo del tema" value="Brownies">
+            </div> 
             <textarea id="descripcion" class="inputs" type="text" placeholder="Información" value="Locos"></textarea>
 
             <div class="handle">
                 <div id="drop-area" type="file" class="dropArea">
-                    <span> Drop your file </span>
+                    <span id="text1"> Drop your file </span>
+
+                    <div id="uploadedFile" class="hidden align">
+                        <span id="fileName"></span>
+
+                        <div id="deleteFile">
+                            <img class="trashCan" src="../../img/TachitoBasura.svg" alt="hola">
+                        </div>
+                    </div>
                 </div>
                 <select class="inputs" id="filtro">
                     <option value="" disabled selected hidden>Seleccione un filtro...</option>
@@ -55,6 +68,14 @@
 
             <button id="publish" class="boton">Publicar</button>
 
+        </div>
+    </div>
+
+    <div class="hidden" id="authorize">
+        <p class="text">Seguro que quieres borrar esta archivo?</p>
+        <div class="buttons">
+            <div id="accept" class="boton"><img src="../../img/Accept-Icon.svg" alt="Si" class="cancel-icon"></div>
+            <div id="cancel" class="boton"><img src="../../img/Cancel-Icon.svg" alt="Cancelar" class="cancel-icon"></div>
         </div>
     </div>
 

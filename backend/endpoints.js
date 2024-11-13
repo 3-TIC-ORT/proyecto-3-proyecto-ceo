@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 
 //CONTROLLERS
 import { getObjeto } from './controllers/objPerdController.js';
+import { findModel } from './controllers/modelFinderController.js';
 
 //MODELS
 import { User } from './model/users.js';
@@ -26,6 +27,9 @@ config();
 const SECRET_KEY = process.env.SECRET_KEY;
 import { json, where } from 'sequelize';
 import { blob, text } from 'stream/consumers';
+import { getResumenByiD } from './controllers/resumenesController.js';
+import { intercambiosRouter } from './routes/intercambiosRoutes.js';
+import { Permisos } from './model/permisos.js';
 
 const blueChalk = chalk.blue
 const greenChalk = chalk.greenBright;
@@ -53,7 +57,16 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage });
+const resumenesStorage = multer.memoryStorage()
+const uploadResumenes = multer({ 
+    storage: resumenesStorage, 
+    limits: { fileSize: 15 * 1024 * 1024 } 
+});
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 15 * 1024 * 1024 }
+});
 
 
 async function encryptPassword(password) {
@@ -71,7 +84,8 @@ async function createToken(user) {
     try {
         let payload = {
             id: user.id,
-            firstName: user.firstName
+            firstName: user.firstName,
+            lastName: user.lastName
         };
 
         const token = jsonwebtoken.sign(payload, SECRET_KEY, { expiresIn: '2m' });
@@ -169,32 +183,39 @@ export async function endpoints(app) {
         }
     });
     
-    app.post('/send-intercambio', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+    app.post('/send-intercambio', authenticateToken, upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
-            const { informacion, titulo, respuestas } = req.body;
-            console.log("Receiving intercambio data...");
+            console.log("Receiving objetosPerdidos data...");
+
+            const { informacion, titulo } = req.body;
+
+            const userId = req.user.id
+            const file = req.files['foto'] ? req.files['foto'][0] : null;
+
+            if (!file) {
+                return res.status(400).send('No file uploaded');
+            }
+            const foto = file.path;
+            const foto_format = path.extname(file.originalname).substring(1); 
+
+            console.log(yellowChalk('format:', foto_format))
     
-            const foto = req.files['foto'] ? req.files['foto'][0].path : null;
-    
-            const intercambio = await Intercambio.create({ informacion, titulo, respuestas, foto });
-            res.status(200).json({ message: 'Intercambio created successfully' });
+            const objPerdido = await Intercambio.create({ informacion, foto, userId, titulo, foto_format });
+            res.status(201).send({ message: 'Objeto perdido registered successfully' });
         } catch (error) {
-            console.error(redChalk("Error creating intercambio:"), error);
-            res.status(500).json({ message: 'Error creating intercambio', error });
+            console.error(redChalk("Error registering objeto perdido:"), error);
+            res.status(500).json({ message: 'Error registering objeto perdido', error });
         }
     });
     
-    app.post('/feedbacks', async (req, res) => {
+    app.post('/send-feedback', authenticateToken, async (req, res) => {
         try {
             const { puntaje, sugerencia, opinion } = req.body;
+            console.log(puntaje, sugerencia, opinion)
+            const userId = req.user.id
             console.log("Receiving feedback data...");
     
-            if (puntaje < 1 || puntaje > 5) {
-                console.error('Invalid puntaje. Must be between 1 and 5.');
-                return res.status(400).json({ message: 'Invalid puntaje' });
-            }
-    
-            const feedback = await Feedback.create({ puntaje, sugerencia, opinion });
+            const feedback = await Feedback.create({ puntaje, sugerencia, opinion, userId });
             res.status(201).json({ message: 'Feedback sent successfully' });
         } catch (error) {
             console.error(redChalk("Error sending feedback:"), error);
@@ -202,7 +223,7 @@ export async function endpoints(app) {
         }
     });
     
-    app.post('/send-resumen', authenticateToken, upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
+    app.post('/send-resumen', authenticateToken, uploadResumenes.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
         try {
             const { descripcion, titulo, filtros, like, dislike } = req.body;
             const userId  = req.user.id;
@@ -213,9 +234,24 @@ export async function endpoints(app) {
                 res.status(500).json({message: 'userId is empty' });
             }
 
-            const archivo = req.files['archivo'] ? req.files['archivo'][0].path : null;
+            const file = await req.files['archivo'] ? req.files['archivo'][0] : null;
+            let format = null;
+            let archivo = null;
 
-            const resumen = await Resumen.create({ titulo, descripcion, archivo, filtros, like, dislike, userId });
+            if (file) {
+                format = path.extname(file.originalname).substring(1);
+                archivo = file.buffer
+
+                if (archivo) {
+                    console.log("File buffer size:", archivo.length);  
+                } else {
+                    console.log(redChalk('File found, but buffer is undefined or empty:', archivo));
+                }
+            } else {
+                console.log(redChalk('NO FILE FOUND'))
+            }
+
+            const resumen = await Resumen.create({ titulo, descripcion, archivo, filtros, like, dislike, userId, format },  { raw: true });
             res.status(201).json({ message: 'Resumen sent successfully' });
         } catch (error) {
             console.error(redChalk("Error sending resumen:"), error);
@@ -228,7 +264,7 @@ export async function endpoints(app) {
             console.log("Receiving objetosPerdidos data...");
 
             const { informacion, titulo } = req.body;
-            console.log(req.user)
+
             const userId = req.user.id
             const file = req.files['foto'] ? req.files['foto'][0] : null;
 
@@ -248,15 +284,16 @@ export async function endpoints(app) {
         }
     });
     
-    app.post('/send-foro', upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+    app.post('/send-foro', authenticateToken, upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
         try {
-            const { pregunta, textoExplicativo, comentarios } = req.body;
+            const { pregunta, textoExplicativo } = req.body;
             
             console.log("Receiving foro data...");
-    
+            
             const foto = req.files['foto'] ? req.files['foto'][0].path : null;
-    
-            const foro = await Foro.create({ pregunta, textoExplicativo, comentarios, foto });
+            const userId = req.user.id;
+            
+            const foro = await Foro.create({ pregunta, textoExplicativo, foto, userId });
             res.status(201).json({ message: 'Foro created successfully' });
         } catch (error) {
             console.error(redChalk("Error creating foro:"), error);
@@ -264,9 +301,24 @@ export async function endpoints(app) {
         }
     });
 
+    app.post('/permisos', authenticateToken, async (req, res) =>{
+        try {
+            const { permiso } = req.body;
+            const userId  = req.user.id;
+    
+            console.log("Receiving permiso data...");
+
+            const permisos = await Permisos.create({ permiso, userId });
+            res.status(201).json({  message: 'Permiso created successfully' });
+        } catch (error) {
+            console.error(redChalk("Error creating permiso:"), error);
+            res.status(500).json({ message: 'Error creating permiso'});
+        }
+    });
+
     app.put('/objetosPerdidos/:id', authenticateToken, upload.single('foto'), async (req, res)=>{
         const {id} = req.params;
-        const { informacion } =  req.body;
+        const { informacion, titulo } =  req.body;
         const foto = req.file ? req.file.buffer : undefined;
         try {
             const objetoPerdido = objetoPerdido.findByPk(id);
@@ -275,6 +327,7 @@ export async function endpoints(app) {
                 res.status(404).json({message: 'Objeto perdido not found'});
             }
 
+            if (titulo !== undefined) objetoPerdido.titulo = titulo;
             if (foto !== undefined) objetoPerdido.foto = foto;
             if (informacion !== undefined) objetoPerdido.informacion = informacion;
 
@@ -313,7 +366,7 @@ export async function endpoints(app) {
 
     app.put('/foros/:id', authenticateToken, upload.single('foto'), async (req, res) => {
         const { id } = req.params;
-        const { pregunta, textoExplicativo, comentarios } = req.body;
+        const { pregunta, textoExplicativo } = req.body;
         const foto = req.file ? req.file.buffer : undefined;
 
         try {
@@ -325,7 +378,6 @@ export async function endpoints(app) {
 
             if (pregunta !== undefined) foro.pregunta = pregunta;
             if (textoExplicativo !== undefined) foro.textoExplicativo = textoExplicativo;
-            if (comentarios !== undefined) foro.comentarios = comentarios;
             if (foto !== undefined) foro.foto = foto;
 
             await foro.save();
@@ -407,14 +459,29 @@ export async function endpoints(app) {
         }
     });
 
-    app.get('/image/:id', async (req, res) => {
+    app.get('/image/:id/:model', async (req, res) => {
         try {
             const id = req.params.id
-            const objeto = await getObjeto(id)
+            const model = req.params.model
 
-            const mimeType = objeto.foto_format;
-            const fileBuffer = fs.readFileSync(objeto.foto);
-    
+            const models = {
+                'resumen': Resumen,
+                'foro': Foro,
+                'intercambio': Intercambio,
+                'objeto': objetoPerdido
+            };
+
+            const instance = await findModel(id, models[model])
+
+            const mimeType = {
+                'pdf': 'application/pdf',
+                'png': 'image/png',
+                'jpg': 'image/jpeg',
+
+            }[instance.foto_format] || 'application/octet-stream';
+
+            const fileBuffer = fs.readFileSync(instance.foto);
+            
             res.set('Content-Type', mimeType);
             res.set('Content-Length', fileBuffer.length);
             res.status(200).send(fileBuffer);
@@ -423,8 +490,80 @@ export async function endpoints(app) {
             res.status(500).send('failed')
         }
     })
+
+    app.get('/authorization/:model/:postId', authenticateToken, async (req, res) => {
+        const { model, postId } = req.params
+        const id = req.user.id;
+
+        const models = {
+            'resumen': Resumen,
+            'foro': Foro,
+            'intercambio': Intercambio,
+            'objeto': objetoPerdido
+        };
+
+        try {
+            const retrievedModel = await findModel(postId, models[model])
+
+            console.log(blueChalk(id, retrievedModel.userId))
+            if (id === retrievedModel.userId) {
+                console.log(blueChalk('User has authorization!'));
+                res.status(200).send(true);
+            } else {
+                res.status(401).send(false);
+            }
+
+        } catch (error) {
+            console.log('ERROR, failed to check authorization:', error);
+            res.status(500).send('failed')
+        }
+
+    })
+
+    app.get('/isLogged', authenticateToken, async (req, res) => {
+        const user = req.user
+        res.status(201).send(user)
+    });
+
+    app.get('/download/:id/:model', authenticateToken, async (req, res) => {
+        const { id, model } = req.params;
+
+        console.log(yellowChalk('FETCHING FILE...'))
+        const models = {
+            'resumen': Resumen,
+            'foro': Foro,
+            'intercambio': Intercambio,
+            'objeto': objetoPerdido
+        };
+
+        try {
+
+            const retrievedModel = await findModel(id, models[model])
+            console.log('Archivo:', retrievedModel.archivo, 'Format:', retrievedModel.format);
+            let formatFile = retrievedModel.format
+
+            let formatText = `${formatFile}`
+            let imageFormat = `image/${formatFile}`
+            const mimeType = {
+                'pdf': 'application/pdf',
+                'png': 'image/png',
+                'jpg': 'image/jpeg',
+                'svg': 'image/svg',
+                formatText: imageFormat
+            }[retrievedModel.format] || 'application/octet-stream';
+
+            const fileBuffer = retrievedModel.archivo;
+
+
+            res.set('Content-Type', mimeType);
+            res.set('Content-Length', fileBuffer.length);
+            res.status(200).send(fileBuffer);
+        } catch (error) {
+            console.log('Failed to fetch the blob:', error)
+            res.status(500).send('failed')
+        }
+
+    })
 }
-
-
 
 export { authenticateToken }

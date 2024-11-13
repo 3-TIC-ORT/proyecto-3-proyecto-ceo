@@ -9,6 +9,7 @@ const redChalk = chalk.redBright;
 const yellowChalk = chalk.yellowBright;
 const blueChalk = chalk.cyanBright;
 
+console.log(blueChalk("Definiendo modelo de objetosPerdidos..."))
 const objetoPerdido = sequelize.define('objetosPerdidos', {
     foto: {
         type: Sequelize.BLOB('medium'),

@@ -50,10 +50,11 @@ app.use(function(req, res, next) {
 import { resumenesRouter } from './routes/resumenesRoutes.js';
 import { forosRouter } from './routes/forosRoute.js';
 import { objPerdidosRouter } from './routes/objPerdidosRoute.js';
+import { comentariosRouter } from './routes/comentariosRouter.js';
+import { intercambiosRouter } from './routes/intercambiosRoutes.js';
 
 //colores
 import chalk from "chalk";
-import { error } from "console";
 
 const SECRET_KEY = process.env.SECRET_KEY
 
@@ -73,6 +74,9 @@ endpoints(app)
 app.use('/resumen', authenticateToken, resumenesRouter)
 app.use('/foros', authenticateToken, forosRouter)
 app.use('/objetos', authenticateToken, objPerdidosRouter)
+app.use('/comentarios', authenticateToken, comentariosRouter)
+app.use('/intercambios', authenticateToken, intercambiosRouter)
+
 app.use('/home', campusRouter)
 
 app.listen(PORT, () => {

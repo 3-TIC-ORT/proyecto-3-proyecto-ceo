@@ -18,8 +18,8 @@ async function getResumenByiD(id) {
             id
         }
     })
-    if (!objeto) {
-        console.log('[controller] ERROR, Objeto no existe')
+    if (!resumen) {
+        console.log('[controller] ERROR, Resumen no existe')
     }
     return resumen;
 }
@@ -45,3 +45,4 @@ async function searchResumenes(query, filtro) {
 
 export { getResumenes }
 export { searchResumenes }
+export { getResumenByiD }

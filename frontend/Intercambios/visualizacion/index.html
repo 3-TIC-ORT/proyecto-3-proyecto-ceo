@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=K2D&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../css/Intercambio&ObjetoVisualizar.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../../globalStyle.css">
+
+</head>
+<body class="body" id="body">  
+
+    <div id="properties">
+
+        <nav class="navBar" id="nav">
+            <div id="tituloYLogo">
+                <img id="logo" src="../../img/Logo.svg" alt="logo">
+                <label for="PORTAL" id="tituloLogo">P<span id="ort">ORT</span>AL</label>
+            </div>
+    
+            <div id="navItems">
+                <a href="../../PaginaInicio/index.html" class="text" id="itemNav">Inicio</a>
+                <a href="../../ResumenesPrincipal/index.html" class="text" id="itemNav">Resumenes</a>
+                <a href="../../Foro/index.html" class="text" id="itemNav">Foros</a>
+                <a class="text" id="itemNav"><span class="navSelected">Intercambios</span></a>
+                <a href="../../ObjetosPerdidos/index.html" class="text" id="itemObjetos">Objetos Perdidos</a>
+            </div>
+    
+            <div class="boton" id="login">
+                <p class="text">Iniciar sesion</p>
+            </div>
+        </nav>
+    
+        <div id="masterContainer">
+            <div class="container" id="body">
+                <div id="tituloObjeto">
+                    <a href="../index.html"><img src="../../img/Back-Arrow.svg" alt="go back" class="backButton" id="back"></a>
+                    <h1 class="text" id="title"></h1>
+                    <div id="deletePost">
+                        <img class="trashCan" src="../../img/TachitoBasura.svg" alt="hola">
+                    </div>
+                </div>
+        
+                <div id="informacion">
+                    <div id="padding">
+                        <p class="descripcion" id="descripcion">descripcion</p>
+        
+                        <p class="text" id="contacto">Contacto: <span id="gmailUser" class="thinText"></span></p>
+                        <p class="text" id="nombre">Nombre: <span id="nombreUser" class="thinText"></span></p>
+        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="previsualizacion" id="imgContainer">
+            </div>
+        </div>
+
+        <div id="messageDisplay">
+            <p class="text" id="message">Eliminado exitosamente!</p>
+        </div>
+
+    </div>
+
+    <div class="hidden" id="authorize">
+        <p class="text">Seguro que quieres borrar esta publicacion?</p>
+        <div class="buttons">
+            <div id="accept" class="boton"><img src="../../img/Accept-Icon.svg" alt="Si" class="cancel-icon"></div>
+            <div id="cancel" class="boton"><img src="../../img/Cancel-Icon.svg" alt="Cancelar" class="cancel-icon"></div>
+        </div>
+    </div>
+
+    <div id="messageDisplay">
+        <p class="text" id="message">Publicado exitosamente!</p>
+    </div>
+    
+    <script type="module" src="main.js"></script>
+</body>
+</html>

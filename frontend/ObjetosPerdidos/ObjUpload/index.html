@@ -4,21 +4,87 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Objetos Perdidos Upload</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Campus</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=K2D&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="../../globalStyle.css">
+    <link rel="stylesheet" href="styles.css">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 </head>
 <body class="body">
-    <div>
-        <input type="text" id="titulo" placeholder="titulo..">
-        <input type="text" id="informacion" placeholder="info..">
-        <div class="dropArea" id="dropArea" accept="image/">
-            Drop file!!   !!1
+    <nav class="navBar" id="nav">
+        <div id="tituloYLogo">
+            <img id="logo" src="../../img/Logo.svg" alt="logo">
+            <label for="PORTAL" id="tituloLogo">P<span id="ort">ORT</span>AL</label>
         </div>
 
-        <button id="publish"> Publicar </button>
+        <div id="navItems">
+            <a href="../../PaginaInicio/index.html" class="text" id="itemNav">Inicio</a>
+            <a href="../../ResumenesPrincipal/index.html" class="text" id="itemNav">Resumenes</a>
+            <a href="../../Foro/index.html" class="text" id="itemNav">Foros</a>
+            <a href="../../Intercambios/index.html" class="text" id="itemNav">Intercambios</a>
+            <a class="text" id="itemObjetos"><span class="navSelected">Objetos Perdidos</span></a>
+        </div>
+
+        <div class="boton" id="login">
+            <p class="text">Iniciar sesion</p>
+        </div>
+    </nav>
+
+    <div class="center">
+        <div class="recipiente" id="body">
+            <div class="topDiv">
+                <a href="../index.html">
+                    <img src="../../img/Back-Arrow.svg" alt="atras" id="back1">
+                </a>
+                <input id="titulo" class="inputs" type="text" maxlength="20" placeholder="Nombre del objeto" value="miau">
+            </div> 
+            <textarea id="descripcion" class="inputs" type="text" maxlength="900" placeholder="Añade informacion sobre el objeto" value="bla bla blablabla blabla. Blabla? 'Blablababla. Blabla, blabla!' Blablablabla. Bla bla, bla blabalbla, bla bla blabla bla blablabla bla. bla bla blablabla blabla. Blabla? 'Blablababla. Blabla, blabla!' Blablablabla. Bla bla, bla blabalbla, bla bla blabla bla blablabla bla."></textarea>
+
+            <div class="handle">
+                <div id="drop-area" type="/image" class="dropArea">
+                    <span id="text1"> Suelta tu foto </span>
+
+                    <div id="uploadedFile" class="hidden align">
+                        <span id="fileName"></span>
+
+                        <div id="deleteFile">
+                            <img class="trashCan" src="../../img/TachitoBasura.svg" alt="hola">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="warning">
+                    <span class="thinText" id="text">Importante: se mostrara su gmail para facilitar a los demas ponerse en contacto</span>
+                </div> 
+
+                <div class="boton text" id="publish">Publicar</div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden" id="authorize">
+        <p class="text">Seguro que quieres borrar este archivo?</p>
+        <div class="buttons">
+            <div id="accept" class="boton"><img src="../../img/Accept-Icon.svg" alt="Si" class="cancel-icon"></div>
+            <div id="cancel" class="boton"><img src="../../img/Cancel-Icon.svg" alt="Cancelar" class="cancel-icon"></div>
+        </div>
+    </div>
+
+    <div id="messageDisplay">
+        <p class="text" id="message">Publicado exitosamente!</p>
     </div>
     
-    <script src="main.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>

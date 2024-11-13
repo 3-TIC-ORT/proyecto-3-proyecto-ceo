@@ -1,5 +1,9 @@
 async function searchByQuery(endpoint, route, query, filtro) {
     const token = localStorage.getItem('token')
+    if (!token) {
+        console.error("Token not found in localStorage");
+        return;
+    }
 
     try {
         console.log('Params:', query, filtro)
@@ -23,3 +27,4 @@ async function searchByQuery(endpoint, route, query, filtro) {
 }
 
 export { searchByQuery }
+

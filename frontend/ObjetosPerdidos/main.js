@@ -2,21 +2,38 @@
 AOS.init()
 
 import { popupLogin } from "../controllers/popupController.js"
+import { isLogged, debounce, displayInvalidMessage } from "../controllers/auxiliares.js"
 
 const uploadButton = document.getElementById('publicar')
 const popup = document.getElementById('loginPopup')
-const loginPopupButton = document.getElementById('loginPopupButton')
+const loginPopupButton = document.getElementById('loginPopupButton');
 
-loginPopupButton.addEventListener('click', ()  => {
-    let gmail = document.getElementById('gmail').value
-    let password = document.getElementById('password').value
 
-    popupLogin(gmail, password)
-})
+const loggedUser = document.getElementById('loggedUser')
+const registrarDiv = document.getElementById('login')
+isLogged(loggedUser, registrarDiv)
 
-uploadButton.addEventListener('click', redirectToUploads)
+const debouncedDisplayPopup = debounce(function showPopup() {
+    popup.classList.add('appear');
+    popup.classList.remove('hidden');
 
-console.log('running objetos')
+},1000)
+
+const debouncedPopup = debounce(function removePopup() {
+    popup.classList.remove('show');
+    popup.classList.show('hidden');
+},550)
+
+const model = 'objeto'
+
+function addListeners() {
+    loginPopupButton.addEventListener('click', log)
+    uploadButton.addEventListener('click', redirectToUploads)
+    window.addEventListener('beforeunload', exitPage);
+}
+
+addListeners()
+
 async function fetchObjetos() {
     const token = localStorage.getItem('token')
 
@@ -33,20 +50,25 @@ async function fetchObjetos() {
             popup.classList.remove('hidden')
             popup.classList.add('show')
             
-            publicarRedirect.classList.remove('show');
-            publicarRedirect.classList.add('hidden')
+            uploadButton.classList.remove('show');
+            uploadButton.classList.add('hidden')
 
-        
         }
 
         const data = await response.json();
-
-        populateObjetos(data)
+        clearObjetos();
+        populateObjetos(data); 
     } catch (error) {
-        console.log(error)
-        console.log('Failed to fetch OBJETOS')
+        console.log('Failed to fetch OBJETOS:', error);
     }
 }
+
+function clearObjetos() {
+    const recipienteObjetos = document.getElementById('recipiente');
+    recipienteObjetos.innerHTML = ''; 
+    killUrls(); 
+}
+
 
 async function populateObjetos(objetos) {
     const recipienteObjetos = document.getElementById('recipiente')
@@ -57,7 +79,7 @@ async function populateObjetos(objetos) {
 
         const fetchImg = async (id) => {
             try {
-                const response = await fetch(`http://localhost:3000/image/${id}`);
+                const response = await fetch(`http://localhost:3000/image/${id}/${model}`);
                 if (response.ok) {
                     const blob = await response.blob();
                     const imageUrl = URL.createObjectURL(blob);
@@ -84,8 +106,8 @@ async function populateObjetos(objetos) {
         const div = document.createElement('div')
 
         div.addEventListener('click', () => {
-            redirectToDetailsPage(objeto.id)
             URL.revokeObjectURL(url);
+            redirectToDetailsPage(objeto.id)
         })
 
         div.className = 'objeto'
@@ -102,12 +124,59 @@ async function populateObjetos(objetos) {
     };
 }
 
+async function killUrls() {
+    const images = document.querySelectorAll('.img')
+
+    images.forEach(image => {
+        console.log('Removing url')
+        URL.revokeObjectURL(image.src);
+    });
+}
+
 function redirectToDetailsPage(id) {
     window.location.href = `ObjVisualizacion/index.html?id=${id}`
+    killUrls()
+    removeListeners()
 }
 
 function redirectToUploads() {
     window.location.href = 'ObjUpload/index.html'
+    killUrls()
+    removeListeners()
+}
+
+
+function removeListeners() {
+    loginPopupButton.removeEventListener('click', log)
+    uploadButton.removeEventListener('click', redirectToUploads)
+    window.removeEventListener('beforeunload', exitPage);
+}
+
+async function log() {
+    let gmail = document.getElementById('gmail').value
+    let password = document.getElementById('password').value
+    let login = await popupLogin(gmail, password);
+
+    if (login) {
+        console.log('[POPUP] Success!')
+        debouncedPopup()
+        await fetchObjetos()
+    } else {
+        const messageDisplay = document.getElementById('messageDisplay')
+        const messageText = document.getElementById('message')
+        let text = 'No se pudo iniciar sesion..'
+        console.warn('No se pudo iniciar sesion')
+        popup.classList.remove('show');
+        popup.classList.add('hidden');
+        displayInvalidMessage(messageDisplay, messageText, text)
+        debouncedDisplayPopup()
+    }
+
+}
+
+function exitPage() {
+    killUrls()
+    removeListeners()
 }
 
 fetchObjetos()

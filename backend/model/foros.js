@@ -22,9 +22,9 @@ const Foro = sequelize.define('Foros', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    comentarios: {
-        type: Sequelize.STRING,
-        allowNull: true
+    userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
     }
 },{
     timestamps: false,

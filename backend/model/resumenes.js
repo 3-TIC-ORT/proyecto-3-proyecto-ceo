@@ -39,7 +39,11 @@ const Resumen = sequelize.define('Resumenes', {
     userId:{
         type: Sequelize.NUMBER,
         allowNull: true,
-    }
+    }, 
+    format: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
 }, {
     timestamps: false,
     tableName: 'Resumenes'
