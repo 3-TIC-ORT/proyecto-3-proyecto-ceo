@@ -1,0 +1,71 @@
+.App {
+  	text-align: center;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 100vw;
+	height: 100vh;
+}
+
+.header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.navigator {
+	height: 90%;
+	width: 100%;
+	background-image: url();
+	background-position: center;
+}
+
+.text {
+	font-family: "K2D", sans-serif !important;
+	font-weight: 700;
+	font-style: normal;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.boton {
+	transition: 0.2s ease;
+	position: relative;
+}
+
+.selected {
+	height: 100%;
+}
+
+.boton::before {
+	content: '';
+	background-color: rgb(26, 78, 210);
+	position: absolute;
+	height: 5px;
+	left: 0;
+	right: 0;
+	bottom: 0.25%;
+	transform: scaleX(0);
+	transition: transform 0.8s ease;
+}
+
+.boton.selected::before {
+    transform: scaleX(1); 
+}
+
+.content {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+#ort {
+	color: #294F78;
+}

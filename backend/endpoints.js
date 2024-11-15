@@ -8,7 +8,6 @@ import { fileURLToPath } from 'url';
 //CONTROLLERS
 import { getObjeto } from './controllers/objPerdController.js';
 import { findModel } from './controllers/modelFinderController.js';
-
 //MODELS
 import { User } from './model/users.js';
 import { Foro } from './model/foros.js';

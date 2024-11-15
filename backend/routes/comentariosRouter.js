@@ -7,7 +7,7 @@ import chalk from 'chalk';
 import { Comentario } from '../model/comentarios.js';
 
 const redChalk = chalk.red
-import { getQueryParams } from '../../frontend/controllers/queryParamsController.js';
+import { getQueryParams } from '../../controllers/queryParamsController.js';
 import { where } from 'sequelize';
 import { constrainedMemory } from 'process';
 import { findUserById } from '../controllers/userIdFinderController.js';

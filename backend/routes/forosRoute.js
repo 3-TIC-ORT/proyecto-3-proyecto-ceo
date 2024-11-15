@@ -8,7 +8,7 @@ import { Foro } from '../model/foros.js';
 
 const redChalk = chalk.red
 import { getForos } from '../controllers/forosController.js';
-import { getQueryParams } from '../../frontend/controllers/queryParamsController.js';
+import { getQueryParams } from '../../controllers/queryParamsController.js';
 import { searchPregunta } from '../controllers/forosController.js';
 
 const forosRouter = Router()

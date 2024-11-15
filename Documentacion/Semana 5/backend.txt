@@ -1,2 +1,0 @@
-subir/requerir archivos  --- hecho
-integrracion con front --- hacer los gets --- hecho
