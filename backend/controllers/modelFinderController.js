@@ -2,8 +2,6 @@ import chalk from 'chalk';
 import { Op, where, json } from 'sequelize'
 import { Intercambio } from '../model/intercambio.js';
 
-const yellowChalk = chalk.yellowBright
-
 async function findModel(id, model) {
     try {
         const retrievedInstance = await model.findOne({
@@ -14,7 +12,6 @@ async function findModel(id, model) {
 
         if (retrievedInstance) {
             console.log('[controller] Model:', model.name, 'RETRIEVED.');
-            // console.log('[controller] Instance:', retrievedInstance, ', was RETRIEVED.');
             return retrievedInstance;
         } else {
             console.log('[controller] Instance not found for model:', model.name);
@@ -27,3 +24,5 @@ async function findModel(id, model) {
 }
 
 export { findModel }
+
+

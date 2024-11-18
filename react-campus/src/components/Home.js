@@ -1,74 +1,58 @@
-import React from "react";
-import { Text } from "./Text";
+import React, { useRef, useState } from "react";
+import { Text } from "./Utilities/Text";
 
-const Home = ({}) => {
-    return (
-        <main className="content">
-            <Title/>
-        </main>
-    );
-}
+import { Feedback } from "./home/Feedback";
+import { Title } from "./home/Title";
+import { Carousel } from "./home/Carousel";
 
-const Title = ({}) => {
+const Home = ({ setSelectedRoute }) => {
+    const [angle, setAngle] = useState(0); 
+    const startX = useRef(0); 
+    const isDragging = useRef(false); 
 
-    const headStyle = {
-        height: '30%',
-        width: '80%',
-        backgroundColor: '#D9D9D9',
-        borderRadius: '50px',
-        marginTop: '5%',
-    }
-    
-    const textStyle = {
-        fontSize: '4.5rem',
+    const handleMouseDown = (e) => {
+        isDragging.current = true;
+        startX.current = e.pageX;
+    };
+
+    const handleMouseMove = (e) => {
+        if (isDragging.current) {
+            const currentX = e.pageX;
+            const deltaX = currentX - startX.current;
+            setAngle((prev) => prev + deltaX * 0.1); 
+            startX.current = currentX;
+        }
+    };
+
+    const handleMouseUp = () => {
+        isDragging.current = false;
+    };
+
+    const upperStyle = {
         width: '100%',
-        fontWeight: '450',
-        margin: '0'
-    }   
-
-    const alignStyle = {
-        display: 'flex',
-        alignItems: 'center',
-        height: '100%',
-        justifyContent: 'space-around'
-    }
-
-    const logoStyle = {
-        height: '100%',
-        width: '50%'
-    }
-
-    const portalStyle = {
-        fontSize: '5.5rem',
-        margin: '0'
-    }
-
-    const columnStyle = {
+        height: '55%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 
     return (
-        <section style={headStyle}>
-            <div style={alignStyle}>
-            
-                <div style={columnStyle}>
-                    <Text text={'Bienvenido a'} customTextStyle={textStyle}/>
-                    <p style={portalStyle} className="text">P<span id="ort">ORT</span>AL!</p>
-                </div>
-
-                <img src="./img/LogoInicio.svg" style={logoStyle}/>
+        <main className="content">
+            <div style={upperStyle}>
+                <Title/>
+                <section 
+                    className="scroll-section"
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseUp}
+                >
+                    <Carousel angle={angle} isDragging={isDragging} setSelectedRoute={setSelectedRoute}/>
+                </section>
             </div>
-        </section>
-    );
-}
-
-const Carousel = ({}) => {
-    return (
-        <div>
-            
-        </div>
+            <Feedback/>
+        </main>
     );
 }
 

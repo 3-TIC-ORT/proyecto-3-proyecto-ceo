@@ -24,6 +24,7 @@ import { config } from 'dotenv';
 config();
 
 const SECRET_KEY = process.env.SECRET_KEY;
+
 import { json, where } from 'sequelize';
 import { blob, text } from 'stream/consumers';
 import { getResumenByiD } from './controllers/resumenesController.js';
@@ -87,6 +88,7 @@ async function createToken(user) {
             lastName: user.lastName
         };
 
+        console.log(SECRET_KEY)
         const token = jsonwebtoken.sign(payload, SECRET_KEY, { expiresIn: '2m' });
         console.log(`[token] TOKEN ID IS: '${user.id}' AND NAME: ${user.firstName}`);
         

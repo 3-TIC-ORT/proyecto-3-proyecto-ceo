@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState }from "react";
-import { Text } from "./Text";
+import { Text } from "./Utilities/Text";
 
 const Header = ({ selectedRoute, setSelectedRoute, customButtonHeaderStyle }) => {
     const handleHeaderButtonClick = (route) => {
@@ -76,12 +76,13 @@ const Logo = ({ source, text }) => {
 
     const logoStyle = {
         width: '15%'
-    }
+    };
 
     const customTextStyle = {
         fontSize: '2.5rem',
         fontWeight: '300'
-    }
+    };
+    
     return (
         <div style={logoStyle} className="row">
             <img src={`${source}`} alt="pepe"/>

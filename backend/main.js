@@ -5,19 +5,10 @@ import cors from 'cors'
 import express from 'express'
 import  Express  from "express";
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-// seguridad
-import argon2 from 'argon2'
-import jsonwebtoken from 'jsonwebtoken'
+import { fileURLToPath } from 'url'
 
 
 // modelos
-import { Foro } from './model/foros.js';
-import { Resumen } from "./model/resumenes.js";
-import { Feedback } from "./model/feedback.js";
-import { User } from "./model/users.js";
-import { objetoPerdido } from './model/objetosPerdidos.js';
 import { campusRouter } from './routes/campusRouter.js';
 
 //paths
@@ -33,7 +24,7 @@ import { endpoints } from './endpoints.js';
 
 const app = Express()
 app.use(cors({
-    origin: 'http://127.0.0.1:5500', 
+    origin: 'http://localhost:3001', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
 }))
 app.use(express.json())
