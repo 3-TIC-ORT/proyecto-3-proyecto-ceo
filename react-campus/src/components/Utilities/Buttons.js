@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "./Text";
 
-const Button = ({ id, buttonCustomStyle, onClick, publishing, text }) => {
+const Button = ({ id, buttonCustomStyle, onClick, publishing, text, customClass }) => {
     const buttonDefaultStyle = {
         border: '1px solid black',
         width: '15%',
@@ -14,7 +14,7 @@ const Button = ({ id, buttonCustomStyle, onClick, publishing, text }) => {
         <button 
             style={buttonCustomStyle ? buttonCustomStyle : buttonDefaultStyle } 
             id={`${id}`}
-            className="boton"
+            className={customClass ? customClass : 'boton'}
             onClick={onClick}
         >
             <Text text={text}/>

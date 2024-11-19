@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "./Text";
 
-const Input = ({ tag: Tag = 'div' , text, placeholder, onChange, customStyle, customBoxStyle, type }) => {
+const Input = ({ tag: Tag = 'div' , text, placeholder, onChange, customStyle, customBoxStyle, type, single, value}) => {
 
     const defaultStyle = {
         width: '90%',
@@ -23,25 +23,30 @@ const Input = ({ tag: Tag = 'div' , text, placeholder, onChange, customStyle, cu
 
     return (
         <div style={customBoxStyle ? customBoxStyle : dataBoxStyle}>
-            <Text text={text} />
+            {single ? '' : <Text text={text} />}
             <Tag 
                 type={type} 
                 style={customStyle ? customStyle : defaultStyle} 
                 placeholder={`${placeholder}`}
                 onChange={onChange}
+                value={value}
                 className='font'
             />
         </div>
     );
 }
 
-const Filter = ({ options }) => {
+const Filter = ({ options, customStyle, setFiltro }) => {
+    const handleFilterOption = (value) => {
+        setFiltro(value)
+    }
+
     return (
-        <select className="filter font" placeholder='Filtrar por...'>
+        <select style={customStyle} className="filter font" placeholder='Filtrar por...'>
             <option disabled>Filtrar por...</option>
             <option value={''} >Todos</option>
             {options.map((option) => (
-                <Option key={option} value={option}/>
+                <Option key={option} value={option} onChange={() => handleFilterOption(option)}/>
             ))}
         </select>
     );

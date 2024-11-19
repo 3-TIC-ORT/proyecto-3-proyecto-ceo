@@ -1,5 +1,4 @@
 
-
 const getBarArticles = async (route, setLogged) => {
     const token = localStorage.getItem('token')
 
@@ -60,5 +59,33 @@ const getArticleDetails = async (route, id) => {
     }
 }
 
+const uploadBarArticle = async (endpoint, title, descripcion, file, filtros) => {
+    const token = localStorage.getItem('token')
+    const formData = new FormData()
+
+    formData.append('titulo', title)
+    formData.append('descripcion', descripcion)
+    formData.append('archivo', file)
+    formData.append('filtros', filtros)
+
+    try {
+
+        let response = await fetch(`http://localhost:3000/${endpoint}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        })
+
+        if (response.ok) {
+            console.log('Success!')
+        }
+    } catch (error) {
+        console.log(error)
+        console.log(`Failed to send at ${endpoint}`)
+    }
+}
 export { getBarArticles };
 export { getArticleDetails };
+export { uploadBarArticle };

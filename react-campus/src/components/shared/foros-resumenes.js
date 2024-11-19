@@ -39,41 +39,38 @@ const Tag = ({ style, text }) => {
 }
 
 const chooseTag = (filter) => {
-
     const styles = {
         matematica: {
-            backgroundColor: 'rgba(214, 7, 255, 0.5)',
+            backgroundColor: 'rgba(214, 7, 255, 0.7)',
         },
         economia: {
-            backgroundColor: 'rgba(255, 0, 4, 0.5)',
+            backgroundColor: 'rgba(255, 0, 4, 0.7)',
         },
         historia: {
-            backgroundColor: 'rgba(154, 141, 157, 0.5)',
+            backgroundColor: 'rgba(154, 141, 157, 0.7)',
         },
         fisica: {
-            backgroundColor: 'rgba(223, 71, 0, 0.5)',
+            backgroundColor: 'rgba(223, 71, 0, 0.7)',
         },
         ingles: {
-            backgroundColor: 'rgba(16, 160, 189, 0.5)',
+            backgroundColor: 'rgba(16, 160, 189, 0.7)',
         },
         biologia: {
-            backgroundColor: 'rgba(16, 161, 11, 0.5)',
+            backgroundColor: 'rgba(16, 161, 11, 0.7)',
         },
         etica: {
-            backgroundColor: 'rgba(206, 136, 14, 0.5)',
+            backgroundColor: 'rgba(206, 136, 14, 0.7)',
         },
         edujudia: {
-            backgroundColor: 'rgba(176, 15, 139, 0.5)',
+            backgroundColor: 'rgba(176, 15, 139, 0.7)',
         },
         geografia: {
-            backgroundColor: 'rgba(17, 170, 63, 0.5)',
+            backgroundColor: 'rgba(17, 170, 63, 0.7)',
         },
         lengua: {
-            backgroundColor: 'rgba(226, 14, 14, 0.5)',
+            backgroundColor: 'rgba(226, 14, 14, 0.7)',
         },
     }
-
-    console.log(filter)
 
     switch (filter) {
         case 'matematica':
@@ -92,6 +89,8 @@ const chooseTag = (filter) => {
             return <Tag style={styles.ingles} text={filter}/>;
         case 'economia':
             return <Tag style={styles.economia} text={filter}/>;
+        case 'etica':
+            return <Tag style={styles.etica} text={filter}/>;
         default: 
             return <Tag text={filter}/>
     }

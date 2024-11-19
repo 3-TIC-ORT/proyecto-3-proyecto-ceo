@@ -48,7 +48,7 @@ const Carousel = ({ angle, isDragging, setSelectedRoute}) => {
             <CarouselFace 
                 onClick={handleCarouselFaceClick}
                 value={'Resumenes'}
-                img={'img/ResumenesImg.svg'} 
+                img={'img/LibroImg.svg'} 
                 text={'Bienvenido a la sección de resúmenes, donde podrás acceder a resúmenes creados por otros estudiantes. Encuentra contenido organizado y útil para repasar. Además, tú también puedes contribuir con tus propios resúmenes.'}
             />
         </div>

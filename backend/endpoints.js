@@ -88,7 +88,6 @@ async function createToken(user) {
             lastName: user.lastName
         };
 
-        console.log(SECRET_KEY)
         const token = jsonwebtoken.sign(payload, SECRET_KEY, { expiresIn: '2m' });
         console.log(`[token] TOKEN ID IS: '${user.id}' AND NAME: ${user.firstName}`);
         
