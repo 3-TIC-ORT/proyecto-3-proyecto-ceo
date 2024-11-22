@@ -37,16 +37,22 @@ const Input = ({ tag: Tag = 'div' , text, placeholder, onChange, customStyle, cu
 }
 
 const Filter = ({ options, customStyle, setFiltro }) => {
+    
     const handleFilterOption = (value) => {
-        setFiltro(value)
+        setFiltro(value.toLowerCase())
     }
 
     return (
-        <select style={customStyle} className="filter font" placeholder='Filtrar por...'>
+        <select 
+            style={customStyle} 
+            className="filter font" 
+            placeholder='Filtrar por...' 
+            onChange={(e) => handleFilterOption(e.target.value)}
+        >
             <option disabled>Filtrar por...</option>
             <option value={''} >Todos</option>
             {options.map((option) => (
-                <Option key={option} value={option} onChange={() => handleFilterOption(option)}/>
+                <Option key={option} value={option}/>
             ))}
         </select>
     );

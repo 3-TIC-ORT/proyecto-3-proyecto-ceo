@@ -3,20 +3,29 @@ import SearchBar from "./shared/foros-resumenes";
 import { getBarArticles } from "./controllers/api-foros-resumenes";
 import { ArticleBar } from "./shared/foros-resumenes";
 import { LoadingIcon } from "./Utilities/Loading-icon";
-import { Text } from "./Utilities/Text";
+
 import { getArticleDetails } from "./controllers/api-foros-resumenes";
 import Visualizacion from "./resumenes/details";
-import { Button } from "./Utilities/Buttons";
-import { Upload } from "./resumenes/Upload-page"
 
-const Resumenes = ({ setLogged }) => {
+import { Upload } from "./resumenes/Upload-page"
+import { UploadButton } from "./shared/uploadForos-Resumen";
+
+
+import { searchArticleByQuery } from "./controllers/api-foros-resumenes";
+
+const Resumenes = ({ logged, setLogged }) => {
+
     const [criteria, setCriteria] = useState('');
     const [allResumenes, setAllResumenes] = useState([]); 
+
     const [isLoading, setIsLoading] = useState(true); 
     const [selectedResumen, setSelectedResumen] = useState(null)
+
     const [isSelected, setIsSelected] = useState(false)
     const [isInUpload, setIsInUpload] = useState(false)
     const [backedOut, setBackedOut] = useState(false)
+
+    const [filtro, setFiltro] = useState('')
 
     const resumenesContentStyle = {
         display: 'flex',
@@ -27,7 +36,8 @@ const Resumenes = ({ setLogged }) => {
     };
 
     const mainContentStyle = {
-        height: 'auto',
+        minHeight: isSelected ? '' : '100vh',
+        height: isSelected ? '90vh' : 'auto',
         width: '100%',
     };
 
@@ -42,11 +52,13 @@ const Resumenes = ({ setLogged }) => {
             setIsLoading(false);
         }
     };
+
     useEffect(() => {
         if (!isInUpload) {
             fetchArticles();
         }
     }, []);
+
     useEffect(() => {
         console.log('checking update..')
 
@@ -55,12 +67,43 @@ const Resumenes = ({ setLogged }) => {
             fetchArticles()
             setBackedOut(false)
         }
-    }, [backedOut])
+    }, [backedOut]);
+
+    useEffect(() => {
+        if (logged) {
+            fetchArticles()
+        }
+	}, [logged]);
+
+
+
+    const fetchByQuery = async () => {
+        try {
+            setIsLoading(true);
+            setAllResumenes([]);
+
+            const resumenes = await searchArticleByQuery('resumen', criteria, filtro);
+            setAllResumenes(resumenes); 
+        } catch (error) {
+            console.error('Error fetching articles:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            fetchByQuery()
+        }, 300);
+        return () => clearTimeout(timeoutId);
+
+    }, [criteria, filtro])
 
     const handleResumenClick = async (id) => {
         try {
             setIsLoading(true);
             setIsInUpload(false);
+            setAllResumenes([]);
             
             const route = 'resumen'
             const details = await getArticleDetails(route, id); 
@@ -79,23 +122,29 @@ const Resumenes = ({ setLogged }) => {
     useEffect(() => {
         console.log('is selected:', isSelected)
     }, [isSelected]); 
+
+    const resetAllArticles = () => {
+        setAllResumenes([])
+    }
     
 
     return (
         <main style={resumenesContentStyle}>
-      {!isInUpload ? <SearchBar setCriteria={setCriteria}/> : ''} 
-        {isInUpload ? (
-            <Upload setIsInUpload={setIsInUpload} setBackedOut={setBackedOut}/>
-        ) : (
+            {!isInUpload && !isSelected? <SearchBar setCriteria={setCriteria} setFiltro={setFiltro} /> : ''} 
+            {isInUpload ? (
+                <Upload setIsInUpload={setIsInUpload} setBackedOut={setBackedOut}/>
+            ) : (
             <section style={mainContentStyle} className="resumenes">
                 {isLoading ? <LoadingIcon/> : ''}
+                {isLoading ? resetAllArticles : ''}
 
-                {isSelected && selectedResumen ? (
+                {isSelected && selectedResumen && !isLoading ? (
                     <Visualizacion
                         title={selectedResumen.titulo}
                         info={selectedResumen.descripcion}
                         setIsSelected={setIsSelected}
                         postId={selectedResumen.id}
+                        setBackedOut={setBackedOut}
                     />
                 ) : (
 
@@ -107,7 +156,6 @@ const Resumenes = ({ setLogged }) => {
                             onClick={() => handleResumenClick(resumen.id)}
                         />
                     ))
-
                 )}
 
                 {!isSelected ? <UploadButton setIsInUpload={setIsInUpload} /> : ''}
@@ -117,25 +165,4 @@ const Resumenes = ({ setLogged }) => {
     );
 }
 
-const UploadButton = ({ setIsInUpload }) => {
-
-    const handleUploadButtonClick = () => {
-        setIsInUpload(true)
-    }
-
-    const buttonCustomStyle = {
-        position: 'fixed',
-        border: '1px solid black',
-        right: '5%',
-        bottom: '10%',
-        height: '7.5%',
-        width: '20%',
-        backgroundColor: '#007BFF',
-        borderRadius: '20px',
-        zIndex: '999',
-    }
-    return (
-        <Button onClick={handleUploadButtonClick} buttonCustomStyle={buttonCustomStyle} text={'Upload'} customClass='uploadButt'/>
-    );
-}
 export default Resumenes

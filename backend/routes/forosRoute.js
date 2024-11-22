@@ -45,7 +45,7 @@ forosRouter.get("/upload", async (req, res) => {
 
 })
 
-forosRouter.get("/open", async (req, res) => {
+forosRouter.get("/visualizar", async (req, res) => {
     console.log('Loading selected pregunta....')
     const id = req.query.id
     console.log('ID: ', id)

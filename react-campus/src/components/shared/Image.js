@@ -1,16 +1,17 @@
 import React from "react";
 import { Text } from "../Utilities/Text";
 
-const Image = ({}) => {
+const Image = ({ customStyle, imgCustomStyle }) => {
 
     const defaultStyle = {
         height: '100%',
         width: '50%',
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
     }
 
-    const imgStyle = {
+    const imgDefaultStyle = {
         height: '85%',
         width: '90%',
         backgroundColor: '#FF0000',
@@ -20,8 +21,10 @@ const Image = ({}) => {
         justifyContent: 'center'
     }
 
+    const style = customStyle ? customStyle : defaultStyle
+    const imgStyle = imgCustomStyle ? imgCustomStyle : imgDefaultStyle
     return (
-        <section style={defaultStyle}>
+        <section style={style}>
             <div style={imgStyle}>
                 <Text text={'No hay archivo!'}/>
             </div>

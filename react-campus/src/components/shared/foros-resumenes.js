@@ -96,13 +96,13 @@ const chooseTag = (filter) => {
     }
 }
 
-const SearchBar = ({ setCriteria }) => {
+const SearchBar = ({ setCriteria, setFiltro, noFilter }) => {
 
     const customBoxStyle = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '70%',
+        width: noFilter ? '95%' : '70%',
         height: '80%',
     }
 
@@ -115,7 +115,7 @@ const SearchBar = ({ setCriteria }) => {
         paddingLeft: '1.5%',
     }
 
-    const options = ['Matematicas', 'Lengua', 'Etica', 'Edu-judia', 'Fisica', 'Economia', 'Historia']
+    const options = ['Matematica', 'Lengua', 'Etica', 'Edu-judia', 'Fisica', 'Economia', 'Historia']
 
 
     return (
@@ -129,7 +129,7 @@ const SearchBar = ({ setCriteria }) => {
                 customStyle={customStyle}
             />
 
-            <Filter options={options} />
+            {!noFilter && <Filter options={options} setFiltro={setFiltro} />}
         </section>
     );
 }

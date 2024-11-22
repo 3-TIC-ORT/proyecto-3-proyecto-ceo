@@ -4,21 +4,21 @@ import { checkDeleteAuthorization } from "../controllers/api-delete";
 import { Text } from "../Utilities/Text";
 import { CustomDiv } from "../shared/CustomDiv";
 import { Image } from "../shared/Image";
-import { deletePost } from "../controllers/api-delete";
 
 const Visualizacion = ({ title, info, setIsSelected, postId, setBackedOut }) => {
 
     const defaultStyle = {
         display: 'flex',
         flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
         width: '100vw',
         height :'90vh',
     }
 
     return (
-        <div className="resumen-vis" style={defaultStyle}>
+        <div className="foros-vis" style={defaultStyle}>
             <Info title={title} info={info} setIsSelected={setIsSelected} setBackedOut={setBackedOut} postId={postId}/>
-            <Image/>
         </div>
     );
 }
@@ -42,7 +42,7 @@ const Info = ({ title, info, setIsSelected, postId, setBackedOut}) => {
 
 
     const defaultStyle = {
-        width: '50%',
+        width: '80%',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -54,60 +54,74 @@ const Info = ({ title, info, setIsSelected, postId, setBackedOut}) => {
         fontSize: '2rem',
     }
 
-    const customInfotText = {
-        fontSize: '1.25rem',
-    }
-
-    const customInfoStyle = {
-        width: '80%',
-        height: '55%',
+    const customStyle = {
+        width: '100%',
         borderRadius: '20px',
         backgroundColor: '#D9D9D9',
         margin: '1.25%',
-        display: 'flex',
-        justifyContent: 'flex-start',
-        paddingLeft: '2.5%',
-    }
-
-    const extraDivStyle = {
-        height: '65%',
-        borderRadius: '20px',
-        width: '42.5%',
-        backgroundColor: '#007BFF',
+        height: '12.5%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        paddingLeft: '2.5%',
     }
-
-
-    const handlePreviousButton = () => {
-        setIsSelected(false)
-        setBackedOut(true)
-    }    
-
-    const handleDeleteClick = async () => {
-        await deletePost('resumen', 'delete', postId)
-    }
- 
 
     return (
         <section style={defaultStyle}>
             <CustomDiv 
                 image={'img/Back-Arrow.svg'} 
-                customHeight={'12.5%'} text={title} 
+                customHeight={'12.5%'} 
+                text={title} 
                 customTextStyle={customTitleText}
                 setIsSelected={setIsSelected}
                 showDelete={showDelete}
                 id={postId}
                 setBackedOut={setBackedOut}
-                onClickDelete={handleDeleteClick}
-                onClickPrevious={handlePreviousButton}
-
+                customStyle={customStyle}
             />
-            <CustomDiv text={info} customTextStyle={customInfotText} customStyle={customInfoStyle}/>
-            <CustomDiv customHeight={'12.5%'} extraDivStyle={extraDivStyle}/>
+            <CenterDiv info={info}/>
+            <CustomDiv customStyle={customStyle}
+            />
         </section>
     );
 }
 
+const CenterDiv = ({ info }) => {
+
+    const customInfoStyle = {
+        width: '100%',
+        height: '100%',
+        borderRadius: '20px',
+        backgroundColor: '#D9D9D9',
+        display: 'flex',
+        alignItems:' center',
+        justifyContent: 'flex-end',
+        paddingLeft: '2.5%',
+    }
+
+    const customStyle = {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: '60%',
+        width: '100%'
+    }
+
+    const leftSideInfo = {
+        display: 'flex',
+        width: '50%',
+        height: '100%',
+    }
+
+    return (
+        <section style={customStyle}>
+            <div style={customInfoStyle}>
+                <div style={leftSideInfo}>
+                    <Text text={info}/>
+                </div>
+                <Image/>
+            </div>
+        </section>
+    );
+}
 export default Visualizacion;
+export { CenterDiv }

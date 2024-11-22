@@ -86,6 +86,34 @@ const uploadBarArticle = async (endpoint, title, descripcion, file, filtros) => 
         console.log(`Failed to send at ${endpoint}`)
     }
 }
+
+const searchArticleByQuery = async (endpoint, query, filtros) => {
+    const token = localStorage.getItem('token')
+
+    try {
+        let response = await fetch(`http://localhost:3000/${endpoint}/search?query=${query}&filtro=${filtros}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+
+        if (response.ok) {
+            console.log('Success!')
+            const data = await response.json()
+            return data;
+        } else {
+            return []
+        }
+
+    } catch (error) {
+        console.log(error)
+        console.log(`Failed to send at ${endpoint}`)
+        return []
+    }
+}
+
+export { searchArticleByQuery}
 export { getBarArticles };
 export { getArticleDetails };
 export { uploadBarArticle };

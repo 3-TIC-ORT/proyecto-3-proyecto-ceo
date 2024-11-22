@@ -3,6 +3,7 @@ import React from "react";
 import { Text } from "../Utilities/Text";
 import { deletePost } from "../controllers/api-delete";
 import { Icon } from "../Utilities/Icon";
+import { Image } from "./Image";
 
 const CustomDiv = ({ 
     customHeight, 
@@ -14,7 +15,8 @@ const CustomDiv = ({
     setIsSelected, 
     showDelete,
     id,
-    setBackedOut
+    setBackedOut,
+    imgPrevisualizacion,
 }) => {
 
     const defaultStyle = {
@@ -50,6 +52,7 @@ const CustomDiv = ({
             {image ? <Icon onClick={handlePreviousButton} src={image}/> : ''}
             <Text text={text} customTextStyle={customTextStyle}/>
             {extraDivStyle ? <div className="interactiveButton" style={extraDivStyle}><Text text={'Descargar Archivo..'}/></div> : ''}
+            {imgPrevisualizacion ? <Image/> : ''}
         </div>  
     );
 }

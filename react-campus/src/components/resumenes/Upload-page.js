@@ -6,6 +6,7 @@ import { Icon } from "../Utilities/Icon";
 import DropZone from "./Drop-zone";
 import { Button } from "../Utilities/Buttons";
 import { uploadBarArticle } from "../controllers/api-foros-resumenes";
+import { UploadButton } from "../shared/uploadForos-Resumen";
  
 const Upload = ({ setIsInUpload, setBackedOut }) => {
     const [title, setTitle] = useState('')
@@ -152,31 +153,6 @@ const TitleInput = ({ setIsInUpload, title, setTitle, setBackedOut}) => {
             />
         </section>
     )
-}
-
-const UploadButton = ({ onClick }) => {
-
-    const defaultStyle = {
-        width: '100%',
-        height: '10%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: '7.5%'
-    }
-
-    const buttonCustomStyle = {
-        height: '80%',
-        width: '40%',
-        borderRadius: '10px',
-        backgroundColor: '#007BFF'
-    }
-
-    return (
-        <div style={defaultStyle}>
-            <Button onClick={onClick} buttonCustomStyle={buttonCustomStyle} text={'Publicar!'}/>
-        </div>
-    );
 }
 
 export { Upload }

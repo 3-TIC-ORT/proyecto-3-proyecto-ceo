@@ -22,7 +22,7 @@ function App() {
   	return (
 		<div className="App">
 			<Header selectedRoute={route} setSelectedRoute={setRoute}/>
-			<Navigator selectedRoute={route} setSelectedRoute={setRoute} setLogged={setLogged} />
+			<Navigator selectedRoute={route} setSelectedRoute={setRoute} setLogged={setLogged} logged={logged} />
 			<LoginPopup show={popupStyle} setLogged={setLogged} setError={setError}/>
 		</div>
   	);
