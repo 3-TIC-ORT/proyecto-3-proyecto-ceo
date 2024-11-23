@@ -9,7 +9,6 @@ import { Comentario } from '../model/comentarios.js';
 const redChalk = chalk.red
 import { getQueryParams } from '../../controllers/queryParamsController.js';
 import { where } from 'sequelize';
-import { constrainedMemory } from 'process';
 import { findUserById } from '../controllers/userIdFinderController.js';
 
 const comentariosRouter = Router()
@@ -25,13 +24,13 @@ comentariosRouter.get("/fetch", async (req, res) => {
         const seccion = req.query.seccion;
 
         console.log("Receiving comentario data...");
-
         const comentario = await Comentario.findAll({ 
             where: {
                 idPost,
                 seccion,
             }
         });
+
         res.status(201).json(comentario);
     } catch (error) {
         console.error(redChalk("Error getting comentario:"), error);

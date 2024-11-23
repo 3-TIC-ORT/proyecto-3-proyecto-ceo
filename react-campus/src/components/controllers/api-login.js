@@ -6,7 +6,7 @@ const login = async ({ setLogged, setError, password, gmail }) => {
         setError(true)
         return;
     }
-
+    
     try {
         let response = await fetch('http://localhost:3000/login', {
             method: 'POST',
@@ -37,7 +37,8 @@ const login = async ({ setLogged, setError, password, gmail }) => {
         console.error('Failed to login:', error);
     } finally {
         console.log('Finished businness')
-    }
+    } 
 }
+
 
 export { login }

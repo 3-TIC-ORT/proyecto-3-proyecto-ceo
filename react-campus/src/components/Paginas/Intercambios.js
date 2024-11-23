@@ -6,7 +6,7 @@ import UploadForos from "../intercambios/UploadPage";
 import { UploadButton } from "../shared/uploadForos-Resumen";
 
 import Visualizacion from "../intercambios/details";
-import handleArticleClick from "../controllers/api-details";
+import { handleArticleClick } from "../controllers/api-details";
 
 const Intercambios = ({ setLogged, logged}) => {
 
@@ -15,6 +15,7 @@ const Intercambios = ({ setLogged, logged}) => {
     const [isLoading, setIsLoading] = useState(true); 
     const [isInUpload, setIsInUpload] = useState(false)
 
+    const [backedOut, setBackedOut] = useState(false)
     const [selectedIntercambio, setSelectedIntercambio] = useState([])
 
     const forosContentStyle = {
@@ -28,7 +29,9 @@ const Intercambios = ({ setLogged, logged}) => {
     const mainContentStyle = {
         minHeight: isSelected ? '' : '100vh',
         height: isSelected ? '90vh' : 'auto',
-        width: '90%',
+        width: isSelected ? '100%' : '90%',
+        display:'flex',
+        justifyContent: 'flex-start',
     };
 
     const detailsStyle = {
@@ -38,12 +41,6 @@ const Intercambios = ({ setLogged, logged}) => {
         alignItems: 'center',
         justifyContent: 'center'
     }
-
-    useEffect(() => {
-        if (selectedIntercambio && isSelected) {
-            setAllIntercambios(null);   
-        }
-    }, [selectedIntercambio, isSelected]); 
 
     const fetchPosts = async () => {
         try {
@@ -57,7 +54,6 @@ const Intercambios = ({ setLogged, logged}) => {
         }
     };
 
-
     useEffect(() => {
         if (!isInUpload) {
             fetchPosts()
@@ -67,9 +63,13 @@ const Intercambios = ({ setLogged, logged}) => {
     useEffect(() => {
         if (logged) {
             fetchPosts()
+        } else {
+            setAllIntercambios([])
+            setIsSelected(false)
+            setSelectedIntercambio([])
         }
     }, [logged])
-
+    
     return (
         <main className="intercambios" style={forosContentStyle}> 
             {isInUpload ? (
@@ -78,7 +78,12 @@ const Intercambios = ({ setLogged, logged}) => {
 
                 <section style={mainContentStyle} className={isSelected ? 'post-details' : 'post-display'}>
                     {selectedIntercambio && isSelected ? (
-                        <Visualizacion/>
+                        <Visualizacion 
+                            descripcion={selectedIntercambio.informacion} 
+                            titulo={selectedIntercambio.titulo}
+                            id={selectedIntercambio.userId}
+                            setIsSelected={setIsSelected} 
+                            setBackedOut={setBackedOut}/>
                     ) : (
                         allIntercambios.map((intercambio) => (
                             <Post

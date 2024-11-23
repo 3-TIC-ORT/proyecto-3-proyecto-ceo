@@ -4,7 +4,7 @@ import { getBarArticles } from "./controllers/api-foros-resumenes";
 
 import { LoadingIcon } from "./Utilities/Loading-icon";
 
-import handleArticleClick from "./controllers/api-details";
+import { handleArticleClick } from "./controllers/api-details";
 import { getArticleDetails } from "./controllers/api-foros-resumenes";
 import { searchArticleByQuery } from "./controllers/api-foros-resumenes";
 

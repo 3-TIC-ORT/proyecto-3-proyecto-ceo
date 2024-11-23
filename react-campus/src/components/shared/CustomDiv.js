@@ -46,10 +46,14 @@ const CustomDiv = ({
         right: '55%',
     }
 
+    const arrowStyle = {
+        margin: '2.5%',
+    }
+
     return (
         <div style={style} className="customDiv">
             {showDelete ? <Icon iconStyle={iconStyle} src={'img/TachitoBasura.svg'} onClick={handleDeleteClick}/> : ''}
-            {image ? <Icon onClick={handlePreviousButton} src={image}/> : ''}
+            {image ? <Icon onClick={handlePreviousButton} src={image} iconStyle={arrowStyle}/> : ''}
             <Text text={text} customTextStyle={customTextStyle}/>
             {extraDivStyle ? <div className="interactiveButton" style={extraDivStyle}><Text text={'Descargar Archivo..'}/></div> : ''}
             {imgPrevisualizacion ? <Image/> : ''}
