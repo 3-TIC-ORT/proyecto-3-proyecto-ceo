@@ -13,7 +13,7 @@ const CustomDiv = ({
     image, 
     extraDivStyle, 
     setIsSelected, 
-    showDelete,
+    deleteButtonAction,
     id,
     setBackedOut,
     imgPrevisualizacion,
@@ -52,7 +52,7 @@ const CustomDiv = ({
 
     return (
         <div style={style} className="customDiv">
-            {showDelete ? <Icon iconStyle={iconStyle} src={'img/TachitoBasura.svg'} onClick={handleDeleteClick}/> : ''}
+            {deleteButtonAction ? <Icon iconStyle={iconStyle} src={'img/TachitoBasura.svg'} onClick={deleteButtonAction}/> : ''}
             {image ? <Icon onClick={handlePreviousButton} src={image} iconStyle={arrowStyle}/> : ''}
             <Text text={text} customTextStyle={customTextStyle}/>
             {extraDivStyle ? <div className="interactiveButton" style={extraDivStyle}><Text text={'Descargar Archivo..'}/></div> : ''}

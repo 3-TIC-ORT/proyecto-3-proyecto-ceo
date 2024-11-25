@@ -103,13 +103,17 @@
 	cursor: pointer !important;
 }
 
-#send:hover {
-	transform: scale(1.1);
+#send {
+	transition: 0.4 ease;
 }
 
 #send:active {
 	transform: scale(0.85);
 	background-color: #000000;
+}
+
+#send:hover {
+	transform: scale(1.1);
 }
 
 .carousel__face {
@@ -138,8 +142,13 @@
 
 .icon {
 	scale: 0.6;
-	transition: 0.4s ease;
+	transition: 0.4s ease !important;
 }
+
+.publishButton:active {
+	scale: 0.9;
+}
+
 .icon:hover {
 	scale: 0.7;
 }

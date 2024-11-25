@@ -2,11 +2,12 @@ import React, { useState, useEffect} from "react";
 import { Text } from "../Utilities/Text";
 import { Image } from "../shared/Image";
 import { getBarArticles } from "../controllers/api-foros-resumenes";
-import UploadForos from "../intercambios/UploadPage";
+import Upload from "../shared/UploadPage-Int-Obj";
 import { UploadButton } from "../shared/uploadForos-Resumen";
 
 import Visualizacion from "../intercambios/details";
 import { handleArticleClick } from "../controllers/api-details";
+import { fetchBlob } from "../controllers/api-details";
 
 const Intercambios = ({ setLogged, logged}) => {
 
@@ -17,6 +18,7 @@ const Intercambios = ({ setLogged, logged}) => {
 
     const [backedOut, setBackedOut] = useState(false)
     const [selectedIntercambio, setSelectedIntercambio] = useState([])
+    const [imageUrls, setImageUrls] = useState({})
 
     const forosContentStyle = {
         display: 'flex',
@@ -54,6 +56,29 @@ const Intercambios = ({ setLogged, logged}) => {
         }
     };
 
+    const handleImage = async (rawImg, id) => {
+        
+        const url = await fetchBlob('image', 'intercambio', id)
+        console.log('Created URL:', url);
+
+        setImageUrls(prev => ({
+            ...prev,
+            [id]: url
+        }));
+
+        return url;
+    }
+
+    useEffect(() => {
+        return () => {
+            Object.values(imageUrls).forEach(url => {
+                console.log("Revoking URL...", url);
+                URL.revokeObjectURL(url);
+            });
+        };
+    }, []); 
+    
+
     useEffect(() => {
         if (!isInUpload) {
             fetchPosts()
@@ -73,7 +98,7 @@ const Intercambios = ({ setLogged, logged}) => {
     return (
         <main className="intercambios" style={forosContentStyle}> 
             {isInUpload ? (
-                <UploadForos/>
+                <Upload setSelectedPost={setSelectedIntercambio} setIsInUpload={setIsInUpload}/>
             ) : (
 
                 <section style={mainContentStyle} className={isSelected ? 'post-details' : 'post-display'}>
@@ -81,9 +106,12 @@ const Intercambios = ({ setLogged, logged}) => {
                         <Visualizacion 
                             descripcion={selectedIntercambio.informacion} 
                             titulo={selectedIntercambio.titulo}
-                            id={selectedIntercambio.userId}
+                            userId={selectedIntercambio.userId}
                             setIsSelected={setIsSelected} 
-                            setBackedOut={setBackedOut}/>
+                            setBackedOut={setBackedOut}
+                            fileFormat={selectedIntercambio.foto_format}
+                            id={selectedIntercambio.id}
+                        />
                     ) : (
                         allIntercambios.map((intercambio) => (
                             <Post
@@ -100,6 +128,7 @@ const Intercambios = ({ setLogged, logged}) => {
                                         setSelectedIntercambio
                                     )
                                 }
+                                url={() => handleImage(intercambio.foto, intercambio.id)}
                             />
                         ))
                     )}
@@ -110,7 +139,18 @@ const Intercambios = ({ setLogged, logged}) => {
     );
 }
 
-const Post = ({ text, onClick }) => {
+const Post = ({ text, onClick, url }) => {
+
+    const [imageUrl, setImageUrl] = useState(null);
+
+    useEffect(() => {
+        const fetchImageUrl = async () => {
+            const imgUrl = await url();
+            setImageUrl(imgUrl);
+        };
+
+        fetchImageUrl();
+    }, []);
 
     const defaultStyle = {
         height: '55vh',
@@ -134,17 +174,19 @@ const Post = ({ text, onClick }) => {
 
     const imgCustomStyle = {
         height: '95%',
+        maxHeight: '46vh',
         width: '90%',
         backgroundColor: '#FF0000',
         borderRadius: '30px',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        border: '1px solid black'
     }
 
     return (
         <article style={defaultStyle} className="post" onClick={onClick}>
-            <Image customStyle={customStyle} imgCustomStyle={imgCustomStyle}/>
+            <Image file={imageUrl} customStyle={customStyle} imgCustomStyle={imgCustomStyle}/>
             <Text text={text}/>
         </article>
     );

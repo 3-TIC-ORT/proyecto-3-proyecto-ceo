@@ -100,7 +100,7 @@ const Info = ({ title, info, setIsSelected, postId, setBackedOut}) => {
                 showDelete={showDelete}
                 id={postId}
                 setBackedOut={setBackedOut}
-                onClickDelete={handleDeleteClick}
+                deleteButtonAction={async () => await handleDeleteClick()}
                 onClickPrevious={handlePreviousButton}
 
             />

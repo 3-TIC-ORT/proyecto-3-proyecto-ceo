@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "../Utilities/Text";
 
-const Image = ({ customStyle, imgCustomStyle }) => {
+const Image = ({ customStyle, imgCustomStyle, file }) => {
 
     const defaultStyle = {
         height: '100%',
@@ -25,9 +25,14 @@ const Image = ({ customStyle, imgCustomStyle }) => {
     const imgStyle = imgCustomStyle ? imgCustomStyle : imgDefaultStyle
     return (
         <section style={style}>
-            <div style={imgStyle}>
-                <Text text={'No hay archivo!'}/>
-            </div>
+            {file ? (
+                <img style={imgStyle} src={`${file}`}/>
+            ) : (
+                <div style={imgStyle}>
+                    <Text text={'No hay archivo!'}/>
+                </div>
+            )}
+
         </section>
     );
 }

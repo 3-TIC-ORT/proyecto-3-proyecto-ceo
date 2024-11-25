@@ -1,5 +1,5 @@
 
-export async function fetchBlob(model, id) {
+export async function fetchBlob(model, id, fileType) {
     const token = localStorage.getItem('token')
     console.log('ID:', id, 'Model:', model);
 

@@ -4,9 +4,7 @@ import React from "react";
 
 const Icon = ({ onClick, src, iconStyle }) => {
 
-    const defaultStyle = {
-        
-    }
+    const defaultStyle = {}
 
     const style = iconStyle ? iconStyle : defaultStyle
     return (

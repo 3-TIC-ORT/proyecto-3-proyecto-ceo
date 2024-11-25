@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { Filter, Input } from "../Utilities/Inputs";
 import { Icon } from "../Utilities/Icon";
-import DropZone from "./Drop-zone";
+import DropZone from "../Utilities/Drop-zone";
 import { Button } from "../Utilities/Buttons";
 import { uploadBarArticle } from "../controllers/api-foros-resumenes";
 import { UploadButton } from "../shared/uploadForos-Resumen";

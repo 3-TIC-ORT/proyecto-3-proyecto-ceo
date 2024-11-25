@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "../Utilities/Text";
-import { Icon } from "../Utilities/Icon";
+import { Text } from "./Text";
+import { Icon } from "./Icon";
 
-const DropZone = ({ file, setFile }) => {
+const DropZone = ({ file, setFile, customHeight }) => {
     const [isDragging, setIsDragging] = useState(false)
 
     const handleDragOver = (e) => {
@@ -30,7 +30,8 @@ const DropZone = ({ file, setFile }) => {
 
     const defaultStyle = {
         transition: '0.4s ease',
-        transform: isDragging ? 'scale(1.1)' : 'scale(1)'
+        transform: isDragging ? 'scale(1.1)' : 'scale(1)',
+        height: customHeight
     }
 
     const uploadedFileStyle = {

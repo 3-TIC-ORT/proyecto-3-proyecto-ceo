@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import { CustomDiv } from "../shared/CustomDiv";
 import { Image } from "../shared/Image";
-import { getPostExtraInfo } from "../controllers/api-details";
+import { getPostExtraInfo, fetchBlob } from "../controllers/api-details";
 
-const Visualizacion = ({ titulo, setIsSelected, setBackedOut, descripcion, id }) => {
+const Visualizacion = ({ titulo, setIsSelected, setBackedOut, descripcion, userId, fileFormat, id }) => {
     const [extraInfo, setExtraInfo] = useState('');
+    const [url, setUrl] = useState('')
 
     const defaultStyle = {
         height: '90%',
@@ -76,14 +77,24 @@ const Visualizacion = ({ titulo, setIsSelected, setBackedOut, descripcion, id })
     useEffect(() => {
         const fetchExtraInfo = async () => {
             try {
-                const result = await getPostExtraInfo('intercambios', id);
+                const result = await getPostExtraInfo('intercambios', userId);
+                const fileUrl = await fetchBlob('image', 'intercambio', id)
+
                 setExtraInfo(result); 
+                setUrl(fileUrl);
             } catch (error) {
-                console.error("Failed to fetch extra info:", error);
+                console.error("Failed to fetch extra info || image:", error);
             }
         };
         fetchExtraInfo();
-    }, [id]);
+
+        return () => {
+            if (url) {
+                URL.revokeObjectURL(url);
+            }
+        };
+    
+    }, [userId, id]);
 
     return (
         <div style={defaultStyle}>
@@ -103,11 +114,10 @@ const Visualizacion = ({ titulo, setIsSelected, setBackedOut, descripcion, id })
                                 <ExtraInfo text={'Propuesto por'} info={extraInfo.firstName}/>
                             </>
                         ) : <p>Cargando informacion...</p> }
-
                     </section>
                 </div>
             </div>
-            <Image imgCustomStyle={imgStyle}/>
+            <Image file={url} imgCustomStyle={imgStyle}/>
         </div>
     );
 }

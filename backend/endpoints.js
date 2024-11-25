@@ -160,7 +160,7 @@ export async function endpoints(app) {
             throw error
         }
     });
-    
+  
     app.post('/registers', async (req, res) => {
         try {
             const { firstName, password, lastName, gmail } = req.body;
@@ -182,32 +182,33 @@ export async function endpoints(app) {
             res.status(500).json({ message: 'Error creating user', error });
         }
     });
-    
-    app.post('/send-intercambio', authenticateToken, upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
-        try {
-            console.log("Receiving objetosPerdidos data...");
 
-            const { informacion, titulo } = req.body;
+    app.post('/send-intercambio', authenticateToken, upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
+        try {
+            console.log("Receiving intercambios data...");
+
+            const { descripcion, titulo } = req.body;
 
             const userId = req.user.id
-            const file = req.files['foto'] ? req.files['foto'][0] : null;
+            const file = req.files['archivo'] ? req.files['archivo'][0] : null;
 
             if (!file) {
                 return res.status(400).send('No file uploaded');
             }
+
             const foto = file.path;
             const foto_format = path.extname(file.originalname).substring(1); 
 
             console.log(yellowChalk('format:', foto_format))
     
-            const objPerdido = await Intercambio.create({ informacion, foto, userId, titulo, foto_format });
-            res.status(201).send({ message: 'Objeto perdido registered successfully' });
+            const objPerdido = await Intercambio.create({ informacion: descripcion, foto, userId, titulo, foto_format });
+            res.status(201).send({ message: 'Intercambio registered successfully' });
         } catch (error) {
             console.error(redChalk("Error registering objeto perdido:"), error);
-            res.status(500).json({ message: 'Error registering objeto perdido', error });
+            res.status(500).json({ message: 'Error registering Intercambio', error });
         }
     });
-    
+
     app.post('/send-feedback', authenticateToken, async (req, res) => {
         try {
             const { puntaje, sugerencia, opinion } = req.body;
@@ -222,14 +223,14 @@ export async function endpoints(app) {
             res.status(500).json({ message: 'Error sending feedback', error });
         }
     });
-    
+
     app.post('/send-resumen', authenticateToken, uploadResumenes.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
         try {
             const { descripcion, titulo, filtros, like, dislike } = req.body;
             const userId  = req.user.id;
             console.log("Receiving resumen data...");
 
-            if(!userId){
+            if (!userId) {
                 console.error('error uploading user id');
                 res.status(500).json({message: 'userId is empty' });
             }
@@ -259,14 +260,14 @@ export async function endpoints(app) {
         }
     });
 
-    app.post('/send-objetos', authenticateToken, upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+    app.post('/send-objetos', authenticateToken, upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
         try {
             console.log("Receiving objetosPerdidos data...");
 
-            const { informacion, titulo } = req.body;
+            const { descripcion, titulo } = req.body;
 
             const userId = req.user.id
-            const file = req.files['foto'] ? req.files['foto'][0] : null;
+            const file = req.files['archivo'] ? req.files['archivo'][0] : null;
 
             if (!file) {
                 return res.status(400).send('No file uploaded');
@@ -276,24 +277,24 @@ export async function endpoints(app) {
 
             console.log(yellowChalk('format:', foto_format))
     
-            const objPerdido = await objetoPerdido.create({ informacion, foto, userId, titulo, foto_format });
+            const objPerdido = await objetoPerdido.create({ informacion: descripcion, foto, userId, titulo, foto_format });
             res.status(201).send({ message: 'Objeto perdido registered successfully' });
         } catch (error) {
             console.error(redChalk("Error registering objeto perdido:"), error);
             res.status(500).json({ message: 'Error registering objeto perdido', error });
         }
     });
-    
-    app.post('/send-foro', authenticateToken, upload.fields([{ name: 'foto', maxCount: 1 }]), async (req, res) => {
+
+    app.post('/send-foro', authenticateToken, upload.fields([{ name: 'archivo', maxCount: 1 }]), async (req, res) => {
         try {
-            const { pregunta, textoExplicativo } = req.body;
+            const { titulo, descripcion } = req.body;
             
             console.log("Receiving foro data...");
             
-            const foto = req.files['foto'] ? req.files['foto'][0].path : null;
+            const foto = req.files['archivo'] ? req.files['archivo'][0].path : null;
             const userId = req.user.id;
             
-            const foro = await Foro.create({ pregunta, textoExplicativo, foto, userId });
+            const foro = await Foro.create({ pregunta: titulo, textoExplicativo: descripcion, foto, userId });
             res.status(201).json({ message: 'Foro created successfully' });
         } catch (error) {
             console.error(redChalk("Error creating foro:"), error);
@@ -432,9 +433,9 @@ export async function endpoints(app) {
         const { model, id, fileType } = req.params;
     
         const models = {
-            resumen: Resumen,
+            'resumen': Resumen,
             foro: Foro,
-            intercambio: Intercambio,
+            'intercambio': Intercambio,
             objetosPerdidos: objetoPerdido
         };
     
@@ -472,6 +473,12 @@ export async function endpoints(app) {
             };
 
             const instance = await findModel(id, models[model])
+
+            if (!instance) {
+                res.status(404).send(redChalk('Instance NOT found at /image.'))
+            }
+
+            console.log('Instance: ', instance);
 
             const mimeType = {
                 'pdf': 'application/pdf',
