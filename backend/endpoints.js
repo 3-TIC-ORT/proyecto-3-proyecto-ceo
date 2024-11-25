@@ -447,7 +447,8 @@ export async function endpoints(app) {
 
             const modelInstance = await models[model].findOne({ where: { id } });
             if (!modelInstance || !modelInstance[fileType]) {
-                return res.status(404).json({ message: 'File not found' });
+                res.status(404).json({ message: 'File not found' });
+                return; 
             }
     
             const filePath = modelInstance[fileType];
@@ -474,8 +475,9 @@ export async function endpoints(app) {
 
             const instance = await findModel(id, models[model])
 
-            if (!instance) {
+            if (!instance || (!instance.foto && !instance.archivo)) {
                 res.status(404).send(redChalk('Instance NOT found at /image.'))
+                return;
             }
 
             console.log('Instance: ', instance);

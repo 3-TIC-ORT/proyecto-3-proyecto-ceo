@@ -5,11 +5,11 @@ import { getBarArticles } from "../controllers/api-foros-resumenes";
 import Upload from "../shared/UploadPage-Int-Obj";
 import { UploadButton } from "../shared/uploadForos-Resumen";
 
-import Visualizacion from "../intercambios/details";
+import Visualizacion from "../shared/details";
 import { handleArticleClick } from "../controllers/api-details";
 import { fetchBlob } from "../controllers/api-details";
 
-const Intercambios = ({ setLogged, logged}) => {
+const ObjetosPerdidos = ({ setLogged, logged}) => {
 
     const [isSelected, setIsSelected] = useState(false)
     const [allObjetos, setAllObjetos] = useState([]); 
@@ -89,7 +89,7 @@ const Intercambios = ({ setLogged, logged}) => {
     return (
         <main className="intercambios" style={ContentStyle}> 
             {isInUpload ? (
-                <Upload setSelectedPost={setSelectedObjeto} setIsInUpload={setIsInUpload}/>
+                <Upload setSelectedPost={setSelectedObjeto} setIsInUpload={setIsInUpload} endpoint={'send-objetos'}/>
             ) : (
 
                 <section style={mainContentStyle} className={isSelected ? 'post-details' : 'post-display'}>
@@ -102,6 +102,8 @@ const Intercambios = ({ setLogged, logged}) => {
                             setBackedOut={setBackedOut}
                             fileFormat={selectedObjetos.foto_format}
                             id={selectedObjetos.id}
+                            endpoint={'objetos'}
+                            route={'objeto'}
                         />
                     ) : (
                         allObjetos.map((objeto) => (
@@ -111,12 +113,12 @@ const Intercambios = ({ setLogged, logged}) => {
                                 onClick={async () =>
                                     await handleArticleClick(
                                         objeto.id,
-                                        'intercambios',
+                                        'objetos',
                                         setIsLoading,
                                         setIsInUpload,
                                         setLogged,
                                         setIsSelected,
-                                        setSelectedIntercambio
+                                        setSelectedObjeto,
                                     )
                                 }
                                 url={() => handleImage(objeto.foto, objeto.id)}
@@ -183,4 +185,4 @@ const Post = ({ text, onClick, url }) => {
     );
 }
 
-export default Intercambios
+export default ObjetosPerdidos

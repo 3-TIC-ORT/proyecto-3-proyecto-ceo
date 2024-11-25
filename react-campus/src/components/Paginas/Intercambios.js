@@ -5,7 +5,7 @@ import { getBarArticles } from "../controllers/api-foros-resumenes";
 import Upload from "../shared/UploadPage-Int-Obj";
 import { UploadButton } from "../shared/uploadForos-Resumen";
 
-import Visualizacion from "../intercambios/details";
+import Visualizacion from "../shared/details";
 import { handleArticleClick } from "../controllers/api-details";
 import { fetchBlob } from "../controllers/api-details";
 
@@ -98,7 +98,7 @@ const Intercambios = ({ setLogged, logged}) => {
     return (
         <main className="intercambios" style={forosContentStyle}> 
             {isInUpload ? (
-                <Upload setSelectedPost={setSelectedIntercambio} setIsInUpload={setIsInUpload}/>
+                <Upload setSelectedPost={setSelectedIntercambio} setIsInUpload={setIsInUpload} endpoint={'send-intercambio'}/>
             ) : (
 
                 <section style={mainContentStyle} className={isSelected ? 'post-details' : 'post-display'}>
@@ -111,6 +111,8 @@ const Intercambios = ({ setLogged, logged}) => {
                             setBackedOut={setBackedOut}
                             fileFormat={selectedIntercambio.foto_format}
                             id={selectedIntercambio.id}
+                            endpoint={'intercambios'}
+                            route={'intercambio'}
                         />
                     ) : (
                         allIntercambios.map((intercambio) => (

@@ -161,6 +161,14 @@
 	transition: 0.3s ease;
 }
 
+.foros-vis {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
 .interactiveButton:hover {
 	transform: scale(0.95);
 }

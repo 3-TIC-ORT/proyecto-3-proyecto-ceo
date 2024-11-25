@@ -1,9 +1,19 @@
 import React, {useEffect, useState} from "react";
-import { CustomDiv } from "../shared/CustomDiv";
-import { Image } from "../shared/Image";
+import { CustomDiv } from "./CustomDiv";
+import { Image } from "./Image";
 import { getPostExtraInfo, fetchBlob } from "../controllers/api-details";
 
-const Visualizacion = ({ titulo, setIsSelected, setBackedOut, descripcion, userId, fileFormat, id }) => {
+const Visualizacion = ({ 
+    titulo, 
+    setIsSelected, 
+    setBackedOut, 
+    descripcion, 
+    userId, 
+    fileFormat, 
+    id,
+    endpoint,
+    route,
+}) => {
     const [extraInfo, setExtraInfo] = useState('');
     const [url, setUrl] = useState('')
 
@@ -77,8 +87,8 @@ const Visualizacion = ({ titulo, setIsSelected, setBackedOut, descripcion, userI
     useEffect(() => {
         const fetchExtraInfo = async () => {
             try {
-                const result = await getPostExtraInfo('intercambios', userId);
-                const fileUrl = await fetchBlob('image', 'intercambio', id)
+                const result = await getPostExtraInfo(endpoint, userId);
+                const fileUrl = await fetchBlob('image', route, id)
 
                 setExtraInfo(result); 
                 setUrl(fileUrl);

@@ -6,7 +6,7 @@ import { Text } from "../Utilities/Text";
 import DropZone from "../Utilities/Drop-zone";
 import { sendPost } from "../controllers/uploadLogic";
 
-const Upload = ({ setSelectedPost, setIsInUpload}) => {
+const Upload = ({ setSelectedPost, setIsInUpload, endpoint }) => {
     const [file, setFile] = useState(null)
     const [descripcion, setDescripcion] = useState('')
     const [titulo, setTitulo] = useState('')
@@ -66,8 +66,6 @@ const Upload = ({ setSelectedPost, setIsInUpload}) => {
         paddingLeft: '2.5%',
         paddingTop: '1%'
     }
-    
-    const endpoint = 'send-intercambio';
 
     const handleDescripcionChange  = (e) => {
         setDescripcion(e.target.value)

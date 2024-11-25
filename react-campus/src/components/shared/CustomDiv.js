@@ -4,6 +4,7 @@ import { Text } from "../Utilities/Text";
 import { deletePost } from "../controllers/api-delete";
 import { Icon } from "../Utilities/Icon";
 import { Image } from "./Image";
+import { Input } from "../Utilities/Inputs";
 
 const CustomDiv = ({ 
     customHeight, 
@@ -17,6 +18,7 @@ const CustomDiv = ({
     id,
     setBackedOut,
     imgPrevisualizacion,
+    input,
 }) => {
 
     const defaultStyle = {

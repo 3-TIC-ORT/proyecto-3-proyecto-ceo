@@ -14,7 +14,6 @@ async function fetchUserById(endpoint, route, id) {
     } catch (error) {
         console.log('[controller] ERROR, Failed to fetch user by id:', error)
     }
-
 }
 
 export { fetchUserById }

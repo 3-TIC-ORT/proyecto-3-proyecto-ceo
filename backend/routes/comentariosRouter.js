@@ -1,6 +1,5 @@
 import express from 'express'
 import { Router } from 'express'
-import { app } from '../main.js'
 import { fileURLToPath } from 'url'
 import path from 'path';
 import chalk from 'chalk';
@@ -11,7 +10,7 @@ import { getQueryParams } from '../../controllers/queryParamsController.js';
 import { where } from 'sequelize';
 import { findUserById } from '../controllers/userIdFinderController.js';
 
-const comentariosRouter = Router()
+const comentariosRouter = Router();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

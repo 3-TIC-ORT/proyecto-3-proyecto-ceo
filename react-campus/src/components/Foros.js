@@ -113,6 +113,7 @@ const Foros = ({ setLogged, logged }) => {
                         setIsSelected={setIsSelected}
                         postId={selectedPregunta.id}
                         setBackedOut={setBackedOut}
+                        creatorId={selectedPregunta.userId}
                     />
                 ) : (
 

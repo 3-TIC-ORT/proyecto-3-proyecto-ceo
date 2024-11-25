@@ -18,7 +18,7 @@ const sendPost = async (
 
     console.log('Sending post!')
 
-    if (!titulo || !descripcion || !file) {
+    if (!titulo || !descripcion) {
         console.log('Failed, there is a missing field')
         setError(true);
         setPublishing(false);
