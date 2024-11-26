@@ -167,6 +167,7 @@ const Info = ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        boxShadow: '4px 6px 2px rgba(0, 0, 0, 0.35)' ,
     }
 
     const customInputBox = {
@@ -214,6 +215,7 @@ const CenterDiv = ({ info, url }) => {
         alignItems:' center',
         justifyContent: 'flex-end',
         paddingLeft: '2.5%',
+        boxShadow: '4px 6px 2px rgba(0, 0, 0, 0.35)' ,
     }
 
     const customStyle = {
@@ -221,7 +223,8 @@ const CenterDiv = ({ info, url }) => {
         flexDirection: 'row',
         alignItems: 'center',
         height: '60%',
-        width: '100%'
+        width: '100%',
+        
     }
 
     const leftSideInfo = {

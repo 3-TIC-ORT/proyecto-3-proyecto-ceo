@@ -6,7 +6,7 @@ import { CustomDiv } from "../shared/CustomDiv";
 import { Image } from "../shared/Image";
 import { deletePost } from "../controllers/api-delete";
 
-const Visualizacion = ({ title, info, setIsSelected, postId, setBackedOut }) => {
+const Visualizacion = ({ title, info, setIsSelected, postId, setBackedOut, file }) => {
 
     const defaultStyle = {
         display: 'flex',
@@ -14,11 +14,11 @@ const Visualizacion = ({ title, info, setIsSelected, postId, setBackedOut }) => 
         width: '100vw',
         height :'90vh',
     }
-
+    
     return (
         <div className="resumen-vis" style={defaultStyle}>
-            <Info title={title} info={info} setIsSelected={setIsSelected} setBackedOut={setBackedOut} postId={postId}/>
-            <Image/>
+            <Info title={title} info={info} setIsSelected={setIsSelected} setBackedOut={setBackedOut} postId={postId} file={file}/>
+            <Image pdf={file}/>
         </div>
     );
 }
@@ -88,7 +88,6 @@ const Info = ({ title, info, setIsSelected, postId, setBackedOut}) => {
     const handleDeleteClick = async () => {
         await deletePost('resumen', 'delete', postId)
     }
- 
 
     return (
         <section style={defaultStyle}>

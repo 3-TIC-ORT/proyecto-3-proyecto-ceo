@@ -4,6 +4,13 @@ import Navigator from './components/Navigator';
 import React, { useEffect, useState } from 'react';
 import { LoginPopup } from './components/Utilities/Login-popup';
 
+
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+
+import { Worker } from '@react-pdf-viewer/core';
+
+
 function App() {
 	const [route, setRoute] = useState("Home")
 	const [logged, setLogged] = useState(false)
@@ -20,11 +27,13 @@ function App() {
 	}	
 
   	return (
-		<div className="App">
-			<Header selectedRoute={route} setSelectedRoute={setRoute}/>
-			<Navigator selectedRoute={route} setSelectedRoute={setRoute} setLogged={setLogged} logged={logged} />
-			<LoginPopup show={popupStyle} setLogged={setLogged} setError={setError}/>
-		</div>
+		<Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.js">
+			<div className="App">
+				<Header selectedRoute={route} setSelectedRoute={setRoute}/>
+				<Navigator selectedRoute={route} setSelectedRoute={setRoute} setLogged={setLogged} logged={logged} />
+				<LoginPopup show={popupStyle} setLogged={setLogged} setError={setError}/>
+			</div>
+		</Worker>
   	);
 }
 

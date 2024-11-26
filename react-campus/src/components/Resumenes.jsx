@@ -17,6 +17,7 @@ const Resumenes = ({ logged, setLogged }) => {
 
     const [criteria, setCriteria] = useState('');
     const [allResumenes, setAllResumenes] = useState([]); 
+    const [file, setFile] = useState(null)
 
     const [isLoading, setIsLoading] = useState(true); 
     const [selectedResumen, setSelectedResumen] = useState(null)
@@ -107,9 +108,22 @@ const Resumenes = ({ logged, setLogged }) => {
             
             const route = 'resumen'
             const details = await getArticleDetails(route, id); 
+            console.log('details:', details);
+
+            if (!details.archivo || !details.archivo.data) {
+                throw new Error('Archivo data is missing or invalid');
+            }
+    
+            const bufferData = new Uint8Array(details.archivo.data);
+            const blobType = details.format === 'pdf' ? 'application/pdf' : 'application/octet-stream';
+            const blob = new Blob([bufferData], { type: blobType });
+    
+            const fileURL = URL.createObjectURL(blob)
+            console.log('hola1')
+            setFile(fileURL)
             setSelectedResumen(details);
             setIsSelected(true);
-
+            
         } catch (error) {
             console.error('Error fetching resumen details:', error);
             setIsSelected(false);
@@ -118,10 +132,12 @@ const Resumenes = ({ logged, setLogged }) => {
         }
     };
 
-
     useEffect(() => {
-        console.log('is selected:', isSelected)
-    }, [isSelected]); 
+        if (!isSelected && file) {
+            URL.revokeObjectURL(file);
+            setFile(null);
+        }
+    }, [isSelected, file]);
 
     const resetAllArticles = () => {
         setAllResumenes([])
@@ -136,7 +152,7 @@ const Resumenes = ({ logged, setLogged }) => {
             ) : (
             <section style={mainContentStyle} className="resumenes">
                 {isLoading ? <LoadingIcon/> : ''}
-                {isLoading ? resetAllArticles : ''}
+                {/* {isLoading ? resetAllArticles : ''} */}
 
                 {isSelected && selectedResumen && !isLoading ? (
                     <Visualizacion
@@ -145,6 +161,8 @@ const Resumenes = ({ logged, setLogged }) => {
                         setIsSelected={setIsSelected}
                         postId={selectedResumen.id}
                         setBackedOut={setBackedOut}
+                        setFile={setFile}
+                        file={file}
                     />
                 ) : (
 

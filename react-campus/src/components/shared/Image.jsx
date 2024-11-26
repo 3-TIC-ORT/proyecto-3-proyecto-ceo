@@ -1,7 +1,8 @@
 import React from "react";
 import { Text } from "../Utilities/Text";
+import PdfViewer from "../Utilities/PdfViewer";
 
-const Image = ({ customStyle, imgCustomStyle, file }) => {
+const Image = ({ customStyle, imgCustomStyle, file, pdf }) => {
 
     const defaultStyle = {
         height: '100%',
@@ -25,13 +26,15 @@ const Image = ({ customStyle, imgCustomStyle, file }) => {
     const imgStyle = imgCustomStyle ? imgCustomStyle : imgDefaultStyle
     return (
         <section style={style}>
-            {file ? (
-                <img style={imgStyle} src={`${file}`}/>
-            ) : (
-                <div style={imgStyle}>
-                    <Text text={'No hay archivo!'}/>
-                </div>
-            )}
+            {pdf ? <PdfViewer fileUrl={pdf} /> : 
+                file ? (
+                    <img style={imgStyle} src={`${file}`}/>
+                ) : (
+                    <div style={imgStyle}>
+                        <Text text={'No hay archivo!'}/>
+                    </div>
+                )
+            }
 
         </section>
     );

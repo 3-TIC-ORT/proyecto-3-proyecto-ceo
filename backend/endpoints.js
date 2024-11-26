@@ -57,6 +57,17 @@ const storage = multer.diskStorage({
     }
 });
 
+//set content type for js files to application/javascript
+app.use('/static', express.static('public', {
+    setHeaders: (res, path) => {
+      if (path.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript');
+        
+      }
+    },
+}));
+  
+
 const resumenesStorage = multer.memoryStorage()
 const uploadResumenes = multer({ 
     storage: resumenesStorage, 
