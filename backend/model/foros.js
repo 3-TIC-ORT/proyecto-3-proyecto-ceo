@@ -25,6 +25,10 @@ const Foro = sequelize.define('Foros', {
     userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+    },
+    foto_format: {
+        type:  Sequelize.STRING,
+        allowNull: true
     }
 },{
     timestamps: false,

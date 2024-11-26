@@ -302,10 +302,18 @@ export async function endpoints(app) {
             
             console.log("Receiving foro data...");
             
-            const foto = req.files['archivo'] ? req.files['archivo'][0].path : null;
+            const file = req.files['archivo'] ? req.files['archivo'][0].path : null;
             const userId = req.user.id;
+
+            if (!file) {
+                return res.status(400).send('No file uploaded');
+            }
+            const foto = file.path;
+            const foto_format = path.extname(file.originalname).substring(1); 
+
+            console.log(yellowChalk('format:', foto_format));
             
-            const foro = await Foro.create({ pregunta: titulo, textoExplicativo: descripcion, foto, userId });
+            const foro = await Foro.create({ pregunta: titulo, textoExplicativo: descripcion, foto, userId, foto_format });
             res.status(201).json({ message: 'Foro created successfully' });
         } catch (error) {
             console.error(redChalk("Error creating foro:"), error);
