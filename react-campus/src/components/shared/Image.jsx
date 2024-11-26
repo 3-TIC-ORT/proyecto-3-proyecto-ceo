@@ -24,6 +24,7 @@ const Image = ({ customStyle, imgCustomStyle, file, pdf }) => {
 
     const style = customStyle ? customStyle : defaultStyle
     const imgStyle = imgCustomStyle ? imgCustomStyle : imgDefaultStyle
+    
     return (
         <section style={style}>
             {pdf ? <PdfViewer fileUrl={pdf} /> : 
@@ -35,7 +36,6 @@ const Image = ({ customStyle, imgCustomStyle, file, pdf }) => {
                     </div>
                 )
             }
-
         </section>
     );
 }

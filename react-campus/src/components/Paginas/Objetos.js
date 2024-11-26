@@ -3,7 +3,7 @@ import { Text } from "../Utilities/Text";
 import { Image } from "../shared/Image";
 import { getBarArticles } from "../controllers/api-foros-resumenes";
 import Upload from "../shared/UploadPage-Int-Obj";
-import { UploadButton } from "../shared/uploadForos-Resumen";
+import { UploadButton } from "../shared/Upload-page";
 
 import Visualizacion from "../shared/details";
 import { handleArticleClick } from "../controllers/api-details";

@@ -24,7 +24,7 @@ const Visualizacion = ({ title, info, setIsSelected, postId, setBackedOut, file 
 }
 
 
-const Info = ({ title, info, setIsSelected, postId, setBackedOut}) => {
+const Info = ({ title, info, setIsSelected, postId, setBackedOut, file }) => {
     const [showDelete, setShowDelete] = useState(false)
 
     useEffect(() => {
@@ -89,6 +89,19 @@ const Info = ({ title, info, setIsSelected, postId, setBackedOut}) => {
         await deletePost('resumen', 'delete', postId)
     }
 
+    const handleDownload = () => {
+        if (file) {
+            const link = document.createElement('a');
+            link.href = file; 
+            link.download = 'downloaded-file'; 
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            console.error('No file to download!');
+        }
+    };
+
     return (
         <section style={defaultStyle}>
             <CustomDiv 
@@ -104,7 +117,7 @@ const Info = ({ title, info, setIsSelected, postId, setBackedOut}) => {
 
             />
             <CustomDiv text={info} customTextStyle={customInfotText} customStyle={customInfoStyle}/>
-            <CustomDiv customHeight={'12.5%'} extraDivStyle={extraDivStyle}/>
+            <CustomDiv customHeight={'12.5%'} extraDivStyle={extraDivStyle} file={file} onClick={handleDownload}/>
         </section>
     );
 }

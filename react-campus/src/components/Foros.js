@@ -8,8 +8,8 @@ import { handleArticleClick } from "./controllers/api-details";
 import { getArticleDetails } from "./controllers/api-foros-resumenes";
 import { searchArticleByQuery } from "./controllers/api-foros-resumenes";
 
-import { UploadButton } from "./shared/uploadForos-Resumen";
-import { Upload } from "./resumenes/Upload-page";
+import { UploadButton } from "./shared/Upload-page";
+import { Upload } from "./shared/Upload-page";
 import Visualizacion from "./foros/details";
 
 const Foros = ({ setLogged, logged }) => {

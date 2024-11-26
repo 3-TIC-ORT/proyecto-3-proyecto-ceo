@@ -6,7 +6,6 @@ import { Icon } from "../Utilities/Icon";
 import DropZone from "../Utilities/Drop-zone";
 import { Button } from "../Utilities/Buttons";
 import { uploadBarArticle } from "../controllers/api-foros-resumenes";
-import { UploadButton } from "../shared/uploadForos-Resumen";
  
 const Upload = ({ setIsInUpload, setBackedOut }) => {
     const [title, setTitle] = useState('')
@@ -30,6 +29,14 @@ const Upload = ({ setIsInUpload, setBackedOut }) => {
         borderRadius: '30px'
     }
 
+    const customButtonStyle = {
+        border: '1px solid black',
+        width: '20%',
+        height: '10%',
+        borderRadius: '20px',
+        backgroundColor: '#007BFF',
+    }
+
     const handleUploadClick = async () => {
         try {
             console.log('Uploading...')
@@ -45,7 +52,7 @@ const Upload = ({ setIsInUpload, setBackedOut }) => {
                 <TitleInput setIsInUpload={setIsInUpload} setTitle={setTitle} title={title} setBackedOut={setBackedOut}/>
                 <MainInput setDescripcion={setDescripcion} descripcion={descripcion} />
                 <Inputs file={file} setFile={setFile} setFiltro={setFiltro}/>
-                <UploadButton onClick={() => handleUploadClick()}/>
+                <Button buttonCustomStyle={customButtonStyle} id={'send'} onClick={() => handleUploadClick()} text={'Publicar'}/>
             </div>
         </div>  
     );
@@ -66,7 +73,7 @@ const Inputs = ({ file, setFile,  setFiltro }) => {
         width: '30%',
     }
 
-    const options = ['Matematicas', 'Lengua', 'Etica', 'Edu-judia', 'Fisica', 'Economia', 'Historia']
+    const options = ['matematica', 'lengua', 'etica', 'edu-judia', 'fisica', 'economia', 'historia']
     
     return (
         <section style={defaultStyle}>
@@ -155,4 +162,27 @@ const TitleInput = ({ setIsInUpload, title, setTitle, setBackedOut}) => {
     )
 }
 
+const UploadButton = ({ setIsInUpload }) => {
+
+    const handleUploadButtonClick = () => {
+        setIsInUpload(true)
+    }
+
+    const buttonCustomStyle = {
+        position: 'fixed',
+        border: '1px solid black',
+        right: '5%',
+        bottom: '10%',
+        height: '7.5%',
+        width: '20%',
+        backgroundColor: '#007BFF',
+        borderRadius: '20px',
+        zIndex: '999',
+    }
+    return (
+        <Button onClick={handleUploadButtonClick} buttonCustomStyle={buttonCustomStyle} text={'Upload'} customClass='uploadButt'/>
+    );
+}
+
 export { Upload }
+export { UploadButton }

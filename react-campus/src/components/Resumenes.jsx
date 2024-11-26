@@ -7,9 +7,8 @@ import { LoadingIcon } from "./Utilities/Loading-icon";
 import { getArticleDetails } from "./controllers/api-foros-resumenes";
 import Visualizacion from "./resumenes/details";
 
-import { Upload } from "./resumenes/Upload-page"
-import { UploadButton } from "./shared/uploadForos-Resumen";
-
+import { Upload } from "./shared/Upload-page"
+import { UploadButton } from "./shared/Upload-page";
 
 import { searchArticleByQuery } from "./controllers/api-foros-resumenes";
 
@@ -152,7 +151,6 @@ const Resumenes = ({ logged, setLogged }) => {
             ) : (
             <section style={mainContentStyle} className="resumenes">
                 {isLoading ? <LoadingIcon/> : ''}
-                {/* {isLoading ? resetAllArticles : ''} */}
 
                 {isSelected && selectedResumen && !isLoading ? (
                     <Visualizacion
