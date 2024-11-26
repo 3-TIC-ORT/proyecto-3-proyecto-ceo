@@ -202,6 +202,15 @@
 	justify-content: center;
 }
 
+.registrarse {
+	background-image: url(../public/img/Registrarse-Fondo.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .drop-zone {
 	display: flex;
 	align-items: center;

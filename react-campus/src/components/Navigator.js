@@ -5,6 +5,7 @@ import Resumenes from "./Resumenes";
 import Foros from "./Foros";
 import Intercambios from "./Paginas/Intercambios";
 import ObjetosPerdidos from "./Paginas/Objetos";
+import Registrarse from "./Paginas/Registrarse";
 
 const Navigator = ({ selectedRoute, setSelectedRoute, setLogged, logged}) => {
 
@@ -21,7 +22,7 @@ const Navigator = ({ selectedRoute, setSelectedRoute, setLogged, logged}) => {
             case 'Intercambios': 
                 return <Intercambios setLogged={setLogged} logged={logged}/>  
             case 'Registrarse':
-                return <div>Registrarse</div>
+                return <Registrarse setLogged={setLogged} logged={logged}/>
         }
     }
 

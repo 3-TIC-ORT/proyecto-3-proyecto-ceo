@@ -62,7 +62,7 @@ app.use('/static', express.static('public', {
     setHeaders: (res, path) => {
       if (path.endsWith('.js')) {
         res.setHeader('Content-Type', 'application/javascript');
-        
+
       }
     },
 }));
@@ -307,9 +307,12 @@ export async function endpoints(app) {
 
             if (!file) {
                 return res.status(400).send('No file uploaded');
+            } else {
+                console.log('File:',file)
             }
+
             const foto = file.path;
-            const foto_format = path.extname(file.originalname).substring(1); 
+            const foto_format = path.extname(file.originalname).substring(1);     
 
             console.log(yellowChalk('format:', foto_format));
             

@@ -100,7 +100,7 @@ const Foros = ({ setLogged, logged }) => {
         <main style={forosContentStyle}>
             {!isInUpload && !isSelected? <SearchBar setCriteria={setCriteria} noFilter={true}/> : ''} 
             {isInUpload ? (
-                <Upload setIsInUpload={setIsInUpload} setBackedOut={setBackedOut}/>
+                <Upload setIsInUpload={setIsInUpload} setBackedOut={setBackedOut} endpoint={'send-foro'}/>
             ) : (
             <section style={mainContentStyle} className="foros">
                 {isLoading ? <LoadingIcon/> : ''}

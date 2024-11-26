@@ -7,11 +7,18 @@ import DropZone from "../Utilities/Drop-zone";
 import { Button } from "../Utilities/Buttons";
 import { uploadBarArticle } from "../controllers/api-foros-resumenes";
  
-const Upload = ({ setIsInUpload, setBackedOut }) => {
+const Upload = ({ setIsInUpload, setBackedOut, endpoint }) => {
     const [title, setTitle] = useState('')
     const [descripcion, setDescripcion] = useState('')
     const [file, setFile] = useState(null)
     const [filtros, setFiltro] = useState('')
+    const [foros, setForos] = useState(false)
+
+    useEffect(() => {
+        if (endpoint === 'send-foro') {
+            setForos(true)
+        }
+    }, [endpoint])
 
     const defaultStyle = {
         height: '90vh',
@@ -31,7 +38,7 @@ const Upload = ({ setIsInUpload, setBackedOut }) => {
 
     const customButtonStyle = {
         border: '1px solid black',
-        width: '20%',
+        width: foros ? '40%' : '20%',
         height: '10%',
         borderRadius: '20px',
         backgroundColor: '#007BFF',
@@ -40,7 +47,7 @@ const Upload = ({ setIsInUpload, setBackedOut }) => {
     const handleUploadClick = async () => {
         try {
             console.log('Uploading...')
-            const uploadArticle = await uploadBarArticle('send-resumen', title, descripcion, file, filtros )
+            const uploadArticle = await uploadBarArticle(endpoint, title, descripcion, file, filtros )
         } catch (error) {
             console.log('Failed', error)
         }
@@ -51,21 +58,21 @@ const Upload = ({ setIsInUpload, setBackedOut }) => {
             <div style={boxStyle}>
                 <TitleInput setIsInUpload={setIsInUpload} setTitle={setTitle} title={title} setBackedOut={setBackedOut}/>
                 <MainInput setDescripcion={setDescripcion} descripcion={descripcion} />
-                <Inputs file={file} setFile={setFile} setFiltro={setFiltro}/>
+                <Inputs file={file} setFile={setFile} setFiltro={setFiltro} foros={foros}/>
                 <Button buttonCustomStyle={customButtonStyle} id={'send'} onClick={() => handleUploadClick()} text={'Publicar'}/>
             </div>
         </div>  
     );
 }
 
-const Inputs = ({ file, setFile,  setFiltro }) => {
+const Inputs = ({ file, setFile,  setFiltro, foros }) => {
     const defaultStyle = {
         height: '15%',
         width: '80%',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: !foros ? 'space-between' : 'center',
         marginTop: '5%'
     }
 
@@ -78,7 +85,7 @@ const Inputs = ({ file, setFile,  setFiltro }) => {
     return (
         <section style={defaultStyle}>
             <DropZone setFile={setFile} file={file}/>
-            <Filter customStyle={customStyle} options={options} setFiltro={setFiltro}/>
+            {!foros ? <Filter customStyle={customStyle} options={options} setFiltro={setFiltro}/> : null}
         </section>
     );
 };

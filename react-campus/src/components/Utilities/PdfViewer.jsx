@@ -15,7 +15,7 @@ const PdfViewer = ({ fileUrl }) => {
     console.log(fileUrl);
 
     return (
-        <div style={{ height: '85%', width: '90%' }}>
+        <div style={{ height: '85%', width: '90%', borderRadius: '20px' }}>
             <Viewer fileUrl={fileUrl} plugins={[defaultLayout]} />
         </div>
     );

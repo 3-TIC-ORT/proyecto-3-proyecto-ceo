@@ -161,6 +161,7 @@ const Resumenes = ({ logged, setLogged }) => {
                         setBackedOut={setBackedOut}
                         setFile={setFile}
                         file={file}
+                        endpoint={'send-resumen'}
                     />
                 ) : (
 
