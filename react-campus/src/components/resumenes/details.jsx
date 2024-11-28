@@ -6,7 +6,16 @@ import { CustomDiv } from "../shared/CustomDiv";
 import { Image } from "../shared/Image";
 import { deletePost } from "../controllers/api-delete";
 
-const Visualizacion = ({ title, info, setIsSelected, postId, setBackedOut, file }) => {
+const Visualizacion = ({ 
+    title, 
+    info, 
+    setIsSelected, 
+    postId, 
+    setBackedOut, 
+    file, 
+    isPdf, 
+    route
+}) => {
 
     const defaultStyle = {
         display: 'flex',
@@ -14,24 +23,26 @@ const Visualizacion = ({ title, info, setIsSelected, postId, setBackedOut, file 
         width: '100vw',
         height :'90vh',
     }
-    
+
+    const imageProps = isPdf ? { pdf: file } : { file: file };
+
     return (
         <div className="resumen-vis" style={defaultStyle}>
-            <Info title={title} info={info} setIsSelected={setIsSelected} setBackedOut={setBackedOut} postId={postId} file={file}/>
-            <Image pdf={file}/>
+            <Info title={title} info={info} setIsSelected={setIsSelected} setBackedOut={setBackedOut} postId={postId} file={file} route={route}/>
+            <Image {...imageProps}/>
         </div>
     );
 }
 
 
-const Info = ({ title, info, setIsSelected, postId, setBackedOut, file }) => {
+const Info = ({ title, info, setIsSelected, postId, setBackedOut, file, route }) => {
     const [showDelete, setShowDelete] = useState(false)
 
     useEffect(() => {
         const checkAuthorization = async () => {
             try {
-                const isAuthorized = await checkDeleteAuthorization('resumen', postId);
-                setShowDelete(isAuthorized); 
+                const isAuthorized = await checkDeleteAuthorization(route, postId);
+                setShowDelete(isAuthorized);
             } catch (error) {
                 console.error('Error checking authorization:', error);
                 setShowDelete(false); 
@@ -114,7 +125,6 @@ const Info = ({ title, info, setIsSelected, postId, setBackedOut, file }) => {
                 setBackedOut={setBackedOut}
                 deleteButtonAction={async () => await handleDeleteClick()}
                 onClickPrevious={handlePreviousButton}
-
             />
             <CustomDiv text={info} customTextStyle={customInfotText} customStyle={customInfoStyle}/>
             <CustomDiv customHeight={'12.5%'} extraDivStyle={extraDivStyle} file={file} onClick={handleDownload}/>

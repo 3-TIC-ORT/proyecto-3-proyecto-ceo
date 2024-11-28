@@ -19,7 +19,8 @@ const CustomDiv = ({
     setBackedOut,
     imgPrevisualizacion,
     input,
-    onClick
+    onClick,
+    showDelete
 }) => {
 
     const defaultStyle = {
@@ -55,8 +56,8 @@ const CustomDiv = ({
 
     return (
         <div style={style} className="customDiv">
-            {deleteButtonAction ? <Icon iconStyle={iconStyle} src={'img/TachitoBasura.svg'} onClick={deleteButtonAction}/> : ''}
-            {image ? <Icon onClick={handlePreviousButton} src={image} iconStyle={arrowStyle}/> : ''}
+            {showDelete ? <Icon iconStyle={iconStyle} src={'img/TachitoBasura.svg'} onClick={deleteButtonAction}/> : null}
+            {image ? <Icon onClick={handlePreviousButton} src={image} iconStyle={arrowStyle}/> : null}
             <Text text={text} customTextStyle={customTextStyle}/>
             {extraDivStyle ? 
                 <div className="interactiveButton" style={extraDivStyle} onClick={() => onClick()}> 

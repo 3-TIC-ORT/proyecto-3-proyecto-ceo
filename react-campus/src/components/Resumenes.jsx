@@ -18,6 +18,8 @@ const Resumenes = ({ logged, setLogged }) => {
     const [allResumenes, setAllResumenes] = useState([]); 
     const [file, setFile] = useState(null)
 
+    const [isPdf, setIsPdf] = useState(false)
+
     const [isLoading, setIsLoading] = useState(true); 
     const [selectedResumen, setSelectedResumen] = useState(null)
 
@@ -107,18 +109,32 @@ const Resumenes = ({ logged, setLogged }) => {
             
             const route = 'resumen'
             const details = await getArticleDetails(route, id); 
+            let blob = null;
             console.log('details:', details);
 
             if (!details.archivo || !details.archivo.data) {
-                throw new Error('Archivo data is missing or invalid');
+                return console.log('There is no file!');
             }
-    
-            const bufferData = new Uint8Array(details.archivo.data);
-            const blobType = details.format === 'pdf' ? 'application/pdf' : 'application/octet-stream';
-            const blob = new Blob([bufferData], { type: blobType });
-    
+
+
+            if (details.format === 'pdf') {
+                const bufferData = new Uint8Array(details.archivo.data);
+                const blobType = details.format === 'pdf' ? 'application/pdf' : 'application/octet-stream';
+                blob = new Blob([bufferData], { type: blobType });
+                
+                setIsPdf(true)
+            } else {
+                const bufferData = new Uint8Array(details.archivo.data);
+                const blobType = details.format
+                blob = new Blob([bufferData], { type: blobType });
+                
+
+                console.log('Is not a PDF')
+                setIsPdf(false)
+            }
+
             const fileURL = URL.createObjectURL(blob)
-            console.log('hola1')
+
             setFile(fileURL)
             setSelectedResumen(details);
             setIsSelected(true);
@@ -132,10 +148,12 @@ const Resumenes = ({ logged, setLogged }) => {
     };
 
     useEffect(() => {
+
         if (!isSelected && file) {
             URL.revokeObjectURL(file);
             setFile(null);
         }
+
     }, [isSelected, file]);
 
     const resetAllArticles = () => {
@@ -162,6 +180,8 @@ const Resumenes = ({ logged, setLogged }) => {
                         setFile={setFile}
                         file={file}
                         endpoint={'send-resumen'}
+                        route={'resumen'}
+                        isPdf={isPdf}
                     />
                 ) : (
 

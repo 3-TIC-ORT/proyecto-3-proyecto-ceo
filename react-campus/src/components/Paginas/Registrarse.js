@@ -44,8 +44,10 @@ const Registrarse = ({ setLogged, logged }) => {
     }
 
     const register = async () => {
+        console.log('Registrandose')
         try {
             let response = await fetch('http://localhost:3000/registers', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -57,10 +59,12 @@ const Registrarse = ({ setLogged, logged }) => {
                 })
             })
             if (response.ok) {
-                
+                console.log('Registered user!')
+            } else {
+                console.log('failed')
             }
         } catch (error) {
-            
+            console.log('ERROR, failed to register:', error)
         }
     }
 
@@ -74,7 +78,7 @@ const Registrarse = ({ setLogged, logged }) => {
                     <Data tag={'input'} text1={'Apellido'} text2={'Contraseña'} type={'password'} onChange1={setApellido} onChange2={setPassword} />
                 </div>
 
-                <Button buttonCustomStyle={customButtonStyle} id={'send'} text={'Registrarse'}/>
+                <Button buttonCustomStyle={customButtonStyle} id={'send'} text={'Registrarse'} onClick={() => register()}/>
                 <p>Ya tengo cuenta</p>
             </div>
         </main>
