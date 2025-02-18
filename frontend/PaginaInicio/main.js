@@ -1,6 +1,6 @@
-import { displayInvalidMessage } from "../controllers/auxiliares.js";
-import { popupLogin } from "../controllers/popupController.js"
-import { isLogged } from "../controllers/auxiliares.js";
+import { displayInvalidMessage } from "/home/controllers/auxiliares.js";
+import { popupLogin } from "/home/controllers/popupController.js"
+import { isLogged } from "/home/controllers/auxiliares.js";
 
 let angle = 0;
 let isDragging = false
@@ -87,11 +87,11 @@ function setStars(e) {
     console.log(rating)
 
     stars.forEach(star => {
-        star.src = '../img/Empty-Star.svg';
+        star.src = '/home/img/Empty-Star.svg';
     })
 
     for (let i = 0; i < rating; i++) {
-        stars[i].src = '../img/Star.svg'
+        stars[i].src = '/home/img/Star.svg'
     };
 }
 

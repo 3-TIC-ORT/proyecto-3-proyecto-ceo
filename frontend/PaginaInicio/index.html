@@ -9,27 +9,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../globalStyle.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/home/global">
+    <link rel="stylesheet" href="/home/styles/PaginaInicio.css">
 
 </head>
 <body class="body">
     <nav class="navBar" id="nav">
         <div id="tituloYLogo">
-            <img id="logo" src="../img/Logo.svg" alt="logo">
+            <img id="logo" src="/home/img/Logo.svg" alt="logo">
             <label for="PORTAL" id="tituloLogo">P<span id="ort">ORT</span>AL</label>
         </div>
 
         <div id="navItems">
             <a class="text" id="itemNav"><span class="navSelected">Inicio</span></a>
-            <a href="../ResumenesPrincipal/index.html" class="text" id="itemNav">Resumenes</a>
-            <a href="../Foro/index.html" class="text" id="itemNav">Foros</a>
-            <a href="../Intercambios/index.html" class="text" id="itemNav">Intercambios</a>
-            <a href="../ObjetosPerdidos/index.html" class="text" id="itemObjetos">Objetos Perdidos</a>
+            <a href="/home/resumenes" class="text" id="itemNav">Resumenes</a>
+            <a href="/home/foros" class="text" id="itemNav">Foros</a>
+            <a href="/home/intercambios" class="text" id="itemNav">Intercambios</a>
+            <a href="/home/objetos-perdidos" class="text" id="itemObjetos">Objetos Perdidos</a>
         </div>
 
         <div class="boton" id="login">
-            <a href="/frontend/PaginaInicio/Registrarse/index.html" id="registerButton"><p class="text">Registrarse</p></a>
+            <a href="/home/register" id="registerButton"><p class="text">Registrarse</p></a>
         </div>
         <span id="loggedUser"></span>
     </nav>
@@ -47,22 +47,22 @@
 
         <div id="centerDiv">
             <div class="carousel">
-                <a class="carousel__face" id="itemLibro" href="../ResumenesPrincipal/index.html">
-                    <img id="icon" src="../img/LibroImg.svg" alt="LIBRO">
+                <a class="carousel__face" id="itemLibro" href="/home/resumenes">
+                    <img id="icon" src="/home/img/LibroImg.svg" alt="LIBRO">
                     <p class="smallText">
                         Bienvenido a la sección de resúmenes, donde podrás acceder a resúmenes creados por otros estudiantes. Encuentra contenido organizado y útil para repasar. Además, tú también puedes contribuir con tus propios resúmenes.
                     </p>
                     
-                <a class="carousel__face" id="itemForos" href="../Foro/index.html">
-                    <img id="icon" src="../img/ForosImg.svg" alt="FOROS">
+                <a class="carousel__face" id="itemForos" href="/home/foros">
+                    <img id="icon" src="/home/img/ForosImg.svg" alt="FOROS">
                     <p class="smallText">Participa en los foros de discusión, donde podrás hacer preguntas, resolver dudas y compartir conocimientos sobre distintos temas. ¡Conéctate con tus compañeros y aprende en grupo!</p>
                 </a>
-                <a class="carousel__face" id="itemObjetos" href="../ObjetosPerdidos/index.html">
-                    <img id="icon" src="../img/ObjetosImg.svg" alt="OBJ-PERDIDOS">
+                <a class="carousel__face" id="itemObjetos" href="/home/objetos-perdidos">
+                    <img id="icon" src="/home/img/ObjetosImg.svg" alt="OBJ-PERDIDOS">
                     <p class="smallText">¿Perdiste algo en el colegio? Consulta los objetos que han sido encontrados por otras personas o publica un objeto que encontraste para ayudar a su dueño</p>
                 </a>
-                <a class="carousel__face" id="item" href="../Intercambios/index.html">
-                    <img id="icon" src="../img/IntercambiosImg.svg" alt="INTERCAMBIOS">
+                <a class="carousel__face" id="item" href="/home/intercambios">
+                    <img id="icon" src="/home/img/IntercambiosImg.svg" alt="INTERCAMBIOS">
                     <p class="smallText">Encuentra o intercambia libros y materiales útiles para tus clases. Esta sección te permite conectarte con otros estudiantes interesados en intercambiar sus libros a cambio de otros asi todos pueden darle otro uso a ese libro que ya terminaron</p>
                 </a>
                 <div class="carousel__face" id="item">
@@ -83,11 +83,11 @@
             </div>
             <div class="row" id="estrellas">
                 <div class="estrellas">
-                    <img src="../img/Empty-Star.svg" alt="1" class="star" data-star="1">
-                    <img src="../img/Empty-Star.svg" alt="2" class="star" data-star="2">
-                    <img src="../img/Empty-Star.svg" alt="3" class="star" data-star="3">
-                    <img src="../img/Empty-Star.svg" alt="4" class="star" data-star="4">
-                    <img src="../img/Empty-Star.svg" alt="5" class="star" data-star="5">
+                    <img src="/home/img/Empty-Star.svg" alt="1" class="star" data-star="1">
+                    <img src="/home/img/Empty-Star.svg" alt="2" class="star" data-star="2">
+                    <img src="/home/img/Empty-Star.svg" alt="3" class="star" data-star="3">
+                    <img src="/home/img/Empty-Star.svg" alt="4" class="star" data-star="4">
+                    <img src="/home/img/Empty-Star.svg" alt="5" class="star" data-star="5">
                 </div>
             </div>
             <div class="row" id="inputs">
@@ -121,6 +121,7 @@
     <div id="messageDisplay">
         <p class="text" id="message">Publicado exitosamente!</p>
     </div>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="/home/js/PaginaInicio"></script>
+
 </body>
 </html>

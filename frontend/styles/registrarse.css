@@ -13,10 +13,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.body img {
-    background-image: url(../../img/Registrarse-Fondo.svg);
+    background-image: url(../img/Fondo-inicio.svg);
+    background-repeat: repeat-y;
+    background-color: rgba(255, 255, 255, 0.50);
     background-position: center;
     background-size: cover;
 }
@@ -34,7 +33,7 @@
     width: 50%;
 }
 
-.bottom {
+.button {
     display: flex;
     align-items: center;
     justify-content: center;

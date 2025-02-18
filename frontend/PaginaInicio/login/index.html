@@ -5,29 +5,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Login</title>
-    <link rel="stylesheet" href="Login.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=K2D&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/home/global">
+    <link rel="stylesheet" href="/home/styles/login.css">
 </head>
-<body>
-    <div class="LogInCompleto">
+<body class="body">
+    <div id="body">
+        <div class="top">
+            <h1 id="titulo" class="text">Bienvenido de vuelta</h1>
+        </div>
 
-        <h1>Bienvenido de vuelta</h1>
+        <div class="center">
+            <div class="column">
+                <div class="data">
+                    <h2 class="text">Nombre de usuario o Email</h2>
+                    <input id="nombreUsuario" class="inputNameUser" type="text" placeholder="Nombre de usuario">
+                    <input id="email" class="inputNameUser" type="text" placeholder="Email">
+                </div>
 
-        <section class="nameUser">
-            <h2 class="h2NameUser">Nombre de usuario o Email</h2>
-            <input id="nombre" class="inputNameUser" type="text" placeholder="Nombre.." value="Ouchurus">
-            <input id="nombre" class="inputNameUser" type="text" placeholder="Email.." value="example1@gmail.com">
-        </section>
+                <div class="data">
+                    <h2 class="text">Contraseña</h2>
+                    <input id="password" class="inputPassword" type="password" placeholder="Constraseña">
+                </div>
+            </div>
+        </div>
 
-        <section class="Password">
-            <h2 class="h2Password">Contraseña</h2>
-            <input id="password" class="inputPassword" type="password" placeholder="Contraseña" value="contraseña">
-        </section>
-                
-        <section class="botonesDeAbajo">
-            <button id="BContinuar" class="BContinuar">Iniciar sesion</button>
-            <a href="../Registrarse/Registrarse.html" class="Registrarse">¿No tienes una cuenta?</a>
-            
-        </section>
+        <div class="botonesDeAbajo">
+            <button id="BContinuar" class="BContinuar">Iniciar sesión</button>
+            <h2><a href="/home/register" class="text">¿No tienes una cuenta?</a></h2>
+        </div>
+
     </div>
 
     <script src="api-login.js"></script>

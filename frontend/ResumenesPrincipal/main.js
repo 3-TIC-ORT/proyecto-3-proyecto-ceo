@@ -1,8 +1,8 @@
-import { popupLogin } from "../controllers/popupController.js";
-import { searchByQuery } from "../controllers/searchQueryController.js";
-import { divColorFilter } from "../controllers/colorAssigningController.js";
-import { debounce } from "../controllers/auxiliares.js";
-import { isLogged } from "../controllers/auxiliares.js";
+import { popupLogin } from "/home/controllers/popupController.js";
+import { searchByQuery } from "/home/controllers/searchQueryController.js";
+import { divColorFilter } from "/home/controllers/colorAssigningController.js";
+import { debounce } from "/home/controllers/auxiliares.js";
+import { isLogged } from "/home/controllers/auxiliares.js";
 
 AOS.init();
 
@@ -72,11 +72,11 @@ async function populateResumenes(resumenes) {
             <div class='${style}'>${resumen.filtros}<div class='${dotStyle}'></div></div>
 
             <div class="recomendacion" id="likes">
-                <img src="/frontend/img/Like.svg" class="thumbs" alt="">
+                <img src="/home/img/Like.svg" class="thumbs" alt="">
                 <p id="numeroLikes">33</p>
             </div>
             <div class="recomendacion" id="dislikes">
-                <img src="/frontend/img/Dislike.svg" class="thumbs" alt="">
+                <img src="/home/img/Dislike.svg" class="thumbs" alt="">
                 <p id="numeroDislikes">33</p>
             </div>
 
@@ -96,11 +96,11 @@ async function populateResumenes(resumenes) {
 }
 
 function redirectToDetailsPage(id) {
-    window.location.href = `visualizacionResumenes/index.html?id=${id}`;
+    window.location.href = `/resumenes/visualizacion?id=${id}`;
 }
 
 function redirectToUploads() {
-    window.location.href = 'uploadResumenes/index.html'
+    window.location.href = '/resumenes/upload'
 }
 
 function cleanContainer(selector) {

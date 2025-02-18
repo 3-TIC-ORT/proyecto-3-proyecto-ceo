@@ -13,8 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="../../globalStyle.css">
+    <link rel="stylesheet" href="/home/styles/uploadResumenes.css">
+    <link rel="stylesheet" href="/home/global">
 
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
@@ -22,16 +22,16 @@
 <body class="body">
     <nav class="navBar" id="nav">
         <div id="tituloYLogo">
-            <img id="logo" src="../../img/Logo.svg" alt="logo">
+            <img id="logo" src="/home/img/Logo.svg" alt="logo">
             <label for="PORTAL" id="tituloLogo">P<span id="ort">ORT</span>AL</label>
         </div>
 
         <div id="navItems">
-            <a href="../../PaginaInicio/index.html" class="text" id="itemNav">Inicio</a>
+            <a href="/home/" class="text" id="itemNav">Inicio</a>
             <a class="text" id="itemNav"><span class="navSelected">Resumenes</span></a>
-            <a href="../../Foro/index.html" class="text" id="itemNav">Foros</a>
-            <a href="../../Intercambios/index.html" class="text" id="itemNav">Intercambios</a>
-            <a href="../../ObjetosPerdidos/index.html" class="text" id="itemObjetos">Objetos Perdidos</a>
+            <a href="/home/foros" class="text" id="itemNav">Foros</a>
+            <a href="/home/intercambios" class="text" id="itemNav">Intercambios</a>
+            <a href="/home/objetos-perdidos" class="text" id="itemObjetos">Objetos Perdidos</a>
         </div>
 
         <div class="boton" id="login">
@@ -42,8 +42,8 @@
     <div class="center">
         <div class="recipiente">
             <div class="topDiv">
-                <a href="../index.html">
-                    <img src="../../img/Back-Arrow.svg" alt="atras" id="back1">
+                <a href="/home/resumenes">
+                    <img src="/home/img/Back-Arrow.svg" alt="atras" id="back1">
                 </a>
                 <input id="titulo" class="inputs" type="text" maxlength="20" placeholder="Titulo del tema" value="Brownies">
             </div> 
@@ -57,7 +57,7 @@
                         <span id="fileName"></span>
 
                         <div id="deleteFile">
-                            <img class="trashCan" src="../../img/TachitoBasura.svg" alt="hola">
+                            <img class="trashCan" src="/home/img/TachitoBasura.svg" alt="hola">
                         </div>
                     </div>
                 </div>
@@ -74,11 +74,11 @@
     <div class="hidden" id="authorize">
         <p class="text">Seguro que quieres borrar esta archivo?</p>
         <div class="buttons">
-            <div id="accept" class="boton"><img src="../../img/Accept-Icon.svg" alt="Si" class="cancel-icon"></div>
-            <div id="cancel" class="boton"><img src="../../img/Cancel-Icon.svg" alt="Cancelar" class="cancel-icon"></div>
+            <div id="accept" class="boton"><img src="/home/img/Accept-Icon.svg" alt="Si" class="cancel-icon"></div>
+            <div id="cancel" class="boton"><img src="/home/img/Cancel-Icon.svg" alt="Cancelar" class="cancel-icon"></div>
         </div>
     </div>
 
-    <script src="main.js"></script>
+    <script src="/home/js/resumenes/upload/main.js"></script>
 </body>
 </html>

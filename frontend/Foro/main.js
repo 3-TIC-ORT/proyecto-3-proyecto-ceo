@@ -6,8 +6,8 @@ let loginPopupButton = document.getElementById('loginPopupButton')
 let popup = document.getElementById('loginPopup')
 let searchBar = document.getElementById('busqueda')
 
-import { popupLogin } from '../controllers/popupController.js'
-import { searchByQuery } from '../controllers/searchQueryController.js';
+import { popupLogin } from '/home/controllers/popupController.js'
+import { searchByQuery } from '/home/controllers/searchQueryController.js';
 import { displayInvalidMessage, isLogged, debounce } from '../controllers/auxiliares.js';
 
 publicarRedirect.addEventListener('click', redirectToUploads)

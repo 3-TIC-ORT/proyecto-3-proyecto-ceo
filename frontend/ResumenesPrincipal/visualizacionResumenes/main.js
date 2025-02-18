@@ -1,9 +1,9 @@
-import { getQueryParams } from "../../controllers/queryParamsController.js";
-import { fetchUserById } from "../../controllers/fetchUserController.js";
-import { fetchBlob } from "../../controllers/blobController.js";
-import { tryDeletePost } from "../../controllers/deletePostController.js";
-import { debounce } from "../../controllers/auxiliares.js";
-import { checkUserAuthorization } from "../../controllers/userAuthorization.js";
+import { getQueryParams } from "/home/controllers/queryParamsController.js";
+import { fetchUserById } from "/home/controllers/fetchUserController.js";
+import { fetchBlob } from "/home/controllers/blobController.js";
+import { tryDeletePost } from "/home/controllers/deletePostController.js";
+import { debounce } from "/home/controllers/auxiliares.js";
+import { checkUserAuthorization } from "/home/controllers/userAuthorization.js";
 
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'

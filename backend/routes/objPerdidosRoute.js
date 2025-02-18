@@ -33,7 +33,7 @@ objPerdidosRouter.get('/', async (req, res)=>{
 
 objPerdidosRouter.get("/upload", (req, res) => {
 
-    res.sendFile(path.join(__rootDir, 'frontend/ObjetosPerdidosUpload/ObjetosPerdidosUpload.html'))
+    res.sendFile(path.join(__rootDir, 'frontend/ObjetosPerdidos/index.html'))
 })
 
 objPerdidosRouter.get("/visualizar", async (req, res) => {

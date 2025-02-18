@@ -11,8 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=K2D&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../../globalStyle.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/home/global">
+    <link rel="stylesheet" href="/home/styles/visualizacionResumenes.css">
 
 
 </head>
@@ -21,16 +21,16 @@
     <div id="properties">
         <nav class="navBar" id="nav">
             <div id="tituloYLogo">
-                <img id="logo" src="../../img/Logo.svg" alt="logo">
+                <img id="logo" src="/home/img/Logo.svg" alt="logo">
                 <label for="PORTAL" id="tituloLogo">P<span id="ort">ORT</span>AL</label>
             </div>
     
             <div id="navItems">
-                <a href="../../PaginaInicio/index.html" class="text" id="itemNav">Inicio</a>
+                <a href="/home" class="text" id="itemNav">Inicio</a>
                 <a class="text" id="itemNav"><span class="navSelected">Resumenes</span></a>
-                <a href="../../Foro/index.html" class="text" id="itemNav">Foros</a>
-                <a href="../../Intercambios/index.html" class="text" id="itemNav">Intercambios</a>
-                <a href="../../ObjetosPerdidos/index.html" class="text" id="itemObjetos">Objetos Perdidos</a>
+                <a href="/home/foros" class="text" id="itemNav">Foros</a>
+                <a href="/home/intercambios" class="text" id="itemNav">Intercambios</a>
+                <a href="/home/objetos-perdidos" class="text" id="itemObjetos">Objetos Perdidos</a>
             </div>
     
             <div class="boton" id="login">
@@ -41,11 +41,11 @@
         <div id="masterContainer">
             <div class="container" id="body">
                 <div id="tituloObjeto">
-                    <a href="../index.html"><img src="../../img/Back-Arrow.svg" alt="go back" class="backButton" id="back"></a>
+                    <a href="/home/resumenes"><img src="/home/img/Back-Arrow.svg" alt="go back" class="backButton" id="back"></a>
                     <h1 class="text" id="title"></h1>
                     
                     <div class="hidden no-events" id="deletePost">
-                        <img class="trashCan" src="../../img/TachitoBasura.svg" alt="hola">
+                        <img class="trashCan" src="/home/img/TachitoBasura.svg" alt="hola">
                     </div>
                 </div>
         
@@ -81,8 +81,8 @@
     <div class="hidden" id="authorize">
         <p class="text">Seguro que quieres borrar esta publicacion?</p>
         <div class="buttons">
-            <div id="accept" class="boton"><img src="../../img/Accept-Icon.svg" alt="Si" class="cancel-icon"></div>
-            <div id="cancel" class="boton"><img src="../../img/Cancel-Icon.svg" alt="Cancelar" class="cancel-icon"></div>
+            <div id="accept" class="boton"><img src="/home/img/Accept-Icon.svg" alt="Si" class="cancel-icon"></div>
+            <div id="cancel" class="boton"><img src="/home/img/Cancel-Icon.svg" alt="Cancelar" class="cancel-icon"></div>
         </div>
     </div>
 
@@ -91,6 +91,6 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="/home/js/resumenes/visualizacion/main.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@ async function popupLogin(gmail, password) {
 
     console.log('Login through the popup-')
     try {
-        let response = await fetch('http://localhost:3000/login', {
+        let response = await fetch('http://localhost:3000/home/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

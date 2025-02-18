@@ -1,8 +1,8 @@
 
 AOS.init()
 
-import { popupLogin } from "../controllers/popupController.js"
-import { isLogged, debounce, displayInvalidMessage } from "../controllers/auxiliares.js"
+import { popupLogin } from "/home/controllers/popupController.js"
+import { isLogged, debounce, displayInvalidMessage } from "/home/controllers/auxiliares.js"
 
 const uploadButton = document.getElementById('publicar')
 const popup = document.getElementById('loginPopup')

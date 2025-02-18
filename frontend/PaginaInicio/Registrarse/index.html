@@ -13,8 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kodchasan&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../Registrarse/styles.css">
-    <link rel="stylesheet" href="../../globalStyle.css">
+    <link rel="stylesheet" href="/home/global">
+    <link rel="stylesheet" href="/home/styles/registrarse.css">
 
 </head>
 <body class="body">
@@ -29,31 +29,31 @@
             <div class="data">
                 <div class="column">
                     <h2 class="text">Nombre de Usuario</h2>
-                    <input type="text" id="user" class="inputs size" placeholder="Usuario...">
+                    <input type="text" id="user" class="inputs size" placeholder="Usuario..." required>
 
                     <h2 class="text">Email</h2>
-                    <input type="email" id="email" class="inputs size" placeholder="Email...">
+                    <input type="email" id="email" class="inputs size" placeholder="Email..." required>
                 </div>
             </div>
 
             <div class="data">
                 <div class="column">
                     <h2 class="text">Apellido</h2>
-                    <input type="text" id="lname" class="inputs size" placeholder="Apellido...">
+                    <input type="text" id="lname" class="inputs size" placeholder="Apellido..." required>
 
                     <h2 class="text">Contraseña</h2>
-                    <input type="password" id="pwd" class="inputs size" placeholder="Contraseña...">
+                    <input type="password" id="pwd" class="inputs size" placeholder="Contraseña..." required>
                 </div>
             </div>
 
         </div>
 
-        <div class="bottom">
+        <div class="button">
             <div id="register" class="text">Registrarse</div>
-            <h2><a href="../index.html" class="text">Si tengo cuenta</a></h2>
+            <h2><a href="/home/login" class="text">Si tengo cuenta</a></h2>
         </div>
     </div>
 
-    <script src="../Registrarse/api-register.js"></script>
+    <script src="/home/js/PaginaInicio/registrarse"></script>
 </body>
 </html>
