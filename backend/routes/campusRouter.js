@@ -61,6 +61,7 @@ campusRouter.use('/controllers', express.static(path.join(__rootDir, 'frontend/c
 
 campusRouter.use('/js/paginaInicio', express.static(path.join(__rootDir, 'frontend/PaginaInicio/main.js')));
 campusRouter.use('/js/paginaInicio/registrarse', express.static(path.join(__rootDir, 'frontend/PaginaInicio/Registrarse/api-register.js')));
+campusRouter.use('/js/paginaInicio/login', express.static(path.join(__rootDir, 'frontend/PaginaInicio/login/api-login.js')));
 campusRouter.use('/js/resumenes', express.static(path.join(__rootDir, 'frontend/ResumenesPrincipal/main.js')));
 campusRouter.use('/js/resumenes/upload', express.static(path.join(__rootDir, 'frontend/ResumenesPrincipal/uploadResumenes/main.js')));
 campusRouter.use('/js/resumenes/visualizacion', express.static(path.join(__rootDir, 'frontend/ResumenesPrincipal/visualizacionResumenes/main.js')));
