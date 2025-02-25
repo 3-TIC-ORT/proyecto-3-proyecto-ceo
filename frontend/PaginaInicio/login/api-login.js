@@ -31,22 +31,23 @@ async function sendData(event) {
             })
         })
 
-        if (!response.ok) {
+        if (response.ok) {
+            let data = await response.json() 
+            localStorage.setItem('token', data.token)
+            location.reload()
+            alert("Login exitoso.");
+            return true;
+        } else {
+            console.log('Not OK')
             let errorMessage = await response.text();
             alert(errorMessage || "Error al iniciar sesión.");
-            return;
-        }
-
-        let data = await response.json();
-
-        if (data.token) {
-            localStorage.setItem('token', data.token);
-            alert("Login exitoso.");
-        } else {
-            alert("No se recibió un token válido.");
+            return false;
         }
     } catch (error) {
         console.error("Error en la solicitud:", error);
         alert("Ocurrió un error al intentar iniciar sesión.");
     }
 }
+
+
+
